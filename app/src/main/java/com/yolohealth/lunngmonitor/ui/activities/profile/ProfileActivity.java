@@ -7,9 +7,9 @@ import android.view.View;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.yolohealth.lunngmonitor.MainActivity;
 import com.yolohealth.lunngmonitor.R;
 import com.yolohealth.lunngmonitor.databinding.ActivityProfileBinding;
+import com.yolohealth.lunngmonitor.ui.activities.scandevices.ScanDeviceActivity;
 
 import java.util.Objects;
 
@@ -25,7 +25,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i;
-                i = new Intent(getApplicationContext(), MainActivity.class);
+                i = new Intent(getApplicationContext(), ScanDeviceActivity.class);
                 startActivity(i);
                 finish();
             }

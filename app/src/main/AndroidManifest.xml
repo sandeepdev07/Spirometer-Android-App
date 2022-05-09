@@ -3,7 +3,16 @@
     package="com.yolohealth.lunngmonitor">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <application
         android:name=".LungMonitorApp"
         android:allowBackup="true"
@@ -12,6 +21,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LunngMonitor">
+        <activity
+            android:name=".ui.activities.scandevices.ScanDeviceActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.activities.profile.ProfileActivity"
             android:exported="true"
@@ -23,7 +35,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.activities.token.TokenActivity"
             android:exported="true"
@@ -34,10 +45,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
-
-
         <activity
             android:name=".ui.activities.login.LoginActivity"
             android:exported="true"
@@ -55,7 +63,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
 
-           
             <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,6 +71,9 @@
             </intent-filter>
             -->
         </activity>
+
+        <service android:name="com.telit.terminalio.TIOService" />
+
     </application>
 
 </manifest>

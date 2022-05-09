@@ -7,17 +7,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.yolohealth.lunngmonitor.databinding.ActivityMainBinding;
+import com.yolohealth.lunngmonitor.ui.activities.BaseActivity;
 import com.yolohealth.lunngmonitor.ui.activities.token.TokenActivity;
+import com.yolohealth.lunngmonitor.utils.PermissionDialogView;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+import permission.auron.com.permissionhelper.PermissionResult;
+import permission.auron.com.permissionhelper.utils.PermissionUtils;
+
+public class MainActivity extends BaseActivity {
     ActivityMainBinding mBinding;
 
     TextInputEditText fefValue, pefValue, fev1Value, fev6Value, commentValue;
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
+
+        //askLocationPermission();
 
         showInstruction();
 
@@ -53,6 +58,33 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(mBinding.getRoot());
 
+    }
+
+
+    void askLocationPermission() {
+
+        askCompactPermissions(new String[]{
+                PermissionUtils.Manifest_ACCESS_COARSE_LOCATION,
+                PermissionUtils.Manifest_ACCESS_FINE_LOCATION,
+
+
+        }, new PermissionResult() {
+
+            @Override
+            public void permissionGranted() {
+
+            }
+
+            @Override
+            public void permissionDenied() {
+                PermissionDialogView.gotoSettingsDialog(MainActivity.this, PermissionDialogView.LOCATION_PERMISSION);
+            }
+
+            @Override
+            public void permissionForeverDenied() {
+                PermissionDialogView.gotoSettingsDialog(MainActivity.this, PermissionDialogView.LOCATION_PERMISSION);
+            }
+        });
     }
 
     void submitTest() {
