@@ -1,0 +1,93 @@
+<resources>
+    <string name="app_name">LungMonitor</string>
+
+    <declare-styleable name="ProgressActivity">
+        <attr name="loadingProgressBarWidth" format="dimension" />
+        <attr name="loadingProgressBarHeight" format="dimension" />
+        <attr name="loadingProgressBarColor" format="color" />
+        <attr name="loadingBackgroundColor" format="color" />
+
+        <attr name="emptyImageWidth" format="dimension" />
+        <attr name="emptyImageHeight" format="dimension" />
+        <attr name="emptyTitleTextSize" format="dimension" />
+        <attr name="emptyContentTextSize" format="dimension" />
+        <attr name="emptyTitleTextColor" format="color" />
+        <attr name="emptyContentTextColor" format="color" />
+        <attr name="emptyBackgroundColor" format="color" />
+
+        <attr name="errorImageWidth" format="dimension" />
+        <attr name="errorImageHeight" format="dimension" />
+        <attr name="errorTitleTextSize" format="dimension" />
+        <attr name="errorContentTextSize" format="dimension" />
+        <attr name="errorTitleTextColor" format="color" />
+        <attr name="errorContentTextColor" format="color" />
+        <attr name="errorButtonTextColor" format="color" />
+        <attr name="errorButtonBackgroundColor" format="color" />
+        <attr name="errorBackgroundColor" format="color" />
+    </declare-styleable>
+
+
+    <string name="progressActivityEmptyContentPlaceholder">We couldn\'t find anything. Tap the button to take your first image.</string>
+    <string name="progressActivityEmptyTitlePlaceholder">Nothing here.</string>
+    <string name="progressActivityErrorButton">Try Again</string>
+    <string name="toolbar">Yolohealth</string>
+    <string name="email_id">Email ID</string>
+    <string name="password">Password</string>
+    <string name="or">OR</string>
+    <string name="title_login">Patient Token</string>
+    <string name="hint_phone">Enter token number</string>
+    <string name="action_get_otp">SUBMIT</string>
+    <string name="patient_name">Patient name</string>
+    <string name="patientName">Patient Name</string>
+    <string name="patient_age">Age</string>
+    <string name="patientAge">Age</string>
+    <string name="patientPhone">Phone Number</string>
+    <string name="Patient_gender">Gender</string>
+    <string name="state">State</string>
+    <string name="district">District</string>
+    <string name="barcode">Barcode</string>
+    <string name="type">Beneficiary Type</string>
+    <string name="date">Test Date</string>
+    <string name="profileToolbar">Patient Details</string>
+    <string name="spiro_fef">FEF</string>
+    <string name="spiro_pef">PEF</string>
+    <string name="spiro_fev1">FEV1</string>
+    <string name="spiro_fev6">FEV6</string>
+    <string name="comment">Comment</string>
+
+
+    <style name="ShapeAppearanceOverlay.Login.MaterialCardView" parent="">
+        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerSizeTopLeft">8dp</item>
+        <item name="cornerSizeTopRight">8dp</item>
+    </style>
+
+
+    <style name="Heading1">
+        <item name="android:textSize">24sp</item>
+
+    </style>
+
+    <style name="MyTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColorHint">#ffffff</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="boxStrokeColor">#ffffff</item>
+    </style>
+
+    <string name="spirometer_instruction">1. Take the spirometer.
+\n2. Press power button on device.
+\n3. Click on the start test button on Screen.
+\n4. Breathe in fully and seal the lips around the mouthpiece and blast all air out as forcefully as possible.
+\n5. Wait for the reading.
+</string>
+    <string name="setting_up_device">Setting up device...</string>
+    <string name="instruction">Instruction</string>
+    <string name="manual">Manual</string>
+    <string name="measuring">Measuring...</string>
+    <string name="start_test">START TEST</string>
+    <string name="submit_manual">SUBMIT</string>
+
+
+</resources>
