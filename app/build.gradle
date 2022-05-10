@@ -59,6 +59,7 @@ dependencies {
     implementation "com.jakewharton:butterknife:10.1.0"
     annotationProcessor "com.jakewharton:butterknife-compiler:10.1.0"
     implementation 'com.auron:permission-manage:1.2.0'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
 
 
 }

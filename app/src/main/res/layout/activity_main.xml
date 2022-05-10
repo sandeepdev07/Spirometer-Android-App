@@ -2,6 +2,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center">
@@ -52,20 +53,6 @@
                 android:paddingRight="30dp"
                 android:paddingBottom="20dp">
 
-                <!--<LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:id="@+id/img_instruction"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_spirometry"
-                        android:layout_margin="20dp"/>
-
-                </LinearLayout>-->
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -117,8 +104,8 @@
                 android:shadowColor="@color/colorPrimaryLight"
                 android:text="@string/start_test"
                 android:textColor="@color/white"
-                app:rippleColor="@color/black_semi_transparent"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                app:rippleColor="@color/black_semi_transparent" />
 
 
             <com.google.android.material.button.MaterialButton
@@ -131,7 +118,7 @@
                 android:layout_weight="2"
                 android:backgroundTint="@color/colorPrimary"
                 android:shadowColor="@color/colorPrimaryLight"
-                android:text="CONNECT"
+                android:text="@string/connect_spirometer"
                 android:textColor="@color/white"
                 app:rippleColor="@color/black_semi_transparent" />
 
@@ -168,14 +155,24 @@
         android:orientation="vertical"
         android:visibility="invisible">
 
-        <ImageView
 
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="20dp"
-            android:src="@drawable/ic_speedometer" />
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/internet"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:src="@drawable/wind"
+            android:visibility="visible" />
+
+        <!--  <ImageView
+
+              android:layout_width="100dp"
+              android:layout_height="100dp"
+              android:layout_margin="20dp"
+              android:src="@drawable/ic_speedometer" />-->
 
         <TextView
+            android:id="@+id/measuring"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/measuring"
@@ -192,7 +189,7 @@
             android:layout_marginTop="30dp"
             android:backgroundTintMode="@color/white"
             android:shadowColor="@color/colorPrimaryLight"
-            android:text="Cancel"
+            android:text="@string/cancel_test"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             android:visibility="visible"
@@ -235,21 +232,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/img_pencil"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_margin="10dp"
                         android:src="@drawable/ic_spirometry" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:letterSpacing="0.01"
                         android:padding="5dp"
-                        android:text="Your Reading is:"
+                        android:text="@string/your_reading_is"
                         android:textColor="@color/textColorDarkPrimary"
                         android:textSize="20sp" />
                 </LinearLayout>
@@ -260,9 +258,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="PEF : 106"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    tools:text="PEF : 106" />
 
             </LinearLayout>
 
@@ -288,7 +286,7 @@
                 android:layout_weight="2"
                 android:backgroundTint="#8BC34A"
                 android:shadowColor="@color/colorPrimaryLight"
-                android:text="SUBMIT"
+                android:text="@string/submit_param"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 app:rippleColor="@color/black_semi_transparent" />
@@ -304,7 +302,7 @@
                 android:layout_weight="2"
                 android:backgroundTintMode="@color/white"
                 android:shadowColor="@color/colorPrimaryLight"
-                android:text="Retry"
+                android:text="@string/retry_test"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 android:visibility="visible"
@@ -313,162 +311,7 @@
 
         </LinearLayout>
 
-
-        <!--   <com.google.android.material.button.MaterialButton
-               android:id="@+id/submit"
-               style="@style/Widget.MaterialComponents.Button"
-               android:layout_width="wrap_content"
-               android:layout_height="60dp"
-               android:layout_marginTop="20dp"
-               android:backgroundTint="@color/colorPrimary"
-               android:shadowColor="@color/colorPrimaryLight"
-               android:text="SUBMIT"
-               android:textColor="@color/white"
-               app:rippleColor="@color/black_semi_transparent" />-->
-
     </LinearLayout>
 
+</RelativeLayout>
 
-    <!-- <LinearLayout
-         android:id="@+id/layout_reading_height"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:layout_centerInParent="true"
-         android:gravity="center"
-         android:orientation="vertical"
-         android:visibility="invisible">
-
-         <androidx.cardview.widget.CardView
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_gravity="center"
-             android:layout_marginLeft="50dp"
-             android:layout_marginTop="25dp"
-             android:layout_marginRight="50dp">
-
-             <LinearLayout
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:layout_weight="1"
-                 android:gravity="center"
-                 android:orientation="vertical"
-                 android:paddingLeft="30dp"
-                 android:paddingTop="50dp"
-                 android:paddingRight="30dp"
-                 android:paddingBottom="50dp">
-
-                 <ImageView
-                     android:id="@+id/img_pencil"
-                     android:layout_width="24dp"
-                     android:layout_height="24dp"
-                     android:layout_margin="20dp"
-                     android:src="@drawable/ic_spirometry" />
-
-                 <TextView
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:padding="5dp"
-                     android:text="Your Reading is:"
-                     android:textColor="@color/textColorDarkPrimary"
-                     android:textSize="24sp" />
-                 &lt;!&ndash;<androidx.cardview.widget.CardView
-                     android:id="@+id/lineChart"
-                     android:layout_width="match_parent"
-                     android:layout_height="match_parent" />&ndash;&gt;
-
-
-             </LinearLayout>
-
-             <TextView
-                 android:id="@+id/tv_reading"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:gravity="center"
-                 android:padding="5dp"
-                 android:text="98.3 F"
-                 android:textColor="@color/colorPrimary"
-                 android:textSize="30sp" />
-
-         </androidx.cardview.widget.CardView>
-
-
-         &lt;!&ndash; <Button
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="Submit" />
-  &ndash;&gt;
-
-         <com.google.android.material.button.MaterialButton
-             android:id="@+id/submit"
-             style="@style/Widget.MaterialComponents.Button"
-             android:layout_width="wrap_content"
-             android:layout_height="60dp"
-             android:backgroundTint="@color/colorPrimary"
-             android:shadowColor="@color/colorPrimaryLight"
-             android:text="SUBMIT"
-             android:layout_marginTop="20dp"
-             android:textColor="@color/white"
-             app:rippleColor="@color/black_semi_transparent" />
-
-
-     </LinearLayout>-->
-
-
-</RelativeLayout><!--
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:padding="20dp">
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_reading"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_weight="2"
-            android:backgroundTint="#8BC34A"
-            android:shadowColor="@color/colorPrimaryLight"
-            android:text="Take Reading"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:rippleColor="@color/black_semi_transparent" />
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_manual"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:backgroundTintMode="@color/white"
-            android:shadowColor="@color/colorPrimaryLight"
-            android:text="Manual Entry"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold"
-            android:visibility="visible"
-            app:rippleColor="@color/black_semi_transparent"
-            app:strokeColor="@color/colorPrimary" />
-
-
-    </LinearLayout>
-
-
-</RelativeLayout>-->

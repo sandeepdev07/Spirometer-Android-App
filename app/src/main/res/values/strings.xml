@@ -85,7 +85,7 @@
     <string name="setting_up_device">Setting up device...</string>
     <string name="instruction">Instruction</string>
     <string name="manual">Manual</string>
-    <string name="measuring">Measuring...</string>
+    <string name="measuring">Keep blowing....</string>
     <string name="start_test">START TEST</string>
     <string name="submit_manual">SUBMIT</string>
     <string name="scan_button_title">SCAN</string>
@@ -125,6 +125,11 @@
     <string name="main_title_placeholder">BM+SR 0123  00:80:25:11:22:33</string>
     <string name="sub_title_placeholder">BM+SR 0123 [BondableFunctional]</string>
     <string name="remove_button_title">Remove</string>
+    <string name="connect_spirometer">CONNECT</string>
+    <string name="cancel_test">Cancel</string>
+    <string name="your_reading_is">Your Reading is:</string>
+    <string name="submit_param">SUBMIT</string>
+    <string name="retry_test">Retry</string>
 
 
 </resources>

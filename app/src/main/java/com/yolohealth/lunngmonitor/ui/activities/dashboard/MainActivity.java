@@ -3,7 +3,6 @@ package com.yolohealth.lunngmonitor.ui.activities.dashboard;
 import static android.content.ContentValues.TAG;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -12,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -28,6 +29,7 @@ import com.yolohealth.lunngmonitor.databinding.ActivityMainBinding;
 import com.yolohealth.lunngmonitor.ui.activities.BaseActivity;
 import com.yolohealth.lunngmonitor.ui.activities.token.TokenActivity;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class MainActivity extends BaseActivity implements TIOConnectionCallback {
@@ -36,13 +38,11 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
     TextInputEditText fefValue, pefValue, fev1Value, fev6Value, commentValue;
     TextInputLayout fefError, pefError, fev1error, fev6Error, commentError;
 
-
     private TIOPeripheral mPeripheral;
     private TIOConnection mConnection;
     private AlertDialog mConnectingDialog;
     private String mErrorMessage;
     private String mText = "";
-    private static final int RSSI_INTERVAL = 1670;
     private static final int MAX_RECEIVED_TEXT_LENGTH = 512;
 
     @Override
@@ -51,46 +51,29 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
 
         showInstruction();
-
         connectPeripheral();
 
         mBinding.btnManual.setOnClickListener(view -> showBottomSheet());
 
-
         mBinding.btnStart.setOnClickListener(view -> startTest());
 
-        mBinding.btnConnect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                connectDevice();
-            }
-        });
+        mBinding.btnConnect.setOnClickListener(view -> connectDevice());
 
-        mBinding.btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showInstruction();
+        mBinding.btnCancel.setOnClickListener(view -> {
+            showInstruction();
 
-                mBinding.layoutMeasuringHeight.setVisibility(View.INVISIBLE);
-                mBinding.layoutMeasuringHeight.setVisibility(View.INVISIBLE);
-            }
+            mBinding.layoutMeasuringHeight.setVisibility(View.INVISIBLE);
+            mBinding.layoutMeasuringHeight.setVisibility(View.INVISIBLE);
         });
 
         mBinding.btnSubmit.setOnClickListener(view -> submitTest());
 
 
         mBinding.btnRetry.setOnClickListener(view -> {
+
             showInstruction();
             mBinding.layoutReadingHeight.setVisibility(View.INVISIBLE);
         });
-
-     /*   mBinding.btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showInstruction();
-                mBinding.layoutMeasuringHeight.setVisibility(View.INVISIBLE);
-            }
-        });*/
 
         setContentView(mBinding.getRoot());
 
@@ -141,37 +124,34 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
             mBinding.layoutSetupSpiro.setVisibility(View.INVISIBLE);
             mBinding.layoutBtnHeight.setVisibility(View.VISIBLE);
             mBinding.layoutInstruction.setVisibility(View.VISIBLE);
-        }, 3000);
-
+        }, 2000);
     }
-
 
     void connectDevice() {
         Log.d(TAG, "onConnectButtonPressed");
 
         try {
             mConnection = mPeripheral.connect(this);
-
             showConnectionMessage();
         } catch (Exception ex) {
 
         }
-        //  updateUIState();
-
     }
 
     void startTest() {
-
-
         mBinding.layoutBtnHeight.setVisibility(View.INVISIBLE);
         mBinding.layoutInstruction.setVisibility(View.INVISIBLE);
         mBinding.layoutMeasuringHeight.setVisibility(View.VISIBLE);
-
-
         mBinding.layoutMeasuringHeight.setVisibility(View.VISIBLE);
 
-        //mBinding.layoutReadingHeight.setVisibility(View.VISIBLE);
+        // blink animation
 
+        Animation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(200); //You can manage the blinking time with this parameter
+        anim.setStartOffset(50);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setRepeatCount(Animation.INFINITE);
+        mBinding.measuring.startAnimation(anim);
     }
 
 
@@ -180,16 +160,14 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         if (mConnectingDialog == null) {
             // Create dialog
             dialog = new AlertDialog.Builder(this)
-                    .setMessage("Connecting...")
-                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (mConnection != null) {
-                                try {
-                                    mConnection.cancel();
-                                    mConnection = null;
-                                } catch (Exception ex) {
-                                    Log.e(TAG, ex.toString());
-                                }
+                    .setMessage("Connecting Device....")
+                    .setNegativeButton(android.R.string.cancel, (dialog1, which) -> {
+                        if (mConnection != null) {
+                            try {
+                                mConnection.cancel();
+                                mConnection = null;
+                            } catch (Exception ex) {
+                                Log.e(TAG, ex.toString());
                             }
                         }
                     });
@@ -201,7 +179,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
                     WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
             window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         }
-
         // Show dialog
         mConnectingDialog.show();
     }
@@ -212,9 +189,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         new AlertDialog.Builder(this)
                 .setTitle(Html.fromHtml("<font color='#FF7F27'>Error</font>"))
                 .setMessage(message)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
                 })
                 .show();
     }
@@ -262,7 +237,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         cancel.setOnClickListener(view1 -> dialog.dismiss());
 
         dialog.show();
-
     }
 
     private boolean credentials() {
@@ -313,16 +287,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         if ((mConnectingDialog != null) && mConnectingDialog.isShowing()) {
             mConnectingDialog.dismiss();
         }
-        ;
 
-       /* if (mPeripheral.getAdvertisement() != null) {
-            mSubTitleView.setText(mPeripheral.getAdvertisement().toString());
-        }
-
-
-        updateUIState();
-
-        startRssiListener();*/
 
         mBinding.btnStart.setVisibility(View.VISIBLE);
         mBinding.btnConnect.setVisibility(View.GONE);
@@ -349,15 +314,11 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         mBinding.btnStart.setVisibility(View.GONE);
         mBinding.btnConnect.setVisibility(View.VISIBLE);
 
-
         mErrorMessage = errorMessage;
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                //updateUIState();
-                if (mErrorMessage.length() > 0) {
-                    showErrorAlert("Failed to connect with error message: " + mErrorMessage);
-                }
+        Runnable runnable = () -> {
+            //updateUIState();
+            if (mErrorMessage.length() > 0) {
+                showErrorAlert("Failed to connect with error message: " + mErrorMessage);
             }
         };
         runOnUiThread(runnable);
@@ -366,7 +327,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
     @Override
     public void onDisconnected(TIOConnection tioConnection, String errorMessage) {
-
 
         Log.d(TAG, "onDisconnected" + errorMessage);
 
@@ -378,16 +338,12 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         mBinding.btnStart.setVisibility(View.GONE);
         mBinding.btnConnect.setVisibility(View.VISIBLE);
 
-
         // stopRssiListener();
         mErrorMessage = errorMessage;
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                //updateUIState();
-                if (mErrorMessage.length() > 0) {
-                    showErrorAlert("Disconnected with error message: " + mErrorMessage);
-                }
+        Runnable runnable = () -> {
+            //updateUIState();
+            if (mErrorMessage.length() > 0) {
+                showErrorAlert("Disconnected with error message: " + mErrorMessage);
             }
         };
         runOnUiThread(runnable);
@@ -399,43 +355,36 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
         Log.d(TAG, "onDataReceived len " + data.length);
 
-
         try {
             mText += new String(data);
 
         } catch (Exception ex) {
         }
 
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                mBinding.tvReading.append(mText);
+        Runnable runnable = () -> {
+            //  mBinding.tvReading.append(mText);
+            mBinding.tvReading.setText(mText);
+            System.out.println("data------>" + mText);
+            System.out.print("sandeep*****" + Arrays.toString(data));
 
-                System.out.println("value****" + mText);
+            System.out.println("value****" + mText);
+            mText = "";
 
-                mText = "";
-
-                // limit view's text length to MAX_RECEIVED_TEXT_LENGTH
-                if (mBinding.tvReading.length() > MainActivity.MAX_RECEIVED_TEXT_LENGTH + 3) {
-                    String text = mBinding.tvReading.getText().toString();
-                    text = "..." + text.substring(text.length() - (MainActivity.MAX_RECEIVED_TEXT_LENGTH + 3));
-                    mBinding.tvReading.setText(text);
-                }
-
-
+            // limit view's text length to MAX_RECEIVED_TEXT_LENGTH
+            if (mBinding.tvReading.length() > MainActivity.MAX_RECEIVED_TEXT_LENGTH + 3) {
+                String text = mBinding.tvReading.getText().toString();
+                text = "..." + text.substring(text.length() - (MainActivity.MAX_RECEIVED_TEXT_LENGTH + 3));
+                mBinding.tvReading.setText(text);
             }
         };
 
-        // view and hide cash
+        // view and hide case
 
         mBinding.layoutBtnHeight.setVisibility(View.INVISIBLE);
         mBinding.layoutInstruction.setVisibility(View.INVISIBLE);
         mBinding.layoutMeasuringHeight.setVisibility(View.VISIBLE);
-
-
         mBinding.layoutMeasuringHeight.setVisibility(View.INVISIBLE);
         mBinding.layoutReadingHeight.setVisibility(View.VISIBLE);
-
 
         runOnUiThread(runnable);
 
@@ -443,6 +392,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
     @Override
     public void onDataTransmitted(TIOConnection tioConnection, int i, int i1) {
+
 
     }
 
