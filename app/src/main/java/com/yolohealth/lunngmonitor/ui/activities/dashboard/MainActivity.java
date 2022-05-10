@@ -66,6 +66,16 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
             }
         });
 
+        mBinding.btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showInstruction();
+
+                mBinding.layoutMeasuringHeight.setVisibility(View.INVISIBLE);
+                mBinding.layoutMeasuringHeight.setVisibility(View.INVISIBLE);
+            }
+        });
+
         mBinding.btnSubmit.setOnClickListener(view -> submitTest());
 
 

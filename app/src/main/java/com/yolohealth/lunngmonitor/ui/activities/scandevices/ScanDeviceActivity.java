@@ -3,10 +3,6 @@ package com.yolohealth.lunngmonitor.ui.activities.scandevices;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -31,14 +27,18 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.telit.terminalio.TIOManager;
 import com.telit.terminalio.TIOManagerCallback;
 import com.telit.terminalio.TIOPeripheral;
 import com.yolohealth.lunngmonitor.LungMonitorApp;
-import com.yolohealth.lunngmonitor.ui.activities.dashboard.MainActivity;
 import com.yolohealth.lunngmonitor.R;
 import com.yolohealth.lunngmonitor.spirometer.STSwipeTapDetector;
 import com.yolohealth.lunngmonitor.ui.activities.BaseActivity;
+import com.yolohealth.lunngmonitor.ui.activities.dashboard.MainActivity;
 import com.yolohealth.lunngmonitor.utils.PermissionDialogView;
 
 import permission.auron.com.permissionhelper.PermissionResult;
@@ -110,7 +110,6 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         // display version number
         //displayVersionNumber();
     }
-
 
 
     private void askLocationPermission() {
@@ -219,8 +218,8 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
 
         Intent intent = new Intent(ScanDeviceActivity.this, MainActivity.class);
         intent.putExtra(LungMonitorApp.PERIPHERAL_ID_NAME, peripheral.getAddress());
-
         startActivity(intent);
+        finish();
     }
 
 
