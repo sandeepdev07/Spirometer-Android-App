@@ -117,6 +117,22 @@
                 android:shadowColor="@color/colorPrimaryLight"
                 android:text="@string/start_test"
                 android:textColor="@color/white"
+                app:rippleColor="@color/black_semi_transparent"
+                android:visibility="gone"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_connect"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="2"
+                android:backgroundTint="@color/colorPrimary"
+                android:shadowColor="@color/colorPrimaryLight"
+                android:text="CONNECT"
+                android:textColor="@color/white"
                 app:rippleColor="@color/black_semi_transparent" />
 
 

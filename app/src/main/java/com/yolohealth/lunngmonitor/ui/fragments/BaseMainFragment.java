@@ -4,7 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.yolohealth.lunngmonitor.MainActivity;
+import com.yolohealth.lunngmonitor.ui.activities.dashboard.MainActivity;
 
 public abstract class BaseMainFragment extends BaseFragment {
     protected MainActivity mActivity;

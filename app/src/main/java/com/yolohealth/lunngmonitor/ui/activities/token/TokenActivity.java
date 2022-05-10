@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.yolohealth.lunngmonitor.MainActivity;
-import com.yolohealth.lunngmonitor.R;
-import com.yolohealth.lunngmonitor.databinding.ActivityLoginBinding;
 import com.yolohealth.lunngmonitor.databinding.ActivityTokenBinding;
 import com.yolohealth.lunngmonitor.ui.activities.profile.ProfileActivity;
 

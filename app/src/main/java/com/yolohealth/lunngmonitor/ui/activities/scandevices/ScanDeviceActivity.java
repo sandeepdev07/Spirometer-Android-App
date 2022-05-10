@@ -35,7 +35,7 @@ import com.telit.terminalio.TIOManager;
 import com.telit.terminalio.TIOManagerCallback;
 import com.telit.terminalio.TIOPeripheral;
 import com.yolohealth.lunngmonitor.LungMonitorApp;
-import com.yolohealth.lunngmonitor.MainActivity;
+import com.yolohealth.lunngmonitor.ui.activities.dashboard.MainActivity;
 import com.yolohealth.lunngmonitor.R;
 import com.yolohealth.lunngmonitor.spirometer.STSwipeTapDetector;
 import com.yolohealth.lunngmonitor.ui.activities.BaseActivity;
