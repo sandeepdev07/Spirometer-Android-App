@@ -358,8 +358,19 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
         Log.d(TAG, "onDataReceived len " + data.length);
 
-        String str = new String(data, StandardCharsets.ISO_8859_1);
-        System.out.println("devtest---->"+str);
+        String str = new String(data, StandardCharsets.UTF_8);
+        System.out.println("devtest---->" + str);
+
+        float fev1 = Float.parseFloat(str.substring(0, 3)) / 100;
+        float fev6 = Float.parseFloat(str.substring(3, 6)) / 100;
+        float ratio = Float.parseFloat(str.substring(6, 9)) / 100;
+        float fef = Float.parseFloat(str.substring(9, 12)) / 100;
+        System.out.println("FEV1------> " + fev1);
+        System.out.println("FEV6------> " + fev6);
+        System.out.println("FEV1/FEV6------> " + ratio);
+        System.out.println("FEF------> " + fef);
+        //  mBinding.tvReading.append(mText);
+        // mBinding.tvReading.setText(fev1/100);
 
         try {
             mText += new String(data);
@@ -370,10 +381,10 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         Runnable runnable = () -> {
             //  mBinding.tvReading.append(mText);
             mBinding.tvReading.setText(mText);
-            System.out.println("data------>" + mText);
-            System.out.print("sandeep*****" + Arrays.toString(data));
+            //System.out.println("data------>" + mText);
+            //  System.out.print("sandeep*****" + Arrays.toString(data));
 
-            System.out.println("value****" + mText);
+            //  System.out.println("value****" + mText);
             mText = "";
 
             // limit view's text length to MAX_RECEIVED_TEXT_LENGTH
