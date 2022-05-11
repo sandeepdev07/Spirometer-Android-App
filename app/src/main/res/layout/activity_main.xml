@@ -16,10 +16,16 @@
         android:orientation="vertical"
         android:visibility="visible">
 
-        <ImageView
+
+        <pl.droidsonroids.gif.GifImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@drawable/ic_loading" />
+            android:src="@drawable/loading" />
+
+        <!-- <ImageView
+             android:layout_width="150dp"
+             android:layout_height="150dp"
+             android:src="@drawable/ic_loading" />-->
 
         <TextView
             android:layout_width="wrap_content"
@@ -157,12 +163,10 @@
 
 
         <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/internet"
             android:layout_width="250dp"
             android:layout_height="250dp"
             android:layout_gravity="center"
-            android:src="@drawable/wind"
-            android:visibility="visible" />
+            android:src="@drawable/wind" />
 
         <!--  <ImageView
 

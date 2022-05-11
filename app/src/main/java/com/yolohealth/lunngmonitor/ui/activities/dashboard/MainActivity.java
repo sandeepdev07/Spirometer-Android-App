@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.telit.terminalio.TIOAdvertisement;
 import com.telit.terminalio.TIOConnection;
 import com.telit.terminalio.TIOConnectionCallback;
 import com.telit.terminalio.TIOManager;
@@ -29,6 +30,7 @@ import com.yolohealth.lunngmonitor.databinding.ActivityMainBinding;
 import com.yolohealth.lunngmonitor.ui.activities.BaseActivity;
 import com.yolohealth.lunngmonitor.ui.activities.token.TokenActivity;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -44,6 +46,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
     private String mErrorMessage;
     private String mText = "";
     private static final int MAX_RECEIVED_TEXT_LENGTH = 512;
+    TIOAdvertisement advertisement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -354,6 +357,9 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
     public void onDataReceived(TIOConnection tioConnection, byte[] data) {
 
         Log.d(TAG, "onDataReceived len " + data.length);
+
+        String str = new String(data, StandardCharsets.ISO_8859_1);
+        System.out.println("devtest---->"+str);
 
         try {
             mText += new String(data);
