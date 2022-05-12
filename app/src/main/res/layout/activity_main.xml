@@ -217,9 +217,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="25dp"
-            android:layout_marginRight="50dp">
+            android:layout_marginRight="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -228,7 +228,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingLeft="10dp"
-                android:paddingTop="50dp"
+                android:paddingTop="20dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="20dp">
 
@@ -256,6 +256,108 @@
                         android:textSize="20sp" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_fev1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp"
+                        tools:text="FEV1 : 1.15" />
+
+                    <TextView
+                        android:id="@+id/tv_fev6"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp"
+                        tools:text="FEV6 : 1.15" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/tv_fef"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp"
+                        tools:text="FEV1 / FEV6 : 1.15" />
+
+                    <TextView
+                        android:id="@+id/tv_ratio"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp"
+                        tools:text="FEV6 : 1.15" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_submit"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="2"
+                        android:backgroundTint="#8BC34A"
+                        android:shadowColor="@color/colorPrimaryLight"
+                        android:text="@string/submit_param"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        app:rippleColor="@color/black_semi_transparent" />
+
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_retry"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="2"
+                        android:backgroundTintMode="@color/white"
+                        android:shadowColor="@color/colorPrimaryLight"
+                        android:text="@string/retry_test"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:rippleColor="@color/black_semi_transparent"
+                        app:strokeColor="@color/colorPrimary" />
+
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/tv_reading"
                     android:layout_width="match_parent"
@@ -264,56 +366,25 @@
                     android:padding="5dp"
                     android:textColor="@color/colorPrimary"
                     android:textSize="24sp"
+                    android:visibility="gone"
                     tools:text="PEF : 106" />
+
+
+                <!--<TextView
+                    android:id="@+id/tv_fev1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp"
+                    tools:text="PEF : 106" />-->
 
             </LinearLayout>
 
+
         </androidx.cardview.widget.CardView>
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginBottom="50dp"
-            android:orientation="horizontal">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_submit"
-                style="@style/Widget.MaterialComponents.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="2"
-                android:backgroundTint="#8BC34A"
-                android:shadowColor="@color/colorPrimaryLight"
-                android:text="@string/submit_param"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                app:rippleColor="@color/black_semi_transparent" />
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_retry"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="2"
-                android:backgroundTintMode="@color/white"
-                android:shadowColor="@color/colorPrimaryLight"
-                android:text="@string/retry_test"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:visibility="visible"
-                app:rippleColor="@color/black_semi_transparent"
-                app:strokeColor="@color/colorPrimary" />
-
-        </LinearLayout>
 
     </LinearLayout>
 
