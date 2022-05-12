@@ -131,7 +131,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
             mBinding.layoutSetupSpiro.setVisibility(View.INVISIBLE);
             mBinding.layoutBtnHeight.setVisibility(View.VISIBLE);
             mBinding.layoutInstruction.setVisibility(View.VISIBLE);
-        }, 2000);
+        }, 1000);
     }
 
     void connectDevice() {

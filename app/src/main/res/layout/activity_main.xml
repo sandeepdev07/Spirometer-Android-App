@@ -107,6 +107,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="2"
                 android:backgroundTint="@color/colorPrimary"
+                android:drawableLeft="@drawable/ic_start_test"
+                android:drawableTint="@color/white"
                 android:shadowColor="@color/colorPrimaryLight"
                 android:text="@string/start_test"
                 android:textColor="@color/white"
@@ -123,6 +125,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="2"
                 android:backgroundTint="@color/colorPrimary"
+                android:drawableLeft="@drawable/ic_connect"
+                android:drawableTint="@color/white"
                 android:shadowColor="@color/colorPrimaryLight"
                 android:text="@string/connect_spirometer"
                 android:textColor="@color/white"
@@ -138,6 +142,8 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="2"
                 android:backgroundTintMode="@color/white"
+                android:drawableLeft="@drawable/ic_manual"
+                android:drawableTint="@color/md_orange_500"
                 android:shadowColor="@color/colorPrimaryLight"
                 android:text="@string/manual"
                 android:textColor="@color/colorPrimary"
@@ -218,11 +224,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="25dp"
             android:layout_marginRight="16dp"
             android:backgroundTint="@android:color/white"
             app:cardCornerRadius="4dp"
             app:cardElevation="4dp"
+            app:cardUseCompatPadding="true"
             app:contentPadding="4dp">
 
             <LinearLayout
@@ -253,11 +259,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:fontFamily="@font/roboto"
                         android:letterSpacing="0.01"
                         android:padding="5dp"
                         android:text="@string/your_reading_is"
                         android:textColor="@color/md_orange_500"
-                        android:textSize="24sp" />
+                        android:textSize="24sp"
+                        android:textStyle="normal" />
                 </LinearLayout>
 
                 <View
@@ -283,6 +291,7 @@
                         android:letterSpacing="0.01"
                         android:textColor="@color/colorPrimary"
                         android:textSize="18sp"
+                        android:textStyle="bold"
                         tools:text="FEV1 : 1.15" />
 
                     <TextView
@@ -295,6 +304,7 @@
                         android:letterSpacing="0.01"
                         android:textColor="@color/colorPrimary"
                         android:textSize="18sp"
+                        android:textStyle="bold"
                         tools:text="FEV6 : 1.15" />
 
                 </LinearLayout>
@@ -317,6 +327,7 @@
                         android:letterSpacing="0.01"
                         android:textColor="@color/colorPrimary"
                         android:textSize="18sp"
+                        android:textStyle="bold"
                         tools:text="FEF : 0.69" />
 
                     <TextView
@@ -329,6 +340,7 @@
                         android:letterSpacing="0.01"
                         android:textColor="@color/colorPrimary"
                         android:textSize="18sp"
+                        android:textStyle="bold"
                         tools:text="FEV1/FEV6 : 1.15" />
 
 

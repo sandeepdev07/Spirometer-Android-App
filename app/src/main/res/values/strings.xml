@@ -130,6 +130,7 @@
     <string name="your_reading_is">YOUR RESULTS:</string>
     <string name="submit_param">SUBMIT</string>
     <string name="retry_test">Retry</string>
+    <string name="clear">CLEAR</string>
 
 
 </resources>
