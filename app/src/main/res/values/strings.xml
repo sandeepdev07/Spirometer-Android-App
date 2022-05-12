@@ -127,7 +127,7 @@
     <string name="remove_button_title">Remove</string>
     <string name="connect_spirometer">CONNECT</string>
     <string name="cancel_test">Cancel</string>
-    <string name="your_reading_is">Your Reading is:</string>
+    <string name="your_reading_is">YOUR RESULTS:</string>
     <string name="submit_param">SUBMIT</string>
     <string name="retry_test">Retry</string>
 

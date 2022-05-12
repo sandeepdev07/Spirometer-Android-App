@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -26,6 +27,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -39,10 +41,13 @@ import com.yolohealth.lunngmonitor.R;
 import com.yolohealth.lunngmonitor.spirometer.STSwipeTapDetector;
 import com.yolohealth.lunngmonitor.ui.activities.BaseActivity;
 import com.yolohealth.lunngmonitor.ui.activities.dashboard.MainActivity;
+import com.yolohealth.lunngmonitor.utils.Common_Utils;
+import com.yolohealth.lunngmonitor.utils.Constants;
 import com.yolohealth.lunngmonitor.utils.PermissionDialogView;
 
 import permission.auron.com.permissionhelper.PermissionResult;
 import permission.auron.com.permissionhelper.utils.PermissionUtils;
+import pub.devrel.easypermissions.EasyPermissions;
 
 public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallback {
 
@@ -60,6 +65,9 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
     private Handler mScanHandler = new Handler();
     private TIOManager mTio;
 
+    // for android version above 10
+    public static final String[] BLUETOOTH_PERMISSIONS_S = {Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT};
+
     public boolean checkLocationService(final @NonNull Activity activity) {
         final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -76,6 +84,12 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_device);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (!EasyPermissions.hasPermissions(this, BLUETOOTH_PERMISSIONS_S)) {
+                EasyPermissions.requestPermissions(this, "Provide permission", 22, BLUETOOTH_PERMISSIONS_S);
+            }
+        }
 
         askLocationPermission();
 
@@ -194,7 +208,11 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
     public void onScanButtonPressed(View sender) {
         Log.d(TAG, "onScanButtonPressed");
 
-        startTimedScan();
+        if (!Common_Utils.isBluetoothEnabled()) {
+            Toast.makeText(getApplicationContext(), Constants.NO_BLUETOOTH_CONNECTION, Toast.LENGTH_LONG).show();
+        } else {
+            startTimedScan();
+        }
     }
 
     public void onClearAllButtonPressed(View sender) {

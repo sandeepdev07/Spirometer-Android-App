@@ -61,5 +61,7 @@ dependencies {
     implementation 'com.auron:permission-manage:1.2.0'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
 
+    implementation 'pub.devrel:easypermissions:3.0.0' // for android version above 10
+
 
 }
