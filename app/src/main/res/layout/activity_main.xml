@@ -112,11 +112,11 @@
                 android:shadowColor="@color/colorPrimaryLight"
                 android:text="@string/start_test"
                 android:textColor="@color/white"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:rippleColor="@color/black_semi_transparent" />
 
 
-            <com.google.android.material.button.MaterialButton
+           <!-- <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_connect"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
@@ -130,7 +130,7 @@
                 android:shadowColor="@color/colorPrimaryLight"
                 android:text="@string/connect_spirometer"
                 android:textColor="@color/white"
-                app:rippleColor="@color/black_semi_transparent" />
+                app:rippleColor="@color/black_semi_transparent" />-->
 
 
             <com.google.android.material.button.MaterialButton

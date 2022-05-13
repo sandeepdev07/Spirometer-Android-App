@@ -28,12 +28,13 @@ import com.telit.terminalio.TIOConnection;
 import com.telit.terminalio.TIOConnectionCallback;
 import com.telit.terminalio.TIOManager;
 import com.telit.terminalio.TIOPeripheral;
-import com.yolohealth.lunngmonitor.LungMonitorApp;
 import com.yolohealth.lunngmonitor.R;
 import com.yolohealth.lunngmonitor.databinding.ActivityMainBinding;
 import com.yolohealth.lunngmonitor.ui.activities.BaseActivity;
 import com.yolohealth.lunngmonitor.ui.activities.scandevices.ScanDeviceActivity;
 import com.yolohealth.lunngmonitor.ui.activities.token.TokenActivity;
+import com.yolohealth.lunngmonitor.utils.Constants;
+import com.yolohealth.lunngmonitor.utils.SharedPrefUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
@@ -64,12 +65,25 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
         mBinding.btnManual.setOnClickListener(view -> showBottomSheet());
 
-        mBinding.btnStart.setOnClickListener(view -> startTest()
-        );
+        mBinding.btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                connectDevice();
+                startTest();
 
-        mBinding.btnConnect.setOnClickListener(view -> connectDevice());
+            }
+        });
+
+    /*    mBinding.btnStart.setOnClickListener(
+                view -> startTest();
+
+                connectDevice();
+        );*/
+
+        //  mBinding.btnConnect.setOnClickListener(view -> connectDevice());
 
         mBinding.btnCancel.setOnClickListener(view -> {
+
             showInstruction();
 
             mBinding.layoutMeasuringHeight.setVisibility(View.INVISIBLE);
@@ -82,6 +96,17 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
 
         mBinding.btnRetry.setOnClickListener(view -> {
+
+
+            stopRssiListener();
+
+            try {
+                mConnection.disconnect();
+            } catch (Exception ex) {
+
+            }
+
+            // updateUIState();
 
             showInstruction();
             mBinding.layoutReadingHeight.setVisibility(View.INVISIBLE);
@@ -99,14 +124,38 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
     }
 
 
+    private void stopRssiListener() {
+        if (mConnection != null) {
+
+            Log.d(TAG, "stopRssiListener");
+
+            try {
+                mConnection.readRemoteRssi(0);
+            } catch (Exception ex) {
+
+            }
+
+        }
+    }
+
+
+    void updateUIState() {
+        mBinding.btnStart.setVisibility(View.VISIBLE);
+    }
+
     private void connectPeripheral() {
         // extract peripheral id (address) from intent
-        Intent intent = getIntent();
+
+        String spiroMacAddress = SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER);
+        System.out.println("address---->" + spiroMacAddress);
+
+        // coming from scan device activity
+     /*   Intent intent = getIntent();
         String address = intent.getStringExtra(LungMonitorApp.PERIPHERAL_ID_NAME);
-        System.out.println("address---" + address);
+        System.out.println("address---" + address);*/
 
         // retrieve peripheral instance from TIOManager
-        mPeripheral = TIOManager.getInstance().findPeripheral(address);
+        mPeripheral = TIOManager.getInstance().findPeripheral(spiroMacAddress);
 
         if (mPeripheral != null) {
             mConnection = mPeripheral.getConnection();
@@ -130,6 +179,14 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
 
     void submitTest() {
+        stopRssiListener();
+
+        try {
+            mConnection.disconnect();
+        } catch (Exception ex) {
+
+        }
+        
         Intent i;
         i = new Intent(getApplicationContext(), TokenActivity.class);
         startActivity(i);
@@ -311,7 +368,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
 
         mBinding.btnStart.setVisibility(View.VISIBLE);
-        mBinding.btnConnect.setVisibility(View.GONE);
+        //mBinding.btnConnect.setVisibility(View.GONE);
 
         if (!mPeripheral.shallBeSaved()) {
             // save if connected for the first time
@@ -332,8 +389,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         }
         ;
 
-        mBinding.btnStart.setVisibility(View.GONE);
-        mBinding.btnConnect.setVisibility(View.VISIBLE);
+        // mBinding.btnStart.setVisibility(View.GONE);
+        //  mBinding.btnConnect.setVisibility(View.VISIBLE);
 
         mErrorMessage = errorMessage;
         Runnable runnable = () -> {
@@ -356,8 +413,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         }
         ;
 
-        mBinding.btnStart.setVisibility(View.GONE);
-        mBinding.btnConnect.setVisibility(View.VISIBLE);
+        // mBinding.btnStart.setVisibility(View.GONE);
+        //  mBinding.btnConnect.setVisibility(View.VISIBLE);
 
         // stopRssiListener();
         mErrorMessage = errorMessage;

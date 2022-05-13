@@ -36,7 +36,6 @@ import androidx.core.content.ContextCompat;
 import com.telit.terminalio.TIOManager;
 import com.telit.terminalio.TIOManagerCallback;
 import com.telit.terminalio.TIOPeripheral;
-import com.yolohealth.lunngmonitor.LungMonitorApp;
 import com.yolohealth.lunngmonitor.R;
 import com.yolohealth.lunngmonitor.databinding.ActivityScanDeviceBinding;
 import com.yolohealth.lunngmonitor.spirometer.STSwipeTapDetector;
@@ -45,6 +44,7 @@ import com.yolohealth.lunngmonitor.ui.activities.dashboard.MainActivity;
 import com.yolohealth.lunngmonitor.utils.Common_Utils;
 import com.yolohealth.lunngmonitor.utils.Constants;
 import com.yolohealth.lunngmonitor.utils.PermissionDialogView;
+import com.yolohealth.lunngmonitor.utils.SharedPrefUtils;
 
 import java.text.MessageFormat;
 import java.util.Objects;
@@ -242,8 +242,10 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
     private void onPeripheralCellPressed(TIOPeripheral peripheral) {
         Log.d(TAG, "onPeripheralCellPressed " + peripheral.toString());
 
+        SharedPrefUtils.setDeviceAddress(getApplicationContext(), Constants.SPIROMETER, peripheral.getAddress());
+
         Intent intent = new Intent(ScanDeviceActivity.this, MainActivity.class);
-        intent.putExtra(LungMonitorApp.PERIPHERAL_ID_NAME, peripheral.getAddress());
+        // intent.putExtra(LungMonitorApp.PERIPHERAL_ID_NAME, peripheral.getAddress());
         startActivity(intent);
         finish();
     }

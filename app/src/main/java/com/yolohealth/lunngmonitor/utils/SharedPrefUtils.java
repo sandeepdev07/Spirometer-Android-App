@@ -1,5 +1,7 @@
 package com.yolohealth.lunngmonitor.utils;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -101,6 +103,20 @@ public class SharedPrefUtils {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(AppConstant.PROFILE_ID, profile_id);
         editor.apply();
+    }
+
+
+
+    public static void setDeviceAddress(Context ctx, String device_name, String device_address) {
+        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.DEVICE_PREF, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(device_name, device_address);
+        editor.commit();
+    }
+
+    public static String getDeviceAddress(Context ctx, String device_name) {
+        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.DEVICE_PREF, MODE_PRIVATE);
+        return prefs.getString(device_name, "");
     }
 
  /*   public static ProfileData getProfile(Context ctx) {

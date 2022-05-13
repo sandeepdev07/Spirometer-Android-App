@@ -27,4 +27,7 @@ public class AppConstant {
     public static final String APP_NAME = "Yolohealth";
     public static final String GO_TO_SETTINGS = "Go to settings";
     public static final String DIALOG_DISMISS = "Dismiss";
+
+
+    public static final String DEVICE_PREF = "device_pref";
 }
