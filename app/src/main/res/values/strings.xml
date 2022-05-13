@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LungMonitor</string>
+    <string name="app_name">YH Spirometer</string>
 
     <declare-styleable name="ProgressActivity">
         <attr name="loadingProgressBarWidth" format="dimension" />

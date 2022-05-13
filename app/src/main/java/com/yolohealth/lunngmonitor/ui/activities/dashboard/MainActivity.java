@@ -16,6 +16,8 @@ import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.ActionBar;
+
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -58,7 +60,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
         mBinding.btnManual.setOnClickListener(view -> showBottomSheet());
 
-        mBinding.btnStart.setOnClickListener(view -> startTest());
+        mBinding.btnStart.setOnClickListener(view -> startTest()
+        );
 
         mBinding.btnConnect.setOnClickListener(view -> connectDevice());
 
@@ -80,6 +83,12 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
             mBinding.layoutReadingHeight.setVisibility(View.INVISIBLE);
             checkStr = "";
         });
+
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Dashboard");
+        actionBar.setElevation(0);
 
         setContentView(mBinding.getRoot());
 
@@ -146,6 +155,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
     }
 
     void startTest() {
+        checkStr = "";
         mBinding.layoutBtnHeight.setVisibility(View.INVISIBLE);
         mBinding.layoutInstruction.setVisibility(View.INVISIBLE);
         mBinding.layoutMeasuringHeight.setVisibility(View.VISIBLE);

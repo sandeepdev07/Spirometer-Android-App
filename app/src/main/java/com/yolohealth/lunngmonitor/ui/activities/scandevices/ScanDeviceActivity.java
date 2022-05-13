@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -44,6 +45,8 @@ import com.yolohealth.lunngmonitor.ui.activities.dashboard.MainActivity;
 import com.yolohealth.lunngmonitor.utils.Common_Utils;
 import com.yolohealth.lunngmonitor.utils.Constants;
 import com.yolohealth.lunngmonitor.utils.PermissionDialogView;
+
+import java.util.Objects;
 
 import permission.auron.com.permissionhelper.PermissionResult;
 import permission.auron.com.permissionhelper.utils.PermissionUtils;
@@ -120,6 +123,11 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
 
         // initialize clearAllButton
         updateClearAllButton();
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Scan Device");
+        actionBar.setElevation(0);
 
         // display version number
         //displayVersionNumber();
