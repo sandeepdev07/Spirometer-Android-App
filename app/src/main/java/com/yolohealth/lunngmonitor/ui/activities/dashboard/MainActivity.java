@@ -18,6 +18,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 
@@ -35,6 +36,7 @@ import com.yolohealth.lunngmonitor.ui.activities.scandevices.ScanDeviceActivity;
 import com.yolohealth.lunngmonitor.ui.activities.token.TokenActivity;
 import com.yolohealth.lunngmonitor.utils.Constants;
 import com.yolohealth.lunngmonitor.utils.SharedPrefUtils;
+import com.yolohealth.lunngmonitor.widget.AppConstant;
 
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
@@ -63,26 +65,34 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         showInstruction();
         connectPeripheral();
 
+
         mBinding.btnManual.setOnClickListener(view -> showBottomSheet());
 
         mBinding.btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER) != null
+                        && SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER).equals("")) {
+                    openSetKioskDialog(false);
+                }
+
                 connectDevice();
-                startTest();
+
+                // startTest();
 
             }
         });
 
-    /*    mBinding.btnStart.setOnClickListener(
-                view -> startTest();
-
-                connectDevice();
-        );*/
-
-        //  mBinding.btnConnect.setOnClickListener(view -> connectDevice());
 
         mBinding.btnCancel.setOnClickListener(view -> {
+
+            stopRssiListener();
+
+            try {
+                mConnection.disconnect();
+            } catch (Exception ex) {
+
+            }
 
             showInstruction();
 
@@ -121,6 +131,29 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
         setContentView(mBinding.getRoot());
 
+    }
+
+
+    public void openSetKioskDialog(boolean setupHeight) {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+        String msg = "Please Scan the device to begin";
+        String title = "Scan Spirometer Device";
+
+        builder.setMessage(msg).setTitle(title)
+                .setCancelable(false)
+                .setPositiveButton("SCAN", (dialog, id) -> {
+                    Intent i = new Intent(MainActivity.this, ScanDeviceActivity.class);
+                    i.putExtra(AppConstant.FROM, AppConstant.NEW_USER);
+                    startActivity(i);
+                })
+                .setNegativeButton("CANCEL", (dialog, id) -> {
+                    Toast.makeText(MainActivity.this,
+                            "Scan the device to start the test", Toast.LENGTH_SHORT).show();
+                    dialog.cancel();
+                });
+        //Creating dialog box
+        androidx.appcompat.app.AlertDialog alert = builder.create();
+        alert.show();
     }
 
 
@@ -186,7 +219,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         } catch (Exception ex) {
 
         }
-        
+
         Intent i;
         i = new Intent(getApplicationContext(), TokenActivity.class);
         startActivity(i);
@@ -238,7 +271,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         if (mConnectingDialog == null) {
             // Create dialog
             dialog = new AlertDialog.Builder(this)
-                    .setMessage("Connecting Device....")
+                    .setMessage("Connecting to Vitalograph lung monitor...")
                     .setNegativeButton(android.R.string.cancel, (dialog1, which) -> {
                         if (mConnection != null) {
                             try {
@@ -259,6 +292,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         }
         // Show dialog
         mConnectingDialog.show();
+
     }
 
 
@@ -365,6 +399,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         if ((mConnectingDialog != null) && mConnectingDialog.isShowing()) {
             mConnectingDialog.dismiss();
         }
+
+        startTest(); // show ui when device is connected
 
 
         mBinding.btnStart.setVisibility(View.VISIBLE);

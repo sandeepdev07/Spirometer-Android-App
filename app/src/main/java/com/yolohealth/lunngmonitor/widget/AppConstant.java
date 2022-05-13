@@ -30,4 +30,9 @@ public class AppConstant {
 
 
     public static final String DEVICE_PREF = "device_pref";
+    public static final String MAC_ADDRESS = "";
+    public static final String FROM = "from";
+    public static final String NEW_USER = "new_user";
+
+
 }
