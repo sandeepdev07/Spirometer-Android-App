@@ -4,11 +4,11 @@ import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Build;
@@ -24,8 +24,6 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +37,7 @@ import com.telit.terminalio.TIOManagerCallback;
 import com.telit.terminalio.TIOPeripheral;
 import com.yolohealth.lunngmonitor.LungMonitorApp;
 import com.yolohealth.lunngmonitor.R;
+import com.yolohealth.lunngmonitor.databinding.ActivityScanDeviceBinding;
 import com.yolohealth.lunngmonitor.spirometer.STSwipeTapDetector;
 import com.yolohealth.lunngmonitor.ui.activities.BaseActivity;
 import com.yolohealth.lunngmonitor.ui.activities.dashboard.MainActivity;
@@ -46,6 +45,7 @@ import com.yolohealth.lunngmonitor.utils.Common_Utils;
 import com.yolohealth.lunngmonitor.utils.Constants;
 import com.yolohealth.lunngmonitor.utils.PermissionDialogView;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 
 import permission.auron.com.permissionhelper.PermissionResult;
@@ -60,15 +60,14 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
     private static final int PERMITIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
     private static final int SERVICE_REQUEST_LOCATION = 2;
 
-    private Button mScanButton;
-    private Button mClearAllButton;
-    private ProgressBar mScanIndicator;
-    private ListView mPeripheralsListView;
+
+    ActivityScanDeviceBinding mBinding;
     private ArrayAdapter<TIOPeripheral> mPeripheralList;
-    private Handler mScanHandler = new Handler();
+    private final Handler mScanHandler = new Handler();
     private TIOManager mTio;
 
     // for android version above 10
+    @SuppressLint("InlinedApi")
     public static final String[] BLUETOOTH_PERMISSIONS_S = {Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT};
 
     public boolean checkLocationService(final @NonNull Activity activity) {
@@ -86,7 +85,10 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scan_device);
+        //setContentView(R.layout.activity_scan_device);
+
+        mBinding = ActivityScanDeviceBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (!EasyPermissions.hasPermissions(this, BLUETOOTH_PERMISSIONS_S)) {
@@ -99,6 +101,7 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         connectViews();
 
         mTio = TIOManager.getInstance();
+
         TIOManager.enableTrace(true);
 
         // displays a dialog requesting user permission to enable Bluetooth.
@@ -119,6 +122,7 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
 
         // initialize peripherals list view
         initializePeripheralsListView();
+
         updatePeripheralsListView();
 
         // initialize clearAllButton
@@ -129,13 +133,10 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         actionBar.setTitle("Scan Device");
         actionBar.setElevation(0);
 
-        // display version number
-        //displayVersionNumber();
     }
 
 
     private void askLocationPermission() {
-
 
         askCompactPermissions(new String[]{
                 PermissionUtils.Manifest_ACCESS_COARSE_LOCATION,
@@ -176,7 +177,8 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         switch (requestCode) {
             case ENABLE_BT_REQUEST_ID:
                 if (resultCode == Activity.RESULT_CANCELED) {
-                    mScanButton.setEnabled(false);
+                    mBinding.scanButton.setEnabled(false);
+                    // mScanButton.setEnabled(false);
                     return;
                 }
                 break;
@@ -195,16 +197,13 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case PERMITIONS_REQUEST_ACCESS_COARSE_LOCATION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (!checkLocationService(this)) {
-                        Log.d(TAG, "GPS disabled on this device");
-                    } else {
-                        this.startTimedScan();
-                    }
+        if (requestCode == PERMITIONS_REQUEST_ACCESS_COARSE_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (!checkLocationService(this)) {
+                    Log.d(TAG, "GPS disabled on this device");
+                } else {
+                    this.startTimedScan();
                 }
-                break;
             }
         }
     }
@@ -260,7 +259,6 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         // overrule default behaviour: peripheral shall be saved only after having been connected
         peripheral.setShallBeSaved(false);
         mTio.savePeripherals();
-
         updatePeripheralsListView();
     }
 
@@ -279,17 +277,9 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
     private void connectViews() {
         Log.d(TAG, "connectViews");
 
-        mScanButton = (Button) findViewById(R.id.scanButton);
-        mClearAllButton = (Button) findViewById(R.id.clearAllButton);
-        mScanIndicator = (ProgressBar) findViewById(R.id.scanIndicator);
-        mPeripheralsListView = (ListView) findViewById(R.id.peripheralsListView);
 
-        mScanButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ScanDeviceActivity.this.onScanButtonPressed(view);
-            }
-        });
+        mBinding.scanButton.setOnClickListener(ScanDeviceActivity.this::onScanButtonPressed);
+
     }
 
     private void initializePeripheralsListView() {
@@ -306,7 +296,9 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
                 return mTio.getPeripherals().length;
             }
         };
-        mPeripheralsListView.setAdapter(mPeripheralList);
+
+        mBinding.peripheralsListView.setAdapter(mPeripheralList);
+
     }
 
     private View createPeripheralCell(int position) {
@@ -314,14 +306,14 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         final TIOPeripheral peripheral = mTio.getPeripherals()[position];
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View peripheralCell = inflater.inflate(R.layout.peripheral_cell, mPeripheralsListView, false);
+        View peripheralCell = inflater.inflate(R.layout.peripheral_cell, mBinding.peripheralsListView, false);
 
         TextView mainTitle = (TextView) peripheralCell.findViewById(R.id.mainTitle);
-        mainTitle.setText(peripheral.getName() + "  " + peripheral.getAddress());
+        mainTitle.setText(MessageFormat.format("{0}  {1}", peripheral.getName(), peripheral.getAddress()));
 
         TextView subTitle = (TextView) peripheralCell.findViewById(R.id.subTitle);
         if (peripheral.getAdvertisement() != null) {
-            subTitle.setText(peripheral.getAdvertisement().toString() + " RSSI " + peripheral.getAdvertisement().getRssi());
+            subTitle.setText(MessageFormat.format("{0} RSSI {1}", peripheral.getAdvertisement().toString(), peripheral.getAdvertisement().getRssi()));
         } else {
             subTitle.setText("");
         }
@@ -329,12 +321,7 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
 
         Button removeButton = (Button) peripheralCell.findViewById(R.id.removeButton);
         removeButton.setVisibility(View.INVISIBLE);
-        removeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onRemoveButtonPressed(peripheral);
-            }
-        });
+        removeButton.setOnClickListener(view -> onRemoveButtonPressed(peripheral));
 
         peripheralCell.setOnTouchListener(createPeripheralCellGestureDetector(peripheral, removeButton));
 
@@ -360,24 +347,22 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
 
         Log.d(TAG, "startTimedScan");
 
-        mScanButton.setEnabled(false);
-        mClearAllButton.setEnabled(false);
-        mScanIndicator.setVisibility(View.VISIBLE);
 
-        mScanHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        mBinding.scanButton.setEnabled(false);
+        mBinding.clearAllButton.setEnabled(false);
+        mBinding.scanIndicator.setVisibility(View.VISIBLE);
 
-                try {
-                    mTio.stopScan();
-                } catch (Exception ex) {
+        mScanHandler.postDelayed(() -> {
 
-                }
+            try {
+                mTio.stopScan();
+            } catch (Exception ex) {
 
-                mScanIndicator.setVisibility(View.INVISIBLE);
-                mScanButton.setEnabled(true);
-                updateClearAllButton();
             }
+
+            mBinding.scanIndicator.setVisibility(View.INVISIBLE);
+            mBinding.scanButton.setEnabled(true);
+            updateClearAllButton();
         }, ScanDeviceActivity.SCAN_INTERVAL);
 
         mTio.startScan(this);
@@ -389,20 +374,10 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
     }
 
     private void updateClearAllButton() {
-        mClearAllButton.setEnabled(mTio.getPeripherals().length > 0);
+        mBinding.clearAllButton.setEnabled(mTio.getPeripherals().length > 0);
+        //.setEnabled(mTio.getPeripherals().length > 0);
     }
 
-    private void displayVersionNumber() {
-        PackageInfo packageInfo;
-        String version = "";
-        try {
-            packageInfo = getApplicationContext().getPackageManager().getPackageInfo(getApplicationContext().getPackageName(), 0);
-            version = packageInfo.versionName;
-        } catch (Exception ex) {
-            Log.e(TAG, toString());
-        }
-        setTitle(getTitle() + " " + version);
-    }
 
     private STSwipeTapDetector createPeripheralCellGestureDetector(final TIOPeripheral peripheral, final Button removeButton) {
         STSwipeTapDetector detector = new STSwipeTapDetector(this) {
@@ -479,6 +454,4 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
 
         return detector;
     }
-
-
 }
