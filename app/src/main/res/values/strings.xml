@@ -131,6 +131,8 @@
     <string name="submit_param">SUBMIT</string>
     <string name="retry_test">Retry</string>
     <string name="clear">CLEAR</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
 
 
 </resources>
