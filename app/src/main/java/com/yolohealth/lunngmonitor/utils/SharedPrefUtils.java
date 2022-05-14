@@ -50,26 +50,6 @@ public class SharedPrefUtils {
     }
 
 
-    public static String getUserpic(Context ctx) {
-        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.PERSONAL_PREF, Context.MODE_PRIVATE);
-        return prefs.getString(AppConstant.PIC, "");
-    }
-
-
-    public static void setUserpic(Context ctx, String pic) {
-        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.PERSONAL_PREF, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(AppConstant.PIC, pic);
-        editor.apply();
-    }
-
-
-    public static String getUsermail(Context ctx) {
-        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.PERSONAL_PREF, Context.MODE_PRIVATE);
-        return prefs.getString(AppConstant.MAIL, "");
-    }
-
-
     public static void setUsermail(Context ctx, String mail) {
         SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.PERSONAL_PREF, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -118,26 +98,29 @@ public class SharedPrefUtils {
     }
 
 
-
- /*   public static ProfileData getProfile(Context ctx) {
+    public static int getKioskId(Context ctx) {
         SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.PERSONAL_PREF, Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = prefs.getString(AppConstant.PROFILE_DATA, "");
-        ProfileData obj = gson.fromJson(json, ProfileData.class);
-        return obj;
+        return prefs.getInt(AppConstant.KIOSK_ID, 0);
     }
 
-    public static void setProfile(Context ctx, Example profilesItem) {
+
+    public static void setKioksId(Context ctx, int kiosk) {
         SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.PERSONAL_PREF, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(profilesItem);
-        if (profilesItem != null) {
-            editor.putString(AppConstant.PROFILE_DATA, json);
-        } else {
-            editor.putString(AppConstant.PROFILE_DATA, null);
-        }
+        editor.putInt(AppConstant.KIOSK_ID, kiosk);
+        editor.commit();
+    }
 
+    public static void setUserId(Context ctx, int userId) {
+        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.PERSONAL_PREF, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(AppConstant.USER_ID, userId);
         editor.apply();
-    }*/
+    }
+
+
+    public static int getUserId(Context ctx) {
+        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.PERSONAL_PREF, Context.MODE_PRIVATE);
+        return prefs.getInt(AppConstant.USER_ID, 0);
+    }
 }

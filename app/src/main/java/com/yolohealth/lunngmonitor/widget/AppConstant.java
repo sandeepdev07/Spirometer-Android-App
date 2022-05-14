@@ -7,7 +7,7 @@ public class AppConstant {
     public static final String TOKEN = "TOKEN";
     public static final String PHONE = "PHONE";
     public static final String USERNAME = "NAME";
-    public static final String PIC = "PIC";
+    public static final String USER_ID = "";
     public static final String MAIL = "MAIL";
     public static final String AUTHORIZATION_TAG = "Authorization";
     public static final String MOBILE_NO = "MobileNo";
@@ -33,6 +33,9 @@ public class AppConstant {
     public static final String MAC_ADDRESS = "";
     public static final String FROM = "from";
     public static final String NEW_USER = "new_user";
+
+    public static final String USERID = "USERID";
+    public static final String KIOSK_ID = "";
 
 
 }

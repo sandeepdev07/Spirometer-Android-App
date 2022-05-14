@@ -68,6 +68,10 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         showInstruction();
         connectPeripheral();
 
+        String kioskId = String.valueOf(SharedPrefUtils.getKioskId(getApplicationContext()));
+        String userId = String.valueOf(SharedPrefUtils.getUserId(getApplicationContext()));
+        System.out.println("kioskId---"+kioskId);
+        System.out.println("userId---"+userId);
 
         mBinding.btnManual.setOnClickListener(view -> showBottomSheet());
 
@@ -599,6 +603,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
             // clear SharedPref
             SharedPrefUtils.setLoggedIn(LungMonitorApp.getAppContext(), false);
             SharedPrefUtils.setToken(LungMonitorApp.getAppContext(), null);
+            SharedPrefUtils.setKioksId(LungMonitorApp.getAppContext(),-1);
+            SharedPrefUtils.setUserId(LungMonitorApp.getAppContext(),-1);
 
 
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);

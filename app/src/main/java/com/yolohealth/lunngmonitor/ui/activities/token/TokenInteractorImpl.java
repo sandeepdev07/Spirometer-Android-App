@@ -1,9 +1,11 @@
 package com.yolohealth.lunngmonitor.ui.activities.token;
 
+import com.yolohealth.lunngmonitor.LungMonitorApp;
 import com.yolohealth.lunngmonitor.api.ErrorUtils;
 import com.yolohealth.lunngmonitor.api.RestClient;
 import com.yolohealth.lunngmonitor.model.tokenresponse.TokenParams;
 import com.yolohealth.lunngmonitor.model.tokenresponse.TokenResponse;
+import com.yolohealth.lunngmonitor.utils.SharedPrefUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,6 +25,8 @@ public class TokenInteractorImpl implements TokenInteractor {
                     TokenResponse tokenResponse = response.body();
                     if (tokenResponse.getStatus() == 1) {
                         listener.onSuccess(tokenResponse, tokenResponse.getMessage());
+                        SharedPrefUtils.setKioksId(LungMonitorApp.getAppContext(),tokenResponse.getData().getPatients().getKiosk().getId());
+                        SharedPrefUtils.setUserId(LungMonitorApp.getAppContext(),tokenResponse.getData().getPatients().getId());
 
                     } else {
                         listener.onError(tokenResponse.getMessage());
