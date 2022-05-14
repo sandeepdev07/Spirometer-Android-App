@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
 
     <uses-feature
@@ -16,6 +15,7 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
     <application
         android:name=".LungMonitorApp"
         android:allowBackup="true"
@@ -54,11 +54,8 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".ui.activities.dashboard.MainActivity"
@@ -75,12 +72,26 @@
             </intent-filter>
             -->
         </activity>
+        <activity
+            android:name=".ui.activities.splash.SplashActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+
+        </activity>
 
         <service android:name="com.telit.terminalio.TIOService" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
     </application>
 
 </manifest>
