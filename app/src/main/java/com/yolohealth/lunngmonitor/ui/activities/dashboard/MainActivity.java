@@ -34,6 +34,7 @@ import com.yolohealth.lunngmonitor.databinding.ActivityMainBinding;
 import com.yolohealth.lunngmonitor.ui.activities.BaseActivity;
 import com.yolohealth.lunngmonitor.ui.activities.scandevices.ScanDeviceActivity;
 import com.yolohealth.lunngmonitor.ui.activities.token.TokenActivity;
+import com.yolohealth.lunngmonitor.utils.Common_Utils;
 import com.yolohealth.lunngmonitor.utils.Constants;
 import com.yolohealth.lunngmonitor.utils.SharedPrefUtils;
 import com.yolohealth.lunngmonitor.widget.AppConstant;
@@ -76,7 +77,11 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
                     openSetKioskDialog(false);
                 }
 
-                connectDevice();
+                if (!Common_Utils.isBluetoothEnabled()) {
+                    Toast.makeText(getApplicationContext(), Constants.NO_BLUETOOTH_CONNECTION, Toast.LENGTH_LONG).show();
+                } else {
+                    connectDevice();
+                }
 
                 // startTest();
 
@@ -86,6 +91,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
         mBinding.btnCancel.setOnClickListener(view -> {
 
+            //to disconnect device----
             stopRssiListener();
 
             try {
@@ -93,6 +99,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
             } catch (Exception ex) {
 
             }
+
+            //--------------------------------
 
             showInstruction();
 
@@ -107,6 +115,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
         mBinding.btnRetry.setOnClickListener(view -> {
 
+            // to disconnect device-----
 
             stopRssiListener();
 
@@ -115,6 +124,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
             } catch (Exception ex) {
 
             }
+
+            // --------------------------------
 
             // updateUIState();
 
@@ -171,11 +182,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         }
     }
 
-
-    void updateUIState() {
-        mBinding.btnStart.setVisibility(View.VISIBLE);
-    }
-
     private void connectPeripheral() {
         // extract peripheral id (address) from intent
 
@@ -212,6 +218,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
 
     void submitTest() {
+
+        // to disconnect device----
         stopRssiListener();
 
         try {
@@ -219,6 +227,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         } catch (Exception ex) {
 
         }
+
+        //-----------------------
 
         Intent i;
         i = new Intent(getApplicationContext(), TokenActivity.class);
@@ -484,7 +494,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
             System.out.println("FEV1/FEV6------> " + ratio);
             System.out.println("FEF------> " + fef);
 
-            mBinding.tvFev1.setText(MessageFormat.format("FEV1 : {0}", String.valueOf(fev1)));
+            mBinding.tvFev1.setText(MessageFormat.format("FEV1 : {0}", (double) fev1));
             mBinding.tvFev6.setText(MessageFormat.format("FEV6 : {0}", String.valueOf(fev6)));
             mBinding.tvRatio.setText(MessageFormat.format("FEV1/FEV6 : {0}", String.valueOf(ratio)));
             mBinding.tvFef.setText(MessageFormat.format("FEF : {0}", String.valueOf(fef)));
