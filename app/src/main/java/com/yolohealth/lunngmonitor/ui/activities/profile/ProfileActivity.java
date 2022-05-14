@@ -10,16 +10,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.yolohealth.lunngmonitor.R;
 import com.yolohealth.lunngmonitor.databinding.ActivityProfileBinding;
 import com.yolohealth.lunngmonitor.ui.activities.dashboard.MainActivity;
+import com.yolohealth.lunngmonitor.widget.ProgressDialog;
 
 import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity {
     ActivityProfileBinding mBinding;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = ActivityProfileBinding.inflate(getLayoutInflater());
+
+        progressDialog = ProgressDialog.getInstance();
 
         String name = getIntent().getStringExtra("name");
         String number = getIntent().getStringExtra("number");
@@ -45,13 +49,22 @@ public class ProfileActivity extends AppCompatActivity {
         mBinding.btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i;
-                //i = new Intent(getApplicationContext(), ScanDeviceActivity.class);
-                i = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(i);
-                finish();
+                progressDialog.show(ProfileActivity.this);
+
+                // add delay
+                mBinding.btnProceed.postDelayed(() -> {
+                    Intent i;
+                    //i = new Intent(getApplicationContext(), ScanDeviceActivity.class);
+                    i = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(i);
+                    finish();
+                    progressDialog.dismiss();
+
+                }, 1000);
+
             }
         });
+
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
         ActionBar actionBar = getSupportActionBar();
