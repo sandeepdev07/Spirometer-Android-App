@@ -39,7 +39,7 @@
     <string name="action_get_otp">SUBMIT</string>
     <string name="patient_name">Patient name</string>
     <string name="patientName">Patient Name</string>
-    <string name="patient_age">Age</string>
+    <string name="patient_age">DOB</string>
     <string name="patientAge">Age</string>
     <string name="patientPhone">Phone Number</string>
     <string name="Patient_gender">Gender</string>
@@ -138,6 +138,7 @@
     <string name="hint_pass">Password</string>
     <string name="hint_email">Enter Email</string>
     <string name="title_token">Enter Token</string>
+    <string name="proceed">Proceed</string>
 
 
 </resources>

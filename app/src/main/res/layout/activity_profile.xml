@@ -38,7 +38,7 @@
             <LinearLayout
                 android:id="@+id/ll_login"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:orientation="vertical">
@@ -68,19 +68,22 @@
                             android:hint="@string/patientName">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/et_phone"
+                                android:id="@+id/et_patientName"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:digits="0123456789"
+                                android:clickable="false"
+                                android:cursorVisible="false"
+                                android:focusable="false"
+                                android:focusableInTouchMode="true"
                                 android:imeOptions="actionDone"
-                                android:inputType="phone"
-                                android:maxLength="10" />
+                                android:inputType="textPersonName"
+                                android:textStyle="bold" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/til_age"
+                            android:id="@+id/til_number"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -88,13 +91,18 @@
                             android:hint="@string/patientPhone">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/et_age"
+                                android:id="@+id/et_number"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:digits="0123456789"
                                 android:imeOptions="actionDone"
                                 android:inputType="phone"
-                                android:maxLength="10" />
+                                android:maxLength="10"
+                                android:textStyle="bold"
+                                android:clickable="false"
+                                android:cursorVisible="false"
+                                android:focusable="false"
+                                android:focusableInTouchMode="true"/>
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,7 +116,6 @@
                             android:orientation="horizontal">
 
                             <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/setDateError"
                                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -116,37 +123,31 @@
                                 android:layout_marginBottom="10dp"
                                 android:layout_weight="1"
                                 android:hint="@string/Patient_gender"
-                                app:boxStrokeColor="@color/teal_200"
-                                app:endIconMode="clear_text"
-                                app:hintTextColor="@color/white">
+                                app:endIconMode="clear_text">
 
                                 <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/open_date"
+                                    android:id="@+id/et_gender"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:clickable="false"
                                     android:cursorVisible="false"
                                     android:focusableInTouchMode="false"
-                                    android:textColor="@color/white" />
+                                    android:textStyle="bold" />
 
                             </com.google.android.material.textfield.TextInputLayout>
 
 
                             <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/setToDateError"
                                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginBottom="10dp"
                                 android:layout_weight="1"
-                                android:hint="@string/patient_age"
-                                app:boxStrokeColor="@color/teal_200"
-                                app:endIconMode="clear_text"
-                                app:hintTextColor="@color/white">
+                                android:hint="@string/patient_age">
 
                                 <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/to_date"
+                                    android:id="@+id/et_age"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:clickable="false"
@@ -154,7 +155,7 @@
                                     android:focusableInTouchMode="false"
                                     android:gravity="top"
                                     android:inputType="text"
-                                    android:textColor="@color/white" />
+                                    android:textStyle="bold" />
 
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -173,10 +174,14 @@
                                 android:id="@+id/et_state"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:digits="0123456789"
                                 android:imeOptions="actionDone"
-                                android:inputType="phone"
-                                android:maxLength="10" />
+                                android:inputType="text"
+                                android:clickable="false"
+                                android:cursorVisible="false"
+                                android:focusable="false"
+                                android:textStyle="bold"
+                                android:focusableInTouchMode="true"
+                                />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -193,10 +198,13 @@
                                 android:id="@+id/et_district"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:digits="0123456789"
                                 android:imeOptions="actionDone"
-                                android:inputType="phone"
-                                android:maxLength="10" />
+                                android:inputType="text"
+                                android:clickable="false"
+                                android:cursorVisible="false"
+                                android:focusable="false"
+                                android:textStyle="bold"
+                                android:focusableInTouchMode="true"/>
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -213,10 +221,13 @@
                                 android:id="@+id/et_barcode"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:digits="0123456789"
                                 android:imeOptions="actionDone"
-                                android:inputType="phone"
-                                android:maxLength="10" />
+                                android:inputType="text"
+                                android:clickable="false"
+                                android:cursorVisible="false"
+                                android:focusable="false"
+                                android:textStyle="bold"
+                                android:focusableInTouchMode="true"/>
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -236,10 +247,7 @@
                                 android:layout_marginEnd="8dp"
                                 android:layout_marginBottom="10dp"
                                 android:layout_weight="1"
-                                android:hint="@string/type"
-                                app:boxStrokeColor="@color/teal_200"
-                                app:endIconMode="clear_text"
-                                app:hintTextColor="@color/white">
+                                android:hint="@string/type">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_type"
@@ -248,7 +256,7 @@
                                     android:clickable="false"
                                     android:cursorVisible="false"
                                     android:focusableInTouchMode="false"
-                                    android:textColor="@color/white" />
+                                    android:textStyle="bold"/>
 
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -262,9 +270,7 @@
                                 android:layout_marginBottom="10dp"
                                 android:layout_weight="1"
                                 android:hint="@string/date"
-                                app:boxStrokeColor="@color/teal_200"
-                                app:endIconMode="clear_text"
-                                app:hintTextColor="@color/white">
+                                app:boxStrokeColor="@color/teal_200">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/et_date"
@@ -275,7 +281,7 @@
                                     android:focusableInTouchMode="false"
                                     android:gravity="top"
                                     android:inputType="text"
-                                    android:textColor="@color/white" />
+                                    android:textStyle="bold"/>
 
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -326,7 +332,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:backgroundTint="@color/colorAccent"
-            android:text="Proceed"
+            android:text="@string/proceed"
             android:textColor="@color/colorWhite"
             android:textSize="14sp" />
 

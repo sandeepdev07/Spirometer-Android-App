@@ -94,11 +94,27 @@ public class TokenActivity extends BaseActivity implements Validator.ValidationL
     public void showSuccess(TokenResponse tokenResponse, String msg) {
 
         progressDialog.dismiss();
-        //  hideProgress();
         Common_Utils.showToast(this, msg);
-        String phone = Objects.requireNonNull(etLoginNumber.getText()).toString();
+        String patientName = tokenResponse.getData().getPatients().getName();
+        String patientNo = tokenResponse.getData().getPatients().getMobile();
+        String patientSex = tokenResponse.getData().getPatients().getGender().getTitle();
+        String patientAge = tokenResponse.getData().getPatients().getDob();
+        String patientState = tokenResponse.getData().getPatients().getState().getTitle();
+        String patientDistrict = tokenResponse.getData().getPatients().getDistrict().getTitle();
+        String patientBarcode = tokenResponse.getData().getPatients().getBarcode();
+        String patientType = tokenResponse.getData().getPatients().getBeneficiaryType().getTitle();
+        String patientTestDate = tokenResponse.getData().getPatients().getRegisteredOn();
+
         Intent i = new Intent(this, ProfileActivity.class);
-        //  i.putExtra(AppConstant.MOBILE_NO, phone);
+        i.putExtra("name", patientName);
+        i.putExtra("number", patientNo);
+        i.putExtra("sex", patientSex);
+        i.putExtra("age", patientAge);
+        i.putExtra("state", patientState);
+        i.putExtra("district", patientDistrict);
+        i.putExtra("barcode", patientBarcode);
+        i.putExtra("type", patientType);
+        i.putExtra("testDate", patientTestDate);
         startActivity(i);
         finish();
 

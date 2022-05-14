@@ -21,6 +21,27 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivityProfileBinding.inflate(getLayoutInflater());
 
+        String name = getIntent().getStringExtra("name");
+        String number = getIntent().getStringExtra("number");
+        String sex = getIntent().getStringExtra("sex");
+        String age = getIntent().getStringExtra("age");
+        String state = getIntent().getStringExtra("state");
+        String district = getIntent().getStringExtra("district");
+        String barcode = getIntent().getStringExtra("barcode");
+        String type = getIntent().getStringExtra("type");
+        String testDate = getIntent().getStringExtra("testDate");
+        System.out.println("PatientName---->" + type);
+
+        mBinding.etPatientName.setText(name);
+        mBinding.etNumber.setText(number);
+        mBinding.etGender.setText(sex);
+        mBinding.etAge.setText(age);
+        mBinding.etState.setText(state);
+        mBinding.etDistrict.setText(district);
+        mBinding.etBarcode.setText(barcode);
+        mBinding.etType.setText(type);
+        mBinding.etDate.setText(testDate);
+
         mBinding.btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
