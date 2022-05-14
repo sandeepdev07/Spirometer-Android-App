@@ -34,8 +34,8 @@
     <string name="email_id">Email ID</string>
     <string name="password">Password</string>
     <string name="or">OR</string>
-    <string name="title_login">Patient Token</string>
-    <string name="hint_phone">Enter token number</string>
+    <string name="title_login">Doctor Login</string>
+    <string name="hint_phone">token number</string>
     <string name="action_get_otp">SUBMIT</string>
     <string name="patient_name">Patient name</string>
     <string name="patientName">Patient Name</string>
@@ -137,6 +137,7 @@
     <string name="no_internet">No Internet Connection Available</string>
     <string name="hint_pass">Password</string>
     <string name="hint_email">Enter Email</string>
+    <string name="title_token">Enter Token</string>
 
 
 </resources>
