@@ -140,5 +140,9 @@
     <string name="title_token">Enter Token</string>
     <string name="proceed">Proceed</string>
 
+    <string name="sureLogout">Do you want to logout ?</string>
+    <string name="log">LOGOUT</string>
+    <string name="cancel">CANCEL</string>
+
 
 </resources>

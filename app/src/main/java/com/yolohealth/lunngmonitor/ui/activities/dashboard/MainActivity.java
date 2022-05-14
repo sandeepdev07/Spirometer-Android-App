@@ -29,9 +29,11 @@ import com.telit.terminalio.TIOConnection;
 import com.telit.terminalio.TIOConnectionCallback;
 import com.telit.terminalio.TIOManager;
 import com.telit.terminalio.TIOPeripheral;
+import com.yolohealth.lunngmonitor.LungMonitorApp;
 import com.yolohealth.lunngmonitor.R;
 import com.yolohealth.lunngmonitor.databinding.ActivityMainBinding;
 import com.yolohealth.lunngmonitor.ui.activities.BaseActivity;
+import com.yolohealth.lunngmonitor.ui.activities.login.LoginActivity;
 import com.yolohealth.lunngmonitor.ui.activities.scandevices.ScanDeviceActivity;
 import com.yolohealth.lunngmonitor.ui.activities.token.TokenActivity;
 import com.yolohealth.lunngmonitor.utils.Common_Utils;
@@ -577,6 +579,36 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
                 return false;
             }
         });
+
+        menu.findItem(R.id.logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                logoutAlert(MainActivity.this);
+                return false;
+            }
+        });
         return true;
+    }
+
+    private void logoutAlert(MainActivity mainActivity) {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(mainActivity);
+        builder.setTitle(R.string.logout);
+        builder.setMessage(R.string.sureLogout);
+        builder.setPositiveButton(R.string.log, (dialog, which) -> {
+            // clear SharedPref
+            SharedPrefUtils.setLoggedIn(LungMonitorApp.getAppContext(), false);
+            SharedPrefUtils.setToken(LungMonitorApp.getAppContext(), null);
+
+
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Toast.makeText(MainActivity.this, "Logout Successfully",
+                    Toast.LENGTH_LONG).show();
+            startActivity(intent);
+            finish();
+
+        }).setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
+        builder.show();
     }
 }
