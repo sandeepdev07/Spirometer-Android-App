@@ -2,6 +2,7 @@ package com.yolohealth.lunngmonitor.api;
 
 import com.yolohealth.lunngmonitor.model.loginresponse.LoginParams;
 import com.yolohealth.lunngmonitor.model.loginresponse.LoginResponseParams;
+import com.yolohealth.lunngmonitor.model.medicalservicesresponse.MedicalServicesResponse;
 import com.yolohealth.lunngmonitor.model.tokenresponse.TokenResponse;
 
 import retrofit2.Call;
@@ -20,4 +21,9 @@ public interface RestInterface {
 
     @GET("patients/token-number")
     Call<TokenResponse> token(@Query("token_no") String token_no);
+
+    // medicalServices
+
+    @GET("medical-services")
+    Call<MedicalServicesResponse> testType();
 }
