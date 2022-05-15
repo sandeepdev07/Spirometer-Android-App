@@ -33,6 +33,7 @@ import com.yolohealth.lunngmonitor.LungMonitorApp;
 import com.yolohealth.lunngmonitor.R;
 import com.yolohealth.lunngmonitor.databinding.ActivityMainBinding;
 import com.yolohealth.lunngmonitor.model.medicalservicesresponse.MedicalServicesResponse;
+import com.yolohealth.lunngmonitor.model.medicalservicesresponse.Service;
 import com.yolohealth.lunngmonitor.ui.activities.BaseActivity;
 import com.yolohealth.lunngmonitor.ui.activities.login.LoginActivity;
 import com.yolohealth.lunngmonitor.ui.activities.scandevices.ScanDeviceActivity;
@@ -48,9 +49,10 @@ import com.yolohealth.lunngmonitor.widget.ProgressDialog;
 
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends BaseActivity implements TIOConnectionCallback , TestView {
+public class MainActivity extends BaseActivity implements TIOConnectionCallback, TestView {
     ActivityMainBinding mBinding;
 
     TextInputEditText fefValue, pefValue, fev1Value, fev6Value, commentValue;
@@ -82,8 +84,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
         String kioskId = String.valueOf(SharedPrefUtils.getKioskId(getApplicationContext()));
         String userId = String.valueOf(SharedPrefUtils.getUserId(getApplicationContext()));
-        System.out.println("kioskId---"+kioskId);
-        System.out.println("userId---"+userId);
+        System.out.println("kioskId---" + kioskId);
+        System.out.println("userId---" + userId);
 
         mBinding.btnManual.setOnClickListener(view -> showBottomSheet());
 
@@ -340,7 +342,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
     void showBottomSheet() {
 
         View view = getLayoutInflater().inflate(R.layout.manual_entry_bottom_sheet_dialog, null);
-         dialog = new BottomSheetDialog(MainActivity.this);
+        dialog = new BottomSheetDialog(MainActivity.this);
 
         dialog.setContentView(view);
         dialog.setCanceledOnTouchOutside(false);
@@ -369,11 +371,9 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         submit.setOnClickListener(view12 -> {
             if (credentials()) {
 
+                //after validation success go to api
                 medicalServicesResponse = new MedicalServicesResponse();
                 testPresenter.test(medicalServicesResponse);
-
-                // dec api call
-
             }
         });
 
@@ -454,7 +454,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
         if ((mConnectingDialog != null) && mConnectingDialog.isShowing()) {
             mConnectingDialog.dismiss();
-        };
+        }
+        ;
 
         mErrorMessage = errorMessage;
         Runnable runnable = () -> {
@@ -474,7 +475,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
         if ((mConnectingDialog != null) && mConnectingDialog.isShowing()) {
             mConnectingDialog.dismiss();
-        };
+        }
+        ;
 
         // stopRssiListener();
         mErrorMessage = errorMessage;
@@ -509,9 +511,9 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
             System.out.println("FEF------> " + fef);
 
             mBinding.tvFev1.setText(MessageFormat.format("FEV1 : {0}", (double) fev1));
-            mBinding.tvFev6.setText(MessageFormat.format("FEV6 : {0}", (double)fev6));
-            mBinding.tvRatio.setText(MessageFormat.format("FEV1/FEV6 : {0}", (double)ratio));
-            mBinding.tvFef.setText(MessageFormat.format("FEF : {0}", (double)fef));
+            mBinding.tvFev6.setText(MessageFormat.format("FEV6 : {0}", (double) fev6));
+            mBinding.tvRatio.setText(MessageFormat.format("FEV1/FEV6 : {0}", (double) ratio));
+            mBinding.tvFef.setText(MessageFormat.format("FEF : {0}", (double) fef));
 
             try {
                 mText += new String(data);
@@ -607,8 +609,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
             // clear SharedPref
             SharedPrefUtils.setLoggedIn(LungMonitorApp.getAppContext(), false);
             SharedPrefUtils.setToken(LungMonitorApp.getAppContext(), null);
-            SharedPrefUtils.setKioksId(LungMonitorApp.getAppContext(),-1);
-            SharedPrefUtils.setUserId(LungMonitorApp.getAppContext(),-1);
+            SharedPrefUtils.setKioksId(LungMonitorApp.getAppContext(), -1);
+            SharedPrefUtils.setUserId(LungMonitorApp.getAppContext(), -1);
 
 
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -622,13 +624,28 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         builder.show();
     }
 
+
     @Override
     public void showProgress() {
+
         progressDialog.show(MainActivity.this);
     }
 
     @Override
     public void showSuccess(MedicalServicesResponse medicalServicesResponse, String msg) {
+
+
+        List<Service> services =medicalServicesResponse.getData().getServices();
+        for (int i = 0; i < services.size(); i++) {
+
+            String devCode = services.get(i).getDevCode();
+
+            if (devCode.equals("spirometry")) {
+                String testId = services.get(i).getId().toString();
+                //doApiCall();
+                System.out.println("id---" + testId);
+            }
+        }
 
         Intent i;
         i = new Intent(getApplicationContext(), TokenActivity.class);
@@ -636,7 +653,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         finish();
 
         dialog.dismiss();
-
         progressDialog.dismiss();
     }
 
@@ -647,4 +663,4 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         Common_Utils.showToast(getApplicationContext(), errMsg);
     }
 
-    }
+}
