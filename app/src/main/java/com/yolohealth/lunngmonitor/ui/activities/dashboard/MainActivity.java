@@ -32,20 +32,25 @@ import com.telit.terminalio.TIOPeripheral;
 import com.yolohealth.lunngmonitor.LungMonitorApp;
 import com.yolohealth.lunngmonitor.R;
 import com.yolohealth.lunngmonitor.databinding.ActivityMainBinding;
+import com.yolohealth.lunngmonitor.model.medicalservicesresponse.MedicalServicesResponse;
 import com.yolohealth.lunngmonitor.ui.activities.BaseActivity;
 import com.yolohealth.lunngmonitor.ui.activities.login.LoginActivity;
 import com.yolohealth.lunngmonitor.ui.activities.scandevices.ScanDeviceActivity;
+import com.yolohealth.lunngmonitor.ui.activities.test.TestPresenter;
+import com.yolohealth.lunngmonitor.ui.activities.test.TestPresenterImpl;
+import com.yolohealth.lunngmonitor.ui.activities.test.TestView;
 import com.yolohealth.lunngmonitor.ui.activities.token.TokenActivity;
 import com.yolohealth.lunngmonitor.utils.Common_Utils;
 import com.yolohealth.lunngmonitor.utils.Constants;
 import com.yolohealth.lunngmonitor.utils.SharedPrefUtils;
 import com.yolohealth.lunngmonitor.widget.AppConstant;
+import com.yolohealth.lunngmonitor.widget.ProgressDialog;
 
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.Objects;
 
-public class MainActivity extends BaseActivity implements TIOConnectionCallback {
+public class MainActivity extends BaseActivity implements TIOConnectionCallback , TestView {
     ActivityMainBinding mBinding;
 
     TextInputEditText fefValue, pefValue, fev1Value, fev6Value, commentValue;
@@ -59,6 +64,11 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
     private static final int MAX_RECEIVED_TEXT_LENGTH = 512;
     public static String checkStr = "";
 
+    private TestPresenter testPresenter;
+    ProgressDialog progressDialog;
+    MedicalServicesResponse medicalServicesResponse;
+    BottomSheetDialog dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +77,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
         showInstruction();
         connectPeripheral();
+
+        progressDialog = ProgressDialog.getInstance();
 
         String kioskId = String.valueOf(SharedPrefUtils.getKioskId(getApplicationContext()));
         String userId = String.valueOf(SharedPrefUtils.getUserId(getApplicationContext()));
@@ -145,6 +157,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Dashboard");
         actionBar.setElevation(0);
+
+        testPresenter = new TestPresenterImpl(this);
 
         setContentView(mBinding.getRoot());
 
@@ -326,7 +340,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
     void showBottomSheet() {
 
         View view = getLayoutInflater().inflate(R.layout.manual_entry_bottom_sheet_dialog, null);
-        BottomSheetDialog dialog = new BottomSheetDialog(MainActivity.this);
+         dialog = new BottomSheetDialog(MainActivity.this);
 
         dialog.setContentView(view);
         dialog.setCanceledOnTouchOutside(false);
@@ -354,11 +368,12 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         assert submit != null;
         submit.setOnClickListener(view12 -> {
             if (credentials()) {
+
+                medicalServicesResponse = new MedicalServicesResponse();
+                testPresenter.test(medicalServicesResponse);
+
                 // dec api call
-                Intent i;
-                i = new Intent(getApplicationContext(), TokenActivity.class);
-                startActivity(i);
-                finish();
+
             }
         });
 
@@ -606,4 +621,30 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         }).setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.show();
     }
-}
+
+    @Override
+    public void showProgress() {
+        progressDialog.show(MainActivity.this);
+    }
+
+    @Override
+    public void showSuccess(MedicalServicesResponse medicalServicesResponse, String msg) {
+
+        Intent i;
+        i = new Intent(getApplicationContext(), TokenActivity.class);
+        startActivity(i);
+        finish();
+
+        dialog.dismiss();
+
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void showError(String errMsg) {
+
+        progressDialog.dismiss();
+        Common_Utils.showToast(getApplicationContext(), errMsg);
+    }
+
+    }
