@@ -1,4 +1,4 @@
-package com.yolohealth.lunngmonitor.ui.activities.test;
+package com.yolohealth.lunngmonitor.ui.activities.medicaltesttype;
 
 import com.yolohealth.lunngmonitor.model.medicalservicesresponse.MedicalServicesResponse;
 

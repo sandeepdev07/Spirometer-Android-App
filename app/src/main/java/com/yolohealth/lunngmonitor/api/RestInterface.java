@@ -1,8 +1,10 @@
 package com.yolohealth.lunngmonitor.api;
 
+import com.yolohealth.lunngmonitor.model.commonresponse.CommonResponse;
 import com.yolohealth.lunngmonitor.model.loginresponse.LoginParams;
 import com.yolohealth.lunngmonitor.model.loginresponse.LoginResponseParams;
 import com.yolohealth.lunngmonitor.model.medicalservicesresponse.MedicalServicesResponse;
+import com.yolohealth.lunngmonitor.model.spirotestparams.SpiroTestParams;
 import com.yolohealth.lunngmonitor.model.tokenresponse.TokenResponse;
 import com.yolohealth.lunngmonitor.widget.AppConstant;
 
@@ -28,4 +30,9 @@ public interface RestInterface {
 
     @GET("medical-services")
     Call<MedicalServicesResponse> testType(@Header(AppConstant.AUTHORIZATION_TAG) String accessToken);
+
+    // SpiroTest
+
+    @POST("medical-reports/test/spirometry")
+    Call<CommonResponse> SpiroMeterTest(@Body SpiroTestParams spiroTestParams);
 }

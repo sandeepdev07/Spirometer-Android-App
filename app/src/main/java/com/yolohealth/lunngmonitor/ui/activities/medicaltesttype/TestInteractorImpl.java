@@ -1,11 +1,9 @@
-package com.yolohealth.lunngmonitor.ui.activities.test;
+package com.yolohealth.lunngmonitor.ui.activities.medicaltesttype;
 
 import com.yolohealth.lunngmonitor.LungMonitorApp;
 import com.yolohealth.lunngmonitor.api.ErrorUtils;
 import com.yolohealth.lunngmonitor.api.RestClient;
 import com.yolohealth.lunngmonitor.model.medicalservicesresponse.MedicalServicesResponse;
-import com.yolohealth.lunngmonitor.model.tokenresponse.TokenParams;
-import com.yolohealth.lunngmonitor.model.tokenresponse.TokenResponse;
 import com.yolohealth.lunngmonitor.utils.SharedPrefUtils;
 
 import java.util.Objects;

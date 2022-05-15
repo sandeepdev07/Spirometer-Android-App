@@ -1,9 +1,6 @@
-package com.yolohealth.lunngmonitor.ui.activities.test;
+package com.yolohealth.lunngmonitor.ui.activities.medicaltesttype;
 
 import com.yolohealth.lunngmonitor.model.medicalservicesresponse.MedicalServicesResponse;
-import com.yolohealth.lunngmonitor.model.tokenresponse.TokenParams;
-import com.yolohealth.lunngmonitor.model.tokenresponse.TokenResponse;
-import com.yolohealth.lunngmonitor.ui.activities.token.TokenInteractor;
 
 public interface TestInteractor {
 
