@@ -78,6 +78,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         mBinding.btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER) != null
                         && SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER).equals("")) {
                     openSetKioskDialog(false);
@@ -88,8 +89,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
                 } else {
                     connectDevice();
                 }
-
-                // startTest();
 
             }
         });
@@ -113,6 +112,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
             mBinding.layoutMeasuringHeight.setVisibility(View.INVISIBLE);
             mBinding.layoutMeasuringHeight.setVisibility(View.INVISIBLE);
         });
+
 
         mBinding.btnSubmit.setOnClickListener(
                 view -> submitTest()
@@ -350,6 +350,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
         commentValue = dialog.findViewById(R.id.et_comment);
         commentError = dialog.findViewById(R.id.til_comment);
 
+
         assert submit != null;
         submit.setOnClickListener(view12 -> {
             if (credentials()) {
@@ -438,11 +439,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
         if ((mConnectingDialog != null) && mConnectingDialog.isShowing()) {
             mConnectingDialog.dismiss();
-        }
-        ;
-
-        // mBinding.btnStart.setVisibility(View.GONE);
-        //  mBinding.btnConnect.setVisibility(View.VISIBLE);
+        };
 
         mErrorMessage = errorMessage;
         Runnable runnable = () -> {
@@ -462,11 +459,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
 
         if ((mConnectingDialog != null) && mConnectingDialog.isShowing()) {
             mConnectingDialog.dismiss();
-        }
-        ;
-
-        // mBinding.btnStart.setVisibility(View.GONE);
-        //  mBinding.btnConnect.setVisibility(View.VISIBLE);
+        };
 
         // stopRssiListener();
         mErrorMessage = errorMessage;
@@ -501,9 +494,9 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
             System.out.println("FEF------> " + fef);
 
             mBinding.tvFev1.setText(MessageFormat.format("FEV1 : {0}", (double) fev1));
-            mBinding.tvFev6.setText(MessageFormat.format("FEV6 : {0}", String.valueOf(fev6)));
-            mBinding.tvRatio.setText(MessageFormat.format("FEV1/FEV6 : {0}", String.valueOf(ratio)));
-            mBinding.tvFef.setText(MessageFormat.format("FEF : {0}", String.valueOf(fef)));
+            mBinding.tvFev6.setText(MessageFormat.format("FEV6 : {0}", (double)fev6));
+            mBinding.tvRatio.setText(MessageFormat.format("FEV1/FEV6 : {0}", (double)ratio));
+            mBinding.tvFef.setText(MessageFormat.format("FEF : {0}", (double)fef));
 
             try {
                 mText += new String(data);
@@ -515,10 +508,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback 
                 //  mBinding.tvReading.append(mText);
                 mBinding.tvReading.setText(mText);
 
-                //System.out.println("data------>" + mText);
-                //  System.out.print("sandeep*****" + Arrays.toString(data));
-
-                //  System.out.println("value****" + mText);
                 mText = "";
 
                 // limit view's text length to MAX_RECEIVED_TEXT_LENGTH

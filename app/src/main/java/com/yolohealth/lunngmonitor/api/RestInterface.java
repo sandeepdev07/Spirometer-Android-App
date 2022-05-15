@@ -4,10 +4,12 @@ import com.yolohealth.lunngmonitor.model.loginresponse.LoginParams;
 import com.yolohealth.lunngmonitor.model.loginresponse.LoginResponseParams;
 import com.yolohealth.lunngmonitor.model.medicalservicesresponse.MedicalServicesResponse;
 import com.yolohealth.lunngmonitor.model.tokenresponse.TokenResponse;
+import com.yolohealth.lunngmonitor.widget.AppConstant;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -25,5 +27,5 @@ public interface RestInterface {
     // medicalServices
 
     @GET("medical-services")
-    Call<MedicalServicesResponse> testType();
+    Call<MedicalServicesResponse> testType(@Header(AppConstant.AUTHORIZATION_TAG) String accessToken);
 }
