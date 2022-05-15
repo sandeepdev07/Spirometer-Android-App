@@ -25,8 +25,9 @@ public class TokenInteractorImpl implements TokenInteractor {
                     TokenResponse tokenResponse = response.body();
                     if (tokenResponse.getStatus() == 1) {
                         listener.onSuccess(tokenResponse, tokenResponse.getMessage());
-                        SharedPrefUtils.setKioksId(LungMonitorApp.getAppContext(),tokenResponse.getData().getPatients().getKiosk().getId());
-                        SharedPrefUtils.setUserId(LungMonitorApp.getAppContext(),tokenResponse.getData().getPatients().getId());
+                        SharedPrefUtils.setProfileId(LungMonitorApp.getAppContext(), String.valueOf(tokenResponse.getData().getPatients().getId()));
+                      //  SharedPrefUtils.setUserId(LungMonitorApp.getAppContext(),tokenResponse.getData().getPatients().getId());
+                        SharedPrefUtils.setKioksId(LungMonitorApp.getAppContext(),tokenResponse.getData().getPatients().getCreatedByUser().getKiosks().getId());
 
                     } else {
                         listener.onError(tokenResponse.getMessage());

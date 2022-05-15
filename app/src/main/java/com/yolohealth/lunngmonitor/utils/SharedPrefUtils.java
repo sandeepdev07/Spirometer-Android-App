@@ -98,6 +98,21 @@ public class SharedPrefUtils {
     }
 
 
+
+   /* public static void setUserId(Context ctx, int userId) {
+        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.PERSONAL_PREF, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(AppConstant.USER_ID, userId);
+        editor.apply();
+    }
+
+
+    public static int getUserId(Context ctx) {
+        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.PERSONAL_PREF, Context.MODE_PRIVATE);
+        return prefs.getInt(AppConstant.USER_ID, 0);
+    }*/
+
+
     public static int getKioskId(Context ctx) {
         SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.PERSONAL_PREF, Context.MODE_PRIVATE);
         return prefs.getInt(AppConstant.KIOSK_ID, 0);
@@ -109,18 +124,5 @@ public class SharedPrefUtils {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(AppConstant.KIOSK_ID, kiosk);
         editor.commit();
-    }
-
-    public static void setUserId(Context ctx, int userId) {
-        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.PERSONAL_PREF, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(AppConstant.USER_ID, userId);
-        editor.apply();
-    }
-
-
-    public static int getUserId(Context ctx) {
-        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.PERSONAL_PREF, Context.MODE_PRIVATE);
-        return prefs.getInt(AppConstant.USER_ID, 0);
     }
 }

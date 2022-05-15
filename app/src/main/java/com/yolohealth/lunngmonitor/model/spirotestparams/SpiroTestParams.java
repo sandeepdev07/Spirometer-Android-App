@@ -11,6 +11,10 @@ public class SpiroTestParams {
     String spiro_fev6;
     String comment;
 
+    public SpiroTestParams(){
+
+    }
+
     public SpiroTestParams(String userid, String kioskid, String medicalservicepk, String spiro_fef, String spiro_pef, String spiro_fev1, String spiro_fev6, String comment) {
         this.userid = userid;
         this.kioskid = kioskid;

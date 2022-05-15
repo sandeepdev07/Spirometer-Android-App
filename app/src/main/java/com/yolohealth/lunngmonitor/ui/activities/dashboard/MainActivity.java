@@ -34,12 +34,16 @@ import com.yolohealth.lunngmonitor.R;
 import com.yolohealth.lunngmonitor.databinding.ActivityMainBinding;
 import com.yolohealth.lunngmonitor.model.medicalservicesresponse.MedicalServicesResponse;
 import com.yolohealth.lunngmonitor.model.medicalservicesresponse.Service;
+import com.yolohealth.lunngmonitor.model.spirotestparams.SpiroTestParams;
 import com.yolohealth.lunngmonitor.ui.activities.BaseActivity;
 import com.yolohealth.lunngmonitor.ui.activities.login.LoginActivity;
-import com.yolohealth.lunngmonitor.ui.activities.scandevices.ScanDeviceActivity;
 import com.yolohealth.lunngmonitor.ui.activities.medicaltesttype.TestPresenter;
 import com.yolohealth.lunngmonitor.ui.activities.medicaltesttype.TestPresenterImpl;
 import com.yolohealth.lunngmonitor.ui.activities.medicaltesttype.TestView;
+import com.yolohealth.lunngmonitor.ui.activities.scandevices.ScanDeviceActivity;
+import com.yolohealth.lunngmonitor.ui.activities.spirotest.SpiroTestPresenter;
+import com.yolohealth.lunngmonitor.ui.activities.spirotest.SpiroTestPresenterImpl;
+import com.yolohealth.lunngmonitor.ui.activities.spirotest.SpiroTestView;
 import com.yolohealth.lunngmonitor.ui.activities.token.TokenActivity;
 import com.yolohealth.lunngmonitor.utils.Common_Utils;
 import com.yolohealth.lunngmonitor.utils.Constants;
@@ -52,7 +56,7 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends BaseActivity implements TIOConnectionCallback, TestView {
+public class MainActivity extends BaseActivity implements TIOConnectionCallback, TestView, SpiroTestView {
     ActivityMainBinding mBinding;
 
     TextInputEditText fefValue, pefValue, fev1Value, fev6Value, commentValue;
@@ -65,11 +69,18 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
     private String mText = "";
     private static final int MAX_RECEIVED_TEXT_LENGTH = 512;
     public static String checkStr = "";
+    public static String medicalTypeId;
+    public static String kioskId;
+    public static String userId;
 
     private TestPresenter testPresenter;
+    private SpiroTestPresenter spiroTestPresenter;
+    SpiroTestParams spiroTestParams;
     ProgressDialog progressDialog;
     MedicalServicesResponse medicalServicesResponse;
     BottomSheetDialog dialog;
+
+
 
 
     @Override
@@ -81,11 +92,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         connectPeripheral();
 
         progressDialog = ProgressDialog.getInstance();
-
-        String kioskId = String.valueOf(SharedPrefUtils.getKioskId(getApplicationContext()));
-        String userId = String.valueOf(SharedPrefUtils.getUserId(getApplicationContext()));
-        System.out.println("kioskId---" + kioskId);
-        System.out.println("userId---" + userId);
 
         mBinding.btnManual.setOnClickListener(view -> showBottomSheet());
 
@@ -160,7 +166,14 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         actionBar.setTitle("Dashboard");
         actionBar.setElevation(0);
 
+         kioskId = String.valueOf(SharedPrefUtils.getKioskId(getApplicationContext()));
+         userId = SharedPrefUtils.getProfileId(getApplicationContext());
+         //userId = String.valueOf(SharedPrefUtils.getUserId(getApplicationContext()));
+        System.out.println("kioskId---" + kioskId);
+        System.out.println("userId---" + userId);
+
         testPresenter = new TestPresenterImpl(this);
+        spiroTestPresenter = new SpiroTestPresenterImpl(this);
 
         setContentView(mBinding.getRoot());
 
@@ -610,7 +623,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             SharedPrefUtils.setLoggedIn(LungMonitorApp.getAppContext(), false);
             SharedPrefUtils.setToken(LungMonitorApp.getAppContext(), null);
             SharedPrefUtils.setKioksId(LungMonitorApp.getAppContext(), -1);
-            SharedPrefUtils.setUserId(LungMonitorApp.getAppContext(), -1);
+            SharedPrefUtils.setProfileId(LungMonitorApp.getAppContext(),null);
+          //  SharedPrefUtils.setUserId(LungMonitorApp.getAppContext(), -1);
 
 
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -632,20 +646,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
     }
 
     @Override
-    public void showSuccess(MedicalServicesResponse medicalServicesResponse, String msg) {
-
-
-        List<Service> services =medicalServicesResponse.getData().getServices();
-        for (int i = 0; i < services.size(); i++) {
-
-            String devCode = services.get(i).getDevCode();
-
-            if (devCode.equals("spirometry")) {
-                String testId = services.get(i).getId().toString();
-                //doApiCall();
-                System.out.println("id---" + testId);
-            }
-        }
+    public void showSuccess(String msg) {
 
         Intent i;
         i = new Intent(getApplicationContext(), TokenActivity.class);
@@ -654,6 +655,43 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         dialog.dismiss();
         progressDialog.dismiss();
+
+    }
+
+    @Override
+    public void showSuccess(MedicalServicesResponse medicalServicesResponse, String msg) {
+
+
+        List<Service> services = medicalServicesResponse.getData().getServices();
+        for (int i = 0; i < services.size(); i++) {
+
+            String devCode = services.get(i).getDevCode();
+
+            if (devCode.equals("spirometry")) {
+                medicalTypeId = services.get(i).getId().toString();
+                // spiroTest
+                spiroTestParams();
+                System.out.println("id---" + medicalTypeId);
+            }
+        }
+    }
+
+    private void spiroTestParams() {
+        System.out.println("datasandeep======");
+
+        spiroTestParams = new SpiroTestParams();
+        spiroTestParams.setSpiro_fef(Objects.requireNonNull(fefValue.getText()).toString());
+        spiroTestParams.setSpiro_pef(Objects.requireNonNull(pefValue.getText()).toString());
+        spiroTestParams.setSpiro_fev1(Objects.requireNonNull(fev1Value.getText()).toString());
+        spiroTestParams.setSpiro_fev6(Objects.requireNonNull(fev6Value.getText()).toString());
+        spiroTestParams.setComment(Objects.requireNonNull(commentValue.getText()).toString());
+        spiroTestParams.setUserid(userId);
+        spiroTestParams.setKioskid(kioskId);
+        spiroTestParams.setMedicalservicepk(medicalTypeId);
+
+        spiroTestPresenter.spirometer(spiroTestParams);
+
+
     }
 
     @Override
