@@ -143,6 +143,7 @@
     <string name="sureLogout">Do you want to logout ?</string>
     <string name="log">LOGOUT</string>
     <string name="cancel">CANCEL</string>
+    <string name="action_forgot">Forgot Password?</string>
 
 
 </resources>

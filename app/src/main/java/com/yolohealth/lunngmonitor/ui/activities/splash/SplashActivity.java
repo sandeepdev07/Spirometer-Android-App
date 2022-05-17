@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.yolohealth.lunngmonitor.databinding.ActivitySplashBinding;
 import com.yolohealth.lunngmonitor.ui.activities.dashboard.MainActivity;
 import com.yolohealth.lunngmonitor.ui.activities.login.LoginActivity;
+import com.yolohealth.lunngmonitor.ui.activities.token.TokenActivity;
 import com.yolohealth.lunngmonitor.utils.SharedPrefUtils;
 
 import java.util.Objects;
@@ -53,7 +54,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void startApp() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, TokenActivity.class);
         startActivity(intent);
     }
 }
