@@ -85,6 +85,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
     ProgressDialog progressDialog;
     MedicalServicesResponse medicalServicesResponse;
     BottomSheetDialog dialog;
+    boolean isDialogBoxOpen = false;
 
 
     @Override
@@ -97,7 +98,18 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         progressDialog = ProgressDialog.getInstance();
 
-        mBinding.btnManual.setOnClickListener(view -> showBottomSheet());
+       /* mBinding.btnManual.setOnClickListener(
+                view -> showBottomSheet()
+
+        );*/
+
+        mBinding.btnManual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showBottomSheet();
+                isDialogBoxOpen = true;
+            }
+        });
 
         mBinding.btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -421,11 +433,21 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
                 //after validation success go to api
                 medicalServicesResponse = new MedicalServicesResponse();
                 testPresenter.test(medicalServicesResponse);
+
+                isDialogBoxOpen = true;
             }
         });
 
         assert cancel != null;
-        cancel.setOnClickListener(view1 -> dialog.dismiss());
+        /*cancel.setOnClickListener(view1 -> dialog.dismiss());*/
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                isDialogBoxOpen = false;
+            }
+        });
 
         dialog.show();
     }
@@ -719,7 +741,10 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         startActivity(i);
         finish();
 
-       // dialog.dismiss();
+        if (isDialogBoxOpen) {
+            dialog.dismiss();
+        }
+
         progressDialog.dismiss();
 
     }
@@ -758,7 +783,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         spiroTestPresenter.spirometer(spiroTestParams);
 
-
     }
 
     @Override
@@ -766,14 +790,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         progressDialog.dismiss();
         Common_Utils.showToast(getApplicationContext(), errMsg);
-    }
-
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        dialog.dismiss();
     }
 
 
