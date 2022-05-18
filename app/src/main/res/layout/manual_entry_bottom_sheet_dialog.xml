@@ -80,10 +80,9 @@
                                 android:id="@+id/et_fef"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:digits="0123456789"
                                 android:imeOptions="actionNext"
-                                android:inputType="number"
-                                android:maxLength="10" />
+                                android:inputType="number|numberDecimal"
+                                 />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,10 +99,8 @@
                                 android:id="@+id/et_pef"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:digits="0123456789"
                                 android:imeOptions="actionNext"
-                                android:inputType="number"
-                                android:maxLength="10" />
+                                android:inputType="number|numberDecimal"/>
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -120,10 +117,8 @@
                                 android:id="@+id/et_fev1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:digits="0123456789"
                                 android:imeOptions="actionNext"
-                                android:inputType="number"
-                                android:maxLength="10" />
+                                android:inputType="number|numberDecimal"/>
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -140,10 +135,8 @@
                                 android:id="@+id/et_fev6"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:digits="0123456789"
                                 android:imeOptions="actionNext"
-                                android:inputType="number"
-                                android:maxLength="10" />
+                                android:inputType="number|numberDecimal"/>
 
                         </com.google.android.material.textfield.TextInputLayout>
 

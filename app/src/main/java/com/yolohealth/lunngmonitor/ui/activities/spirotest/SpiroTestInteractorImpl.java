@@ -3,6 +3,8 @@ package com.yolohealth.lunngmonitor.ui.activities.spirotest;
 import com.yolohealth.lunngmonitor.LungMonitorApp;
 import com.yolohealth.lunngmonitor.api.ErrorUtils;
 import com.yolohealth.lunngmonitor.api.RestClient;
+import com.yolohealth.lunngmonitor.model.commonresponse.CommonResponse;
+import com.yolohealth.lunngmonitor.model.emailverificatoincode.EmailVerificationCode;
 import com.yolohealth.lunngmonitor.model.spirotestparams.SpiroTestParams;
 import com.yolohealth.lunngmonitor.model.spirotestparams.SpiroTestResponse;
 import com.yolohealth.lunngmonitor.utils.SharedPrefUtils;
@@ -45,5 +47,39 @@ public class SpiroTestInteractorImpl implements SpiroTestInteractor {
                 listener.onError(ErrorUtils.ErrorMessage);
             }
         });
+    }
+
+    @Override
+    public void emailverification(EmailVerificationCode verificationCode, SpiroMeterCallListener listener) {
+
+        String token = SharedPrefUtils.getToken(Objects.requireNonNull(LungMonitorApp.getAppContext()));
+
+        Call<CommonResponse> verification = RestClient.getClient().CodeVerification(token, verificationCode);
+
+        verification.enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+
+                if (response.isSuccessful()) {
+                    CommonResponse dataResponse = response.body();
+                    assert dataResponse != null;
+                    if (dataResponse.getStatus() ==1 ) {
+                        listener.onSuccess(dataResponse.getMessage());
+                    } else {
+                        listener.onError(dataResponse.getMessage());
+                    }
+                } else {
+                    listener.onError(ErrorUtils.parseError(response));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonResponse> call, Throwable t) {
+
+                listener.onError(ErrorUtils.ErrorMessage);
+
+            }
+        });
+
     }
 }

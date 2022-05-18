@@ -10,10 +10,14 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.yolohealth.lunngmonitor.databinding.ActivityLoginBinding;
+import com.yolohealth.lunngmonitor.model.emailverificatoincode.EmailVerificationCode;
 import com.yolohealth.lunngmonitor.model.loginresponse.LoginParams;
 import com.yolohealth.lunngmonitor.model.loginresponse.LoginResponseParams;
 import com.yolohealth.lunngmonitor.ui.activities.BaseActivity;
 import com.yolohealth.lunngmonitor.ui.activities.passwordreset.ResetPasswordActivity;
+import com.yolohealth.lunngmonitor.ui.activities.spirotest.SpiroTestPresenter;
+import com.yolohealth.lunngmonitor.ui.activities.spirotest.SpiroTestPresenterImpl;
+import com.yolohealth.lunngmonitor.ui.activities.spirotest.SpiroTestView;
 import com.yolohealth.lunngmonitor.ui.activities.token.TokenActivity;
 import com.yolohealth.lunngmonitor.utils.Common_Utils;
 import com.yolohealth.lunngmonitor.widget.ProgressDialog;
@@ -21,7 +25,7 @@ import com.yolohealth.lunngmonitor.widget.ProgressDialog;
 import java.util.List;
 import java.util.Objects;
 
-public class LoginActivity extends BaseActivity implements Validator.ValidationListener, LoginView, View.OnClickListener {
+public class LoginActivity extends BaseActivity implements Validator.ValidationListener, LoginView, SpiroTestView, View.OnClickListener {
     ActivityLoginBinding mBinding;
     @NotEmpty(message = "Please provide valid credentials")
     TextInputEditText etLoginNumber, etPassword;
@@ -29,6 +33,9 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     Validator mValidator;
     private LoginPresenter loginPresenter;
     ProgressDialog progressDialog;
+
+    EmailVerificationCode emailVerificationCodeParams;
+    private SpiroTestPresenter spiroTestPresenter;
 
 
     @Override
@@ -45,6 +52,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
         progressDialog = ProgressDialog.getInstance();
 
+
         etLoginNumber = mBinding.etPhone;
         etPassword = mBinding.etPass;
 
@@ -53,11 +61,13 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             @Override
             public void onClick(View view) {
                 if (forgotPassword()) {
-                    Intent i;
-                    i = new Intent(getApplicationContext(), ResetPasswordActivity.class);
-                    startActivity(i);
-                }
 
+                    emailVerificationCodeParams = new EmailVerificationCode();
+                    emailVerificationCodeParams.setEmail(Objects.requireNonNull(mBinding.etPhone.getText()).toString());
+
+                    spiroTestPresenter.emailverification(emailVerificationCodeParams);
+
+                }
             }
         });
         setContentView(mBinding.getRoot());
@@ -66,6 +76,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         mValidator.setValidationListener(this);
 
         loginPresenter = new LoginPresenterImpl(this);
+        spiroTestPresenter = new SpiroTestPresenterImpl(this);
 
     }
 
@@ -139,6 +150,26 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     public void showProgress() {
         progressDialog.show(LoginActivity.this);
     }
+
+
+    //--------------------------email verification success
+    @Override
+    public void showSuccess(String msg) {
+
+        Intent i;
+        i = new Intent(getApplicationContext(), ResetPasswordActivity.class);
+        startActivity(i);
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void showError(String errMsg) {
+        progressDialog.dismiss();
+        Common_Utils.showToast(getApplicationContext(), errMsg);
+    }
+
+
+    //-------------------------------
 
     @Override
     public void showLoginSuccess(String msg, LoginResponseParams responseParams) {
