@@ -2,6 +2,7 @@ package com.yolohealth.lunngmonitor.ui.activities.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -12,7 +13,7 @@ import com.yolohealth.lunngmonitor.databinding.ActivityLoginBinding;
 import com.yolohealth.lunngmonitor.model.loginresponse.LoginParams;
 import com.yolohealth.lunngmonitor.model.loginresponse.LoginResponseParams;
 import com.yolohealth.lunngmonitor.ui.activities.BaseActivity;
-import com.yolohealth.lunngmonitor.ui.activities.profile.ProfileActivity;
+import com.yolohealth.lunngmonitor.ui.activities.passwordreset.ResetPasswordActivity;
 import com.yolohealth.lunngmonitor.ui.activities.token.TokenActivity;
 import com.yolohealth.lunngmonitor.utils.Common_Utils;
 import com.yolohealth.lunngmonitor.widget.ProgressDialog;
@@ -24,6 +25,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     ActivityLoginBinding mBinding;
     @NotEmpty(message = "Please provide valid credentials")
     TextInputEditText etLoginNumber, etPassword;
+    boolean isEmailValid;
     Validator mValidator;
     private LoginPresenter loginPresenter;
     ProgressDialog progressDialog;
@@ -34,7 +36,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         super.onCreate(savedInstanceState);
         mBinding = ActivityLoginBinding.inflate(getLayoutInflater());
 
-
         //setSupportActionBar(mBinding.topAppBar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
@@ -44,11 +45,21 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
         progressDialog = ProgressDialog.getInstance();
 
-
         etLoginNumber = mBinding.etPhone;
         etPassword = mBinding.etPass;
 
         mBinding.btnLogin.setOnClickListener(this);
+        mBinding.btnForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (forgotPassword()) {
+                    Intent i;
+                    i = new Intent(getApplicationContext(), ResetPasswordActivity.class);
+                    startActivity(i);
+                }
+
+            }
+        });
         setContentView(mBinding.getRoot());
 
         mValidator = new Validator(this);
@@ -56,6 +67,24 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
         loginPresenter = new LoginPresenterImpl(this);
 
+    }
+
+    private boolean forgotPassword() {
+
+        if (Objects.requireNonNull(mBinding.etPhone.getText()).toString().isEmpty()) {
+            mBinding.tilLogin.setError("Please provide email address");
+            isEmailValid = false;
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(mBinding.etPhone.getText().toString()).matches()) {
+            mBinding.tilLogin.setError("Email incorrect");
+            isEmailValid = false;
+            return false;
+        } else {
+            isEmailValid = true;
+            mBinding.tilLogin.setErrorEnabled(false);
+        }
+
+        return true;
     }
 
 

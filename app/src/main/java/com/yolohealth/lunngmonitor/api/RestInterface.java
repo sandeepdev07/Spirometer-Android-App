@@ -1,5 +1,7 @@
 package com.yolohealth.lunngmonitor.api;
 
+import com.yolohealth.lunngmonitor.model.commonresponse.CommonResponse;
+import com.yolohealth.lunngmonitor.model.emailverificatoincode.EmailVerificationCode;
 import com.yolohealth.lunngmonitor.model.loginresponse.LoginParams;
 import com.yolohealth.lunngmonitor.model.loginresponse.LoginResponseParams;
 import com.yolohealth.lunngmonitor.model.medicalservicesresponse.MedicalServicesResponse;
@@ -36,4 +38,10 @@ public interface RestInterface {
     @POST("medical-reports/test/spirometry")
     Call<SpiroTestResponse> SpiroMeterTest(@Header(AppConstant.AUTHORIZATION_TAG) String accessToken,
                                            @Body SpiroTestParams spiroTestParams);
+
+    // forgot password code verification
+
+    @POST("users/forgot-password")
+    Call<CommonResponse> CodeVerification(@Header(AppConstant.AUTHORIZATION_TAG) String accessToken,
+                                          @Body EmailVerificationCode verificationCode);
 }
