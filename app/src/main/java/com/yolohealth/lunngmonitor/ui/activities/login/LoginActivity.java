@@ -10,7 +10,7 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.yolohealth.lunngmonitor.databinding.ActivityLoginBinding;
-import com.yolohealth.lunngmonitor.model.emailverificatoincode.EmailVerificationCode;
+import com.yolohealth.lunngmonitor.model.forgotpassword.EmailVerificationCode;
 import com.yolohealth.lunngmonitor.model.loginresponse.LoginParams;
 import com.yolohealth.lunngmonitor.model.loginresponse.LoginResponseParams;
 import com.yolohealth.lunngmonitor.ui.activities.BaseActivity;
@@ -158,6 +158,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
         Intent i;
         i = new Intent(getApplicationContext(), ResetPasswordActivity.class);
+        i.putExtra("email",mBinding.etPhone.getText().toString());
         startActivity(i);
         progressDialog.dismiss();
     }

@@ -1,4 +1,4 @@
-package com.yolohealth.lunngmonitor.model.emailverificatoincode;
+package com.yolohealth.lunngmonitor.model.forgotpassword;
 
 public class EmailVerificationCode {
     String email;

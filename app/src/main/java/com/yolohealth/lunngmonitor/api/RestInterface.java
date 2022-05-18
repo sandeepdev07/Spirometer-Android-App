@@ -1,7 +1,8 @@
 package com.yolohealth.lunngmonitor.api;
 
 import com.yolohealth.lunngmonitor.model.commonresponse.CommonResponse;
-import com.yolohealth.lunngmonitor.model.emailverificatoincode.EmailVerificationCode;
+import com.yolohealth.lunngmonitor.model.forgotpassword.EmailVerificationCode;
+import com.yolohealth.lunngmonitor.model.forgotpassword.ResetPasswordParams;
 import com.yolohealth.lunngmonitor.model.loginresponse.LoginParams;
 import com.yolohealth.lunngmonitor.model.loginresponse.LoginResponseParams;
 import com.yolohealth.lunngmonitor.model.medicalservicesresponse.MedicalServicesResponse;
@@ -44,4 +45,10 @@ public interface RestInterface {
     @POST("users/forgot-password")
     Call<CommonResponse> CodeVerification(@Header(AppConstant.AUTHORIZATION_TAG) String accessToken,
                                           @Body EmailVerificationCode verificationCode);
+
+    // reset password
+
+    @POST("users/reset-password")
+    Call<CommonResponse> ResetPassword(@Header(AppConstant.AUTHORIZATION_TAG) String accessToken,
+                                       @Body ResetPasswordParams resetPasswordParams);
 }
