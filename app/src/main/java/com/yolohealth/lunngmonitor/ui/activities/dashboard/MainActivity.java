@@ -40,6 +40,9 @@ import com.yolohealth.lunngmonitor.ui.activities.login.LoginActivity;
 import com.yolohealth.lunngmonitor.ui.activities.medicaltesttype.TestPresenter;
 import com.yolohealth.lunngmonitor.ui.activities.medicaltesttype.TestPresenterImpl;
 import com.yolohealth.lunngmonitor.ui.activities.medicaltesttype.TestView;
+import com.yolohealth.lunngmonitor.ui.activities.medicaltesttypedevicedata.MedicalTestPresenter;
+import com.yolohealth.lunngmonitor.ui.activities.medicaltesttypedevicedata.MedicalTestPresenterImpl;
+import com.yolohealth.lunngmonitor.ui.activities.medicaltesttypedevicedata.MedicalTestView;
 import com.yolohealth.lunngmonitor.ui.activities.scandevices.ScanDeviceActivity;
 import com.yolohealth.lunngmonitor.ui.activities.spirotest.SpiroTestPresenter;
 import com.yolohealth.lunngmonitor.ui.activities.spirotest.SpiroTestPresenterImpl;
@@ -56,7 +59,7 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends BaseActivity implements TIOConnectionCallback, TestView, SpiroTestView {
+public class MainActivity extends BaseActivity implements TIOConnectionCallback, TestView, MedicalTestView, SpiroTestView {
     ActivityMainBinding mBinding;
 
     TextInputEditText fefValue, pefValue, fev1Value, fev6Value, commentValue;
@@ -73,14 +76,15 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
     public static String kioskId;
     public static String userId;
 
+    public static float fev1, fev6, ratio, fef;
+
     private TestPresenter testPresenter;
+    private MedicalTestPresenter medicalTestPresenter;
     private SpiroTestPresenter spiroTestPresenter;
     SpiroTestParams spiroTestParams;
     ProgressDialog progressDialog;
     MedicalServicesResponse medicalServicesResponse;
     BottomSheetDialog dialog;
-
-
 
 
     @Override
@@ -134,10 +138,10 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         });
 
 
-        mBinding.btnSubmit.setOnClickListener(
+       /* mBinding.btnSubmit.setOnClickListener(
                 view -> submitTest()
         );
-
+*/
 
         mBinding.btnRetry.setOnClickListener(view -> {
 
@@ -160,19 +164,34 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             checkStr = "";
         });
 
+        mBinding.btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (commentFiled()) {
+
+                    medicalServicesResponse = new MedicalServicesResponse();
+                    // testPresenter.test(medicalServicesResponse);
+                    medicalTestPresenter.medicaltest(medicalServicesResponse);
+                    // submitTest();
+                }
+            }
+        });
+
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Dashboard");
         actionBar.setElevation(0);
 
-         kioskId = String.valueOf(SharedPrefUtils.getKioskId(getApplicationContext()));
-         userId = SharedPrefUtils.getProfileId(getApplicationContext());
-         //userId = String.valueOf(SharedPrefUtils.getUserId(getApplicationContext()));
+        kioskId = String.valueOf(SharedPrefUtils.getKioskId(getApplicationContext()));
+        userId = SharedPrefUtils.getProfileId(getApplicationContext());
+        //userId = String.valueOf(SharedPrefUtils.getUserId(getApplicationContext()));
         System.out.println("kioskId---" + kioskId);
         System.out.println("userId---" + userId);
 
         testPresenter = new TestPresenterImpl(this);
+        medicalTestPresenter = new MedicalTestPresenterImpl(this);
         spiroTestPresenter = new SpiroTestPresenterImpl(this);
 
         setContentView(mBinding.getRoot());
@@ -265,10 +284,25 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         //-----------------------
 
-        Intent i;
+
+        spiroTestParams = new SpiroTestParams();
+        spiroTestParams.setSpiro_fef(Objects.requireNonNull(String.valueOf(fev1)));
+        spiroTestParams.setSpiro_pef(Objects.requireNonNull(String.valueOf(fev6)));
+        spiroTestParams.setSpiro_fev1(Objects.requireNonNull(String.valueOf(ratio)));
+        spiroTestParams.setSpiro_fev6(Objects.requireNonNull(String.valueOf(fev6)));
+        spiroTestParams.setComment(Objects.requireNonNull(mBinding.etCmt.getText().toString()));
+        spiroTestParams.setUserid(userId);
+        spiroTestParams.setKioskid(kioskId);
+        spiroTestParams.setMedicalservicepk(medicalTypeId);
+        System.out.println("medicalTest--->" + medicalTypeId);
+
+        spiroTestPresenter.spirometer(spiroTestParams);
+
+
+       /* Intent i;
         i = new Intent(getApplicationContext(), TokenActivity.class);
         startActivity(i);
-        finish();
+        finish();*/
         checkStr = "";
     }
 
@@ -396,6 +430,20 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         dialog.show();
     }
 
+    private boolean commentFiled() {
+
+        if (mBinding.etCmt.getText().toString().isEmpty()) {
+            mBinding.tillCmt.setError("Please enter comment");
+            return false;
+
+        } else {
+            mBinding.tillCmt.setError(null);
+        }
+
+        return true;
+    }
+
+
     private boolean credentials() {
 
         if (TextUtils.isEmpty(Objects.requireNonNull(fefValue.getText()).toString())) {
@@ -513,10 +561,10 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             String str = new String(data, StandardCharsets.ISO_8859_1);
             System.out.println("devtest---->" + str);
 
-            float fev1 = Float.parseFloat(str.substring(0, 3)) / 100;
-            float fev6 = Float.parseFloat(str.substring(3, 6)) / 100;
-            float ratio = Float.parseFloat(str.substring(6, 9)) / 100;
-            float fef = Float.parseFloat(str.substring(9, 12)) / 100;
+            fev1 = Float.parseFloat(str.substring(0, 3)) / 100;
+            fev6 = Float.parseFloat(str.substring(3, 6)) / 100;
+            ratio = Float.parseFloat(str.substring(6, 9)) / 100;
+            fef = Float.parseFloat(str.substring(9, 12)) / 100;
 
             System.out.println("FEV1------> " + fev1);
             System.out.println("FEV6------> " + fev6);
@@ -623,8 +671,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             SharedPrefUtils.setLoggedIn(LungMonitorApp.getAppContext(), false);
             SharedPrefUtils.setToken(LungMonitorApp.getAppContext(), null);
             SharedPrefUtils.setKioksId(LungMonitorApp.getAppContext(), -1);
-            SharedPrefUtils.setProfileId(LungMonitorApp.getAppContext(),null);
-          //  SharedPrefUtils.setUserId(LungMonitorApp.getAppContext(), -1);
+            SharedPrefUtils.setProfileId(LungMonitorApp.getAppContext(), null);
+            //  SharedPrefUtils.setUserId(LungMonitorApp.getAppContext(), -1);
 
 
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -646,6 +694,24 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
     }
 
     @Override
+    public void showMedicalSuccess(MedicalServicesResponse medicalServicesResponse, String msg) {
+
+        List<Service> services = medicalServicesResponse.getData().getServices();
+        for (int i = 0; i < services.size(); i++) {
+
+            String devCode = services.get(i).getDevCode();
+
+            if (devCode.equals("spirometry")) {
+                medicalTypeId = services.get(i).getId().toString();
+                // spiroTest
+
+                submitTest();
+                System.out.println("id---" + medicalTypeId);
+            }
+        }
+    }
+
+    @Override
     public void showSuccess(String msg) {
 
         Intent i;
@@ -653,7 +719,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         startActivity(i);
         finish();
 
-        dialog.dismiss();
+       // dialog.dismiss();
         progressDialog.dismiss();
 
     }
@@ -671,6 +737,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
                 medicalTypeId = services.get(i).getId().toString();
                 // spiroTest
                 spiroTestParams();
+                // submitTest();
                 System.out.println("id---" + medicalTypeId);
             }
         }
@@ -700,5 +767,14 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         progressDialog.dismiss();
         Common_Utils.showToast(getApplicationContext(), errMsg);
     }
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dialog.dismiss();
+    }
+
 
 }
