@@ -158,7 +158,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
         Intent i;
         i = new Intent(getApplicationContext(), ResetPasswordActivity.class);
-        i.putExtra("email",mBinding.etPhone.getText().toString());
+        i.putExtra("email", mBinding.etPhone.getText().toString());
         startActivity(i);
         progressDialog.dismiss();
     }

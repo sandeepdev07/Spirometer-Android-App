@@ -298,9 +298,9 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
 
         spiroTestParams = new SpiroTestParams();
-        spiroTestParams.setSpiro_fef(Objects.requireNonNull(String.valueOf(fev1)));
+        spiroTestParams.setSpiro_fef(Objects.requireNonNull(String.valueOf(fef)));
         spiroTestParams.setSpiro_pef(Objects.requireNonNull(String.valueOf(fev6)));
-        spiroTestParams.setSpiro_fev1(Objects.requireNonNull(String.valueOf(ratio)));
+        spiroTestParams.setSpiro_fev1(Objects.requireNonNull(String.valueOf(fev1)));
         spiroTestParams.setSpiro_fev6(Objects.requireNonNull(String.valueOf(fev6)));
         spiroTestParams.setComment(Objects.requireNonNull(mBinding.etCmt.getText().toString()));
         spiroTestParams.setUserid(userId);
@@ -746,6 +746,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         }
 
         progressDialog.dismiss();
+        checkStr = "";
 
     }
 
