@@ -3,6 +3,7 @@ package com.yolohealth.lunngmonitor.ui.activities.dashboard;
 import static android.content.ContentValues.TAG;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -22,7 +23,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.telit.terminalio.TIOConnection;
@@ -84,7 +84,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
     SpiroTestParams spiroTestParams;
     ProgressDialog progressDialog;
     MedicalServicesResponse medicalServicesResponse;
-    BottomSheetDialog dialog;
+    //BottomSheetDialog dialog;
+    Dialog dialog;
     boolean isDialogBoxOpen = false;
 
 
@@ -397,18 +398,20 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
                 .show();
     }
 
-
     void showBottomSheet() {
 
         View view = getLayoutInflater().inflate(R.layout.manual_entry_bottom_sheet_dialog, null);
-        dialog = new BottomSheetDialog(MainActivity.this);
+        dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
 
         dialog.setContentView(view);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE); //-----------------
+
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
 
         ImageView cancel = dialog.findViewById(R.id.btn_cancel);
-        Button submit = dialog.findViewById(R.id.btn_proceed);
+        Button submit = dialog.findViewById(R.id.btn_submit);
 
         fefValue = dialog.findViewById(R.id.et_fef);
         fefError = dialog.findViewById(R.id.til_fef);
@@ -439,7 +442,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         });
 
         assert cancel != null;
-        /*cancel.setOnClickListener(view1 -> dialog.dismiss());*/
+        //*cancel.setOnClickListener(view1 -> dialog.dismiss());*//*
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -451,6 +454,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         dialog.show();
     }
+
 
     private boolean commentFiled() {
 

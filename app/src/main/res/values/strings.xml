@@ -149,6 +149,7 @@
     <string name="hint_pass_confirm">Confirm Password</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="enter_your_comment">Enter your comment</string>
+    <string name="submit">SUBMIT</string>
 
 
 </resources>
