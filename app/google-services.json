@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "314282386307",
+    "project_id": "blossom-spirometer",
+    "storage_bucket": "blossom-spirometer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:314282386307:android:26fe96b705a93b47830cb6",
+        "android_client_info": {
+          "package_name": "com.yolohealth.spirometer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "314282386307-3f97fkavr0lr20g5193dr21ih7tdcri5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBErZ5k-PQpmXlT5yMqp1Z5cTrsNW5ob4E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "314282386307-3f97fkavr0lr20g5193dr21ih7tdcri5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

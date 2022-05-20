@@ -6,7 +6,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.yolohealth.lunngmonitor"
+        applicationId "com.yolohealth.spirometer"
         minSdk 21
         targetSdk 31
         versionCode 1
@@ -63,5 +63,13 @@ dependencies {
 
     implementation 'pub.devrel:easypermissions:3.0.0' // for android version above 10
 
+    //for crashlytics
+    implementation platform('com.google.firebase:firebase-bom:29.3.1')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
+
 
 }
+
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'

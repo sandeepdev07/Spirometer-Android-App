@@ -150,6 +150,7 @@
     <string name="forgot_password">Forgot Password</string>
     <string name="enter_your_comment">Enter your comment</string>
     <string name="submit">SUBMIT</string>
+    <string name="update_app">Update App</string>
 
 
 </resources>

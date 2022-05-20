@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.yolohealth.lunngmonitor">
+    package="com.yolohealth.spirometer">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -17,7 +17,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
     <application
-        android:name=".LungMonitorApp"
+        android:name="com.yolohealth.spirometer.LungMonitorApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -25,7 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LunngMonitor">
         <activity
-            android:name=".ui.activities.passwordreset.ResetPasswordActivity"
+            android:name="com.yolohealth.spirometer.ui.activities.passwordreset.ResetPasswordActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
@@ -33,10 +33,10 @@
         </activity>
 
         <activity
-            android:name=".ui.activities.scandevices.ScanDeviceActivity"
+            android:name="com.yolohealth.spirometer.ui.activities.scandevices.ScanDeviceActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.profile.ProfileActivity"
+            android:name="com.yolohealth.spirometer.ui.activities.profile.ProfileActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
@@ -47,7 +47,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.token.TokenActivity"
+            android:name="com.yolohealth.spirometer.ui.activities.token.TokenActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
@@ -58,7 +58,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.login.LoginActivity"
+            android:name="com.yolohealth.spirometer.ui.activities.login.LoginActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -66,7 +66,7 @@
 
         </activity>
         <activity
-            android:name=".ui.activities.dashboard.MainActivity"
+            android:name="com.yolohealth.spirometer.ui.activities.dashboard.MainActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -81,7 +81,7 @@
             -->
         </activity>
         <activity
-            android:name=".ui.activities.splash.SplashActivity"
+            android:name="com.yolohealth.spirometer.ui.activities.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
@@ -97,6 +97,11 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <meta-data
+            android:name="firebase_performance_logcat_enabled"
+            android:value="true" />
+
     </application>
 
 </manifest>
