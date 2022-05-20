@@ -31,6 +31,7 @@ import com.telit.terminalio.TIOManager;
 import com.telit.terminalio.TIOPeripheral;
 import com.yolohealth.lunngmonitor.LungMonitorApp;
 import com.yolohealth.lunngmonitor.R;
+
 import com.yolohealth.lunngmonitor.databinding.ActivityMainBinding;
 import com.yolohealth.lunngmonitor.model.medicalservicesresponse.MedicalServicesResponse;
 import com.yolohealth.lunngmonitor.model.medicalservicesresponse.Service;
@@ -403,9 +404,10 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         View view = getLayoutInflater().inflate(R.layout.manual_entry_bottom_sheet_dialog, null);
         dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE); //-----------------
+
         dialog.setContentView(view);
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE); //-----------------
 
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);

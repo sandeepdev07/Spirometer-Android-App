@@ -34,7 +34,7 @@
     <string name="email_id">Email ID</string>
     <string name="password">Password</string>
     <string name="or">OR</string>
-    <string name="title_login">Doctor Login</string>
+    <string name="title_login">Operator Login</string>
     <string name="hint_phone">token number</string>
     <string name="action_get_otp">SUBMIT</string>
     <string name="patient_name">Patient name</string>
