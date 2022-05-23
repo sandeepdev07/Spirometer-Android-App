@@ -73,7 +73,7 @@
                     android:fontFamily="@font/roboto"
                     android:letterSpacing="0.01"
                     android:padding="10dp"
-                    android:text=" Enter all values form Vitalograph Spirometer device."
+                    android:text="@string/instruction_manual"
                     android:textColor="@color/md_red_A400"
                     android:textSize="18sp"
                     android:textStyle="normal" />

@@ -83,6 +83,7 @@
                         android:id="@+id/tv_instruction"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:letterSpacing="0.01"
                         android:padding="5dp"
                         android:text="@string/spirometer_instruction"
                         android:textColor="@color/textColorDarkPrimary"
@@ -284,8 +285,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="20dp"
-                    android:padding="4dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="4dp">
 
                     <TextView
                         android:id="@+id/tv_fev1"
@@ -320,8 +321,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="20dp"
-                    android:padding="4dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="4dp">
 
 
                     <TextView

@@ -76,11 +76,11 @@
         <item name="boxStrokeColor">#ffffff</item>
     </style>
 
-    <string name="spirometer_instruction">1. Take the spirometer.
-\n2. Press power button on device.
-\n3. Click on the start test button on Screen.
-\n4. Breathe in fully and seal the lips around the mouthpiece and blast all air out as forcefully as possible.
-\n5. Wait for the reading.
+    <string name="spirometer_instruction">1. Take the spirometer device.
+\n2. Press power button on the device.
+\n3. Click on the start test button on the app.
+\n4. Breathe in fully and seal the lips around the mouthpiece and blast all air out as forcefully as possible at least 6 seconds.
+\n5. Wait for the reading on the app.
 </string>
     <string name="setting_up_device">Setting up device...</string>
     <string name="instruction">Instruction</string>
@@ -153,6 +153,7 @@
     <string name="update_app">Update App</string>
     <string name="action_logout">Logout</string>
     <string name="action_token">Home</string>
+    <string name="instruction_manual">Enter all values from Vitalograph Spirometer model 4000 device.</string>
 
 
 </resources>

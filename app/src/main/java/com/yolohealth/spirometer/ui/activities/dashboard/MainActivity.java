@@ -31,14 +31,12 @@ import com.telit.terminalio.TIOConnection;
 import com.telit.terminalio.TIOConnectionCallback;
 import com.telit.terminalio.TIOManager;
 import com.telit.terminalio.TIOPeripheral;
-import com.yolohealth.spirometer.LungMonitorApp;
 import com.yolohealth.spirometer.R;
 import com.yolohealth.spirometer.databinding.ActivityMainBinding;
 import com.yolohealth.spirometer.model.medicalservicesresponse.MedicalServicesResponse;
 import com.yolohealth.spirometer.model.medicalservicesresponse.Service;
 import com.yolohealth.spirometer.model.spirotestparams.SpiroTestParams;
 import com.yolohealth.spirometer.ui.activities.BaseActivity;
-import com.yolohealth.spirometer.ui.activities.login.LoginActivity;
 import com.yolohealth.spirometer.ui.activities.medicaltesttype.TestPresenter;
 import com.yolohealth.spirometer.ui.activities.medicaltesttype.TestPresenterImpl;
 import com.yolohealth.spirometer.ui.activities.medicaltesttype.TestView;
@@ -90,6 +88,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
     Dialog dialog;
     boolean isDialogBoxOpen = false;
 
+    String spiroMacAddress;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +100,9 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         connectPeripheral();
 
         progressDialog = ProgressDialog.getInstance();
+
+        spiroMacAddress = SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER);
+        System.out.println("address---->" + spiroMacAddress);
 
        /* mBinding.btnManual.setOnClickListener(
                 view -> showBottomSheet()
@@ -249,7 +252,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
     private void connectPeripheral() {
         // extract peripheral id (address) from intent
 
-        String spiroMacAddress = SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER);
+        spiroMacAddress = SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER);
         System.out.println("address---->" + spiroMacAddress);
 
         // coming from scan device activity
@@ -259,6 +262,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         // retrieve peripheral instance from TIOManager
         mPeripheral = TIOManager.getInstance().findPeripheral(spiroMacAddress);
+        System.out.println("testing--" + mPeripheral);
 
         if (mPeripheral != null) {
             mConnection = mPeripheral.getConnection();

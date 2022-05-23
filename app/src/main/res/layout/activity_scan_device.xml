@@ -34,7 +34,6 @@
         android:text="@string/clear"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
-        android:onClick="onClearAllButtonPressed"
         android:visibility="visible"
         app:rippleColor="@color/black_semi_transparent"
         app:strokeColor="@color/colorPrimary" />

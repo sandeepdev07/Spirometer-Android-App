@@ -99,7 +99,7 @@ public class TokenActivity extends BaseActivity implements Validator.ValidationL
     public void onValidationSucceeded() {
 
         String token = Objects.requireNonNull(etLoginNumber.getText()).toString();
-        if (Common_Utils.isNotNullOrEmpty(token) && token.length() < 2) {
+        if (Common_Utils.isNotNullOrEmpty(token) && token.length() < 1) {
             mBinding.tilLogin.setError("Please enter token number");
             mBinding.tilLogin.setErrorEnabled(true);
             etLoginNumber.requestFocus();

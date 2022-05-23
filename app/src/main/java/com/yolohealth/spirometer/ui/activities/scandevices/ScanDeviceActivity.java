@@ -127,6 +127,16 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
 
         updatePeripheralsListView();
 
+        mBinding.clearAllButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mTio.getPeripherals().length > 0) {
+
+                    onClearAllButtonPressed();
+                }
+            }
+        });
+
         // initialize clearAllButton
         updateClearAllButton();
 
@@ -224,7 +234,7 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         }
     }
 
-    public void onClearAllButtonPressed(View sender) {
+    public void onClearAllButtonPressed() {
         Log.d(TAG, "onClearAllButtonPressed");
 
         mTio.removeAllPeripherals();
@@ -244,8 +254,6 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         Log.d(TAG, "onPeripheralCellPressed " + peripheral.toString());
 
         SharedPrefUtils.setDeviceAddress(getApplicationContext(), Constants.SPIROMETER, peripheral.getAddress());
-
-        String activityName = getIntent().getStringExtra("tokenScreen");
 
 
         if (getIntent() != null && getIntent().getExtras().getBoolean("Is Token Activity")) {
