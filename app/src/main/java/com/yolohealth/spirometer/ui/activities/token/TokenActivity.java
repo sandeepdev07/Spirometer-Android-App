@@ -3,17 +3,21 @@ package com.yolohealth.spirometer.ui.activities.token;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.yolohealth.spirometer.LungMonitorApp;
 import com.yolohealth.spirometer.databinding.ActivityTokenBinding;
 import com.yolohealth.spirometer.model.tokenresponse.TokenParams;
 import com.yolohealth.spirometer.model.tokenresponse.TokenResponse;
 import com.yolohealth.spirometer.ui.activities.BaseActivity;
+import com.yolohealth.spirometer.ui.activities.login.LoginActivity;
 import com.yolohealth.spirometer.ui.activities.profile.ProfileActivity;
 import com.yolohealth.spirometer.utils.Common_Utils;
+import com.yolohealth.spirometer.utils.SharedPrefUtils;
 import com.yolohealth.spirometer.widget.ProgressDialog;
 
 import java.util.List;
@@ -41,6 +45,13 @@ public class TokenActivity extends BaseActivity implements Validator.ValidationL
 
         progressDialog = ProgressDialog.getInstance();
 
+        mBinding.btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logoutAlert();
+            }
+        });
+
         etLoginNumber = mBinding.etPhone;
         mBinding.btnLogin.setOnClickListener(this);
         setContentView(mBinding.getRoot());
@@ -50,6 +61,23 @@ public class TokenActivity extends BaseActivity implements Validator.ValidationL
 
         tokenPresenter = new TokenPresenterImpl(this);
 
+    }
+
+    private void logoutAlert() {
+
+        SharedPrefUtils.setLoggedIn(LungMonitorApp.getAppContext(), false);
+        SharedPrefUtils.setToken(LungMonitorApp.getAppContext(), null);
+        SharedPrefUtils.setKioksId(LungMonitorApp.getAppContext(), -1);
+        SharedPrefUtils.setProfileId(LungMonitorApp.getAppContext(), null);
+        //  SharedPrefUtils.setUserId(LungMonitorApp.getAppContext(), -1);
+
+
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Toast.makeText(TokenActivity.this, "Logout Successfully",
+                Toast.LENGTH_LONG).show();
+        startActivity(intent);
+        finish();
     }
 
     @Override

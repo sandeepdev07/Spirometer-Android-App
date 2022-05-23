@@ -109,6 +109,23 @@
                             android:textColor="@color/white"
                             android:textStyle="bold" />
 
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_logout"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="40dp"
+                            android:backgroundTint="@null"
+                            android:fontFamily="@font/roboto"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:text="@string/action_logout"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="14sp" />
+
                     </LinearLayout>
 
 

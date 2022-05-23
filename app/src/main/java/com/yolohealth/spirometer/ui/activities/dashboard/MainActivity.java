@@ -20,10 +20,14 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.telit.terminalio.TIOConnection;
@@ -168,6 +172,9 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             } catch (Exception ex) {
 
             }
+
+            mBinding.etCmt.setText("");
+            mBinding.tillCmt.setError(null);
 
             // --------------------------------
 
@@ -335,7 +342,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         try {
 
-            mConnection = mPeripheral.connect(MainActivity.this);
+            mConnection = mPeripheral.connect(this);
             showConnectionMessage();
         } catch (Exception ex) {
 
@@ -809,6 +816,58 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         progressDialog.dismiss();
         Common_Utils.showToast(getApplicationContext(), errMsg);
+    }
+
+
+    Boolean doubleBackPressed = false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackPressed) {
+            startActivity(new Intent(MainActivity.this,TokenActivity.class));
+            finish();
+            super.onBackPressed();
+        } else {
+            doubleBackPressed = true;
+
+            final RelativeLayout layout = findViewById(R.id.relativeLayout);
+            Snackbar.make(layout, "Press back to go back", Snackbar.LENGTH_SHORT)
+                    .setAction("Close", view -> {
+                    }).show();
+            new android.os.Handler().postDelayed(() -> doubleBackPressed = false, 2000);
+        }
+    }
+
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume");
+
+        if (mConnection != null) {
+            mConnection.setListener(this);
+            //  startRssiListener();
+        }
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d(TAG, "onPause");
+
+        stopRssiListener();
+
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "onDestroy");
+
+        if (mConnection != null) {
+            mConnection.setListener(null);
+        }
+
+        super.onDestroy();
     }
 
 

@@ -151,6 +151,7 @@
     <string name="enter_your_comment">Enter your comment</string>
     <string name="submit">SUBMIT</string>
     <string name="update_app">Update App</string>
+    <string name="action_logout">Logout</string>
 
 
 </resources>
