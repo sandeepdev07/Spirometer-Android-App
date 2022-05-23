@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.yolohealth.spirometer.widget.AppConstant;
 
@@ -124,5 +125,20 @@ public class SharedPrefUtils {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(AppConstant.KIOSK_ID, kiosk);
         editor.commit();
+    }
+
+
+    public static void setTestType(Context ctx, String test_type, String test_value) {
+
+        Log.d("SPD", "setting " + test_type + " to " + test_value);
+        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.DEVICE_PREF, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(test_type, test_value);
+        editor.commit();
+    }
+
+    public static String getTestType(Context ctx, String test_type) {
+        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.DEVICE_PREF, MODE_PRIVATE);
+        return prefs.getString(test_type, "");
     }
 }

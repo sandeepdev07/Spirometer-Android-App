@@ -36,6 +36,7 @@ public class AppConstant {
 
     public static final String USERID = "USERID";
     public static final String KIOSK_ID = "";
+    public static final String TEST_TYPE = "test type";
 
 
 }

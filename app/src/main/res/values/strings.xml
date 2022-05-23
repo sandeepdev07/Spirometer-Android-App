@@ -136,7 +136,7 @@
 
     <string name="no_internet">No Internet Connection Available</string>
     <string name="hint_pass">Password</string>
-    <string name="hint_email">Enter Email</string>
+    <string name="hint_email">Email</string>
     <string name="title_token">Enter Token</string>
     <string name="proceed">Proceed</string>
 
@@ -152,6 +152,7 @@
     <string name="submit">SUBMIT</string>
     <string name="update_app">Update App</string>
     <string name="action_logout">Logout</string>
+    <string name="action_token">Home</string>
 
 
 </resources>

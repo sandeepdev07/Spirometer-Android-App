@@ -12,6 +12,18 @@
         android:title="@string/update_app"
         app:showAsAction="never" />
 
+    <!--<item
+        android:id="@+id/token_home"
+        android:title="@string/action_token"
+        app:showAsAction="never"/>-->
+
+    <item
+        android:id="@+id/token_home"
+        android:icon="@drawable/ic_home"
+        android:iconTint="@color/white"
+        app:showAsAction="always|withText"
+        android:title="Home" />
+
     <item
         android:id="@+id/logout"
         android:title="@string/logout"

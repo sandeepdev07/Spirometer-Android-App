@@ -5,13 +5,13 @@ import static android.content.ContentValues.TAG;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -661,30 +661,47 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
 
-        menu.findItem(R.id.deviceSetting).setOnMenuItemClickListener(menuItem -> {
+        menu.findItem(R.id.updateApp).setVisible(false);
+        menu.findItem(R.id.deviceSetting).setVisible(false);
+        menu.findItem(R.id.logout).setVisible(false);
+
+
+        /*menu.findItem(R.id.deviceSetting).setOnMenuItemClickListener(menuItem -> {
 
             Intent i;
             i = new Intent(getApplicationContext(), ScanDeviceActivity.class);
             startActivity(i);
             return false;
+        });*/
+
+        menu.findItem(R.id.token_home).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                Intent i;
+                i = new Intent(getApplicationContext(), TokenActivity.class);
+                startActivity(i);
+                finish();
+                return false;
+            }
         });
 
-        menu.findItem(R.id.updateApp).setOnMenuItemClickListener(menuItem -> {
+        /*menu.findItem(R.id.updateApp).setOnMenuItemClickListener(menuItem -> {
             Uri uri = Uri.parse("https://blossom-live-django-assets.s3.ap-south-1.amazonaws.com/app_apk/app-spirometer.apk"); // missing 'http://' will cause crashed
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
             return false;
-        });
+        });*/
 
-        menu.findItem(R.id.logout).setOnMenuItemClickListener(menuItem -> {
+        /*menu.findItem(R.id.logout).setOnMenuItemClickListener(menuItem -> {
 
             logoutAlert(MainActivity.this);
             return false;
-        });
+        });*/
         return true;
     }
 
-    private void logoutAlert(MainActivity mainActivity) {
+   /* private void logoutAlert(MainActivity mainActivity) {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(mainActivity);
         builder.setTitle(R.string.logout);
         builder.setMessage(R.string.sureLogout);
@@ -706,7 +723,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         }).setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.show();
-    }
+    }*/
 
 
     @Override
@@ -799,14 +816,14 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
     @Override
     public void onBackPressed() {
         if (doubleBackPressed) {
-            startActivity(new Intent(MainActivity.this, TokenActivity.class));
-            finish();
+            /*startActivity(new Intent(MainActivity.this, TokenActivity.class));
+            finish();*/
             super.onBackPressed();
         } else {
             doubleBackPressed = true;
 
             final RelativeLayout layout = findViewById(R.id.relativeLayout);
-            Snackbar.make(layout, "Press back to go back", Snackbar.LENGTH_SHORT)
+            Snackbar.make(layout, "Press back to exit", Snackbar.LENGTH_SHORT)
                     .setAction("Close", view -> {
                     }).show();
             new android.os.Handler().postDelayed(() -> doubleBackPressed = false, 2000);

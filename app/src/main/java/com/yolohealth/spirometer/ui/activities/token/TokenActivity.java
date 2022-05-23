@@ -1,23 +1,31 @@
 package com.yolohealth.spirometer.ui.activities.token;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.yolohealth.spirometer.LungMonitorApp;
+import com.yolohealth.spirometer.R;
 import com.yolohealth.spirometer.databinding.ActivityTokenBinding;
 import com.yolohealth.spirometer.model.tokenresponse.TokenParams;
 import com.yolohealth.spirometer.model.tokenresponse.TokenResponse;
 import com.yolohealth.spirometer.ui.activities.BaseActivity;
 import com.yolohealth.spirometer.ui.activities.login.LoginActivity;
 import com.yolohealth.spirometer.ui.activities.profile.ProfileActivity;
+import com.yolohealth.spirometer.ui.activities.scandevices.ScanDeviceActivity;
 import com.yolohealth.spirometer.utils.Common_Utils;
 import com.yolohealth.spirometer.utils.SharedPrefUtils;
+import com.yolohealth.spirometer.widget.AppConstant;
 import com.yolohealth.spirometer.widget.ProgressDialog;
 
 import java.util.List;
@@ -38,19 +46,18 @@ public class TokenActivity extends BaseActivity implements Validator.ValidationL
         setContentView(mBinding.getRoot());
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
-        getSupportActionBar().hide();
-        getSupportActionBar().setTitle("");
-        getSupportActionBar().setElevation(0);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Token");
+        actionBar.setElevation(0);
 
         progressDialog = ProgressDialog.getInstance();
 
-        mBinding.btnLogout.setOnClickListener(new View.OnClickListener() {
+       /* mBinding.btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 logoutAlert();
             }
-        });
+        });*/
 
         etLoginNumber = mBinding.etPhone;
         mBinding.btnLogin.setOnClickListener(this);
@@ -63,7 +70,7 @@ public class TokenActivity extends BaseActivity implements Validator.ValidationL
 
     }
 
-    private void logoutAlert() {
+/*    private void logoutAlert() {
 
         SharedPrefUtils.setLoggedIn(LungMonitorApp.getAppContext(), false);
         SharedPrefUtils.setToken(LungMonitorApp.getAppContext(), null);
@@ -78,7 +85,7 @@ public class TokenActivity extends BaseActivity implements Validator.ValidationL
                 Toast.LENGTH_LONG).show();
         startActivity(intent);
         finish();
-    }
+    }*/
 
     @Override
     public void onClick(View view) {
@@ -153,5 +160,60 @@ public class TokenActivity extends BaseActivity implements Validator.ValidationL
         progressDialog.dismiss();
         Common_Utils.showToast(this, errMsg);
 
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+
+
+        menu.findItem(R.id.token_home).setVisible(false);
+
+        menu.findItem(R.id.deviceSetting).setOnMenuItemClickListener(menuItem -> {
+
+            // if user go in scan activity form token page then on back it should come on token page and else go to main activity
+
+            SharedPrefUtils.setTestType(this, AppConstant.TEST_TYPE, "IsTokenActivity");
+
+            Intent i;
+            i = new Intent(getApplicationContext(), ScanDeviceActivity.class);
+            i.putExtra("Is Token Activity", true);
+            startActivity(i);
+            return false;
+        });
+
+        menu.findItem(R.id.updateApp).setOnMenuItemClickListener(menuItem -> {
+            Uri uri = Uri.parse("https://blossom-live-django-assets.s3.ap-south-1.amazonaws.com/app_apk/app-spirometer.apk"); // missing 'http://' will cause crashed
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+            return false;
+        });
+
+        menu.findItem(R.id.logout).setOnMenuItemClickListener(menuItem -> {
+
+            logoutAlert();
+            return false;
+        });
+        return true;
+    }
+
+
+    private void logoutAlert() {
+
+        SharedPrefUtils.setLoggedIn(LungMonitorApp.getAppContext(), false);
+        SharedPrefUtils.setToken(LungMonitorApp.getAppContext(), null);
+        SharedPrefUtils.setKioksId(LungMonitorApp.getAppContext(), -1);
+        SharedPrefUtils.setProfileId(LungMonitorApp.getAppContext(), null);
+        //  SharedPrefUtils.setUserId(LungMonitorApp.getAppContext(), -1);
+
+
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Toast.makeText(TokenActivity.this, "Logout Successfully",
+                Toast.LENGTH_LONG).show();
+        startActivity(intent);
+        finish();
     }
 }

@@ -41,6 +41,7 @@ import com.yolohealth.spirometer.databinding.ActivityScanDeviceBinding;
 import com.yolohealth.spirometer.spirometer.STSwipeTapDetector;
 import com.yolohealth.spirometer.ui.activities.BaseActivity;
 import com.yolohealth.spirometer.ui.activities.dashboard.MainActivity;
+import com.yolohealth.spirometer.ui.activities.token.TokenActivity;
 import com.yolohealth.spirometer.utils.Common_Utils;
 import com.yolohealth.spirometer.utils.Constants;
 import com.yolohealth.spirometer.utils.PermissionDialogView;
@@ -244,10 +245,33 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
 
         SharedPrefUtils.setDeviceAddress(getApplicationContext(), Constants.SPIROMETER, peripheral.getAddress());
 
-        Intent intent = new Intent(ScanDeviceActivity.this, MainActivity.class);
-        // intent.putExtra(LungMonitorApp.PERIPHERAL_ID_NAME, peripheral.getAddress());
-        startActivity(intent);
+        String activityName = getIntent().getStringExtra("tokenScreen");
+
+
+        if (getIntent() != null && getIntent().getExtras().getBoolean("Is Token Activity")) {
+            Intent i;
+            i = new Intent(getApplicationContext(), TokenActivity.class);
+            startActivity(i);
+
+        } else {
+            Intent intent = new Intent(ScanDeviceActivity.this, MainActivity.class);
+            // intent.putExtra(LungMonitorApp.PERIPHERAL_ID_NAME, peripheral.getAddress());
+            startActivity(intent);
+        }
         finish();
+
+
+       /* if (activityName.equals("tokenScreen")){
+            Intent i ;
+            i = new Intent(getApplicationContext(), TokenActivity.class);
+            startActivity(i);
+            finish();
+        }else {
+            Intent intent = new Intent(ScanDeviceActivity.this, MainActivity.class);
+            // intent.putExtra(LungMonitorApp.PERIPHERAL_ID_NAME, peripheral.getAddress());
+            startActivity(intent);
+            finish();
+        }*/
     }
 
 
