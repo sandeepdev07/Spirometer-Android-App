@@ -3,12 +3,20 @@ package com.yolohealth.spirometer.ui.activities.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.yolohealth.spirometer.R;
 import com.yolohealth.spirometer.databinding.ActivityLoginBinding;
 import com.yolohealth.spirometer.model.forgotpassword.EmailVerificationCode;
 import com.yolohealth.spirometer.model.loginresponse.LoginParams;
@@ -29,6 +37,8 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     ActivityLoginBinding mBinding;
     @NotEmpty(message = "Please provide valid credentials")
     TextInputEditText etLoginNumber, etPassword;
+    TextInputEditText etEmailAddress;
+    TextInputLayout tillEmailAddress;
     boolean isEmailValid;
     Validator mValidator;
     private LoginPresenter loginPresenter;
@@ -36,6 +46,8 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     EmailVerificationCode emailVerificationCodeParams;
     private SpiroTestPresenter spiroTestPresenter;
+
+    AlertDialog alertDialog;
 
 
     @Override
@@ -60,15 +72,16 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         mBinding.btnForgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (forgotPassword()) {
+                // if (forgotPassword()) {
 
+                openManualDialog();
 
-                    emailVerificationCodeParams = new EmailVerificationCode();
+                    /*emailVerificationCodeParams = new EmailVerificationCode();
                     emailVerificationCodeParams.setEmail(Objects.requireNonNull(mBinding.etPhone.getText()).toString());
 
-                    spiroTestPresenter.emailverification(emailVerificationCodeParams);
+                    spiroTestPresenter.emailverification(emailVerificationCodeParams);*/
 
-                }
+                //}
             }
         });
         setContentView(mBinding.getRoot());
@@ -81,19 +94,67 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     }
 
+    private void openManualDialog() {
+        ViewGroup viewGroup = LoginActivity.this.findViewById(android.R.id.content);
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.manual_email_varifiaction, viewGroup, false);
+        Button btnEnter = dialogView.findViewById(R.id.btn_enter);
+        ImageView cancel = dialogView.findViewById(R.id.btn_cancel);
+        //Now we need an AlertDialog.Builder object
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //setting the view of the builder to our custom view that we already inflated
+        builder.setView(dialogView);
+
+        etEmailAddress = dialogView.findViewById(R.id.et_phone);
+        tillEmailAddress = dialogView.findViewById(R.id.til_login);
+
+        if (!mBinding.etPhone.getText().toString().isEmpty()) {
+            etEmailAddress.setText(mBinding.etPhone.getText().toString());
+        }
+
+        btnEnter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (forgotPassword()) {
+
+                    emailVerificationCodeParams = new EmailVerificationCode();
+                    emailVerificationCodeParams.setEmail(Objects.requireNonNull(etEmailAddress.getText()).toString());
+
+                    spiroTestPresenter.emailverification(emailVerificationCodeParams);
+                }
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+
+        //finally creating the alert dialog and displaying it
+        alertDialog = builder.create();
+
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
+
+        alertDialog.show();
+
+    }
+
     private boolean forgotPassword() {
 
-        if (Objects.requireNonNull(mBinding.etPhone.getText()).toString().isEmpty()) {
-            mBinding.tilLogin.setError("Please provide email address");
+        if (Objects.requireNonNull(etEmailAddress.getText()).toString().isEmpty()) {
+            tillEmailAddress.setError("Please provide email address");
             isEmailValid = false;
             return false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(mBinding.etPhone.getText().toString()).matches()) {
-            mBinding.tilLogin.setError("Email incorrect");
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(etEmailAddress.getText().toString()).matches()) {
+            tillEmailAddress.setError("Email incorrect");
             isEmailValid = false;
             return false;
         } else {
             isEmailValid = true;
-            mBinding.tilLogin.setErrorEnabled(false);
+            tillEmailAddress.setErrorEnabled(false);
         }
 
         return true;
@@ -162,6 +223,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         i.putExtra("email", mBinding.etPhone.getText().toString());
         startActivity(i);
         progressDialog.dismiss();
+        alertDialog.dismiss();
     }
 
     @Override
