@@ -12,7 +12,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,12 +19,10 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -109,30 +106,24 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         );*/
 
-        mBinding.btnManual.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showBottomSheet();
-                isDialogBoxOpen = true;
-            }
+        mBinding.btnManual.setOnClickListener(view -> {
+            showBottomSheet();
+            isDialogBoxOpen = true;
         });
 
-        mBinding.btnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        mBinding.btnStart.setOnClickListener(view -> {
 
-                if (SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER) != null
-                        && SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER).equals("")) {
-                    openSetKioskDialog(false);
-                }
-
-                if (!Common_Utils.isBluetoothEnabled()) {
-                    Toast.makeText(getApplicationContext(), Constants.NO_BLUETOOTH_CONNECTION, Toast.LENGTH_LONG).show();
-                } else {
-                    connectDevice();
-                }
-
+            if (SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER) != null
+                    && SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER).equals("")) {
+                openSetKioskDialog(false);
             }
+
+            if (!Common_Utils.isBluetoothEnabled()) {
+                Toast.makeText(getApplicationContext(), Constants.NO_BLUETOOTH_CONNECTION, Toast.LENGTH_LONG).show();
+            } else {
+                connectDevice();
+            }
+
         });
 
 
@@ -176,6 +167,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             mBinding.etCmt.setText("");
             mBinding.tillCmt.setError(null);
 
+            Common_Utils.hideKeyboard(this);
             // --------------------------------
 
             // updateUIState();
@@ -185,17 +177,14 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             checkStr = "";
         });
 
-        mBinding.btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        mBinding.btnSubmit.setOnClickListener(view -> {
 
-                if (commentFiled()) {
+            if (commentFiled()) {
 
-                    medicalServicesResponse = new MedicalServicesResponse();
-                    // testPresenter.test(medicalServicesResponse);
-                    medicalTestPresenter.medicaltest(medicalServicesResponse);
-                    // submitTest();
-                }
+                medicalServicesResponse = new MedicalServicesResponse();
+                // testPresenter.test(medicalServicesResponse);
+                medicalTestPresenter.medicaltest(medicalServicesResponse);
+                // submitTest();
             }
         });
 
@@ -346,7 +335,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             showConnectionMessage();
         } catch (Exception ex) {
 
-            System.out.println("exception--->" + ex.toString());
+            System.out.println("exception--->" + ex);
         }
     }
 
@@ -455,12 +444,9 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         assert cancel != null;
         //*cancel.setOnClickListener(view1 -> dialog.dismiss());*//*
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                isDialogBoxOpen = false;
-            }
+        cancel.setOnClickListener(view1 -> {
+            dialog.dismiss();
+            isDialogBoxOpen = false;
         });
 
         dialog.show();
@@ -553,7 +539,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         if ((mConnectingDialog != null) && mConnectingDialog.isShowing()) {
             mConnectingDialog.dismiss();
         }
-        ;
 
         mErrorMessage = errorMessage;
         Runnable runnable = () -> {
@@ -574,7 +559,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         if ((mConnectingDialog != null) && mConnectingDialog.isShowing()) {
             mConnectingDialog.dismiss();
         }
-        ;
 
         // stopRssiListener();
         mErrorMessage = errorMessage;
@@ -677,34 +661,25 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
 
-        menu.findItem(R.id.deviceSetting).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
+        menu.findItem(R.id.deviceSetting).setOnMenuItemClickListener(menuItem -> {
 
-                Intent i;
-                i = new Intent(getApplicationContext(), ScanDeviceActivity.class);
-                startActivity(i);
-                return false;
-            }
+            Intent i;
+            i = new Intent(getApplicationContext(), ScanDeviceActivity.class);
+            startActivity(i);
+            return false;
         });
 
-        menu.findItem(R.id.updateApp).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Uri uri = Uri.parse("https://blossom-live-django-assets.s3.ap-south-1.amazonaws.com/app_apk/app-spirometer.apk"); // missing 'http://' will cause crashed
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-                return false;
-            }
+        menu.findItem(R.id.updateApp).setOnMenuItemClickListener(menuItem -> {
+            Uri uri = Uri.parse("https://blossom-live-django-assets.s3.ap-south-1.amazonaws.com/app_apk/app-spirometer.apk"); // missing 'http://' will cause crashed
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+            return false;
         });
 
-        menu.findItem(R.id.logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
+        menu.findItem(R.id.logout).setOnMenuItemClickListener(menuItem -> {
 
-                logoutAlert(MainActivity.this);
-                return false;
-            }
+            logoutAlert(MainActivity.this);
+            return false;
         });
         return true;
     }
@@ -824,7 +799,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
     @Override
     public void onBackPressed() {
         if (doubleBackPressed) {
-            startActivity(new Intent(MainActivity.this,TokenActivity.class));
+            startActivity(new Intent(MainActivity.this, TokenActivity.class));
             finish();
             super.onBackPressed();
         } else {
@@ -869,6 +844,4 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         super.onDestroy();
     }
-
-
 }
