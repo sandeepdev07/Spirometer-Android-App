@@ -77,6 +77,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
     public static String userId;
 
     public static float fev1, fev6, ratio, fef;
+    public static String pef;
 
     private TestPresenter testPresenter;
     private MedicalTestPresenter medicalTestPresenter;
@@ -87,7 +88,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
     //BottomSheetDialog dialog;
     Dialog dialog;
     boolean isDialogBoxOpen = false;
-
     String spiroMacAddress;
 
 
@@ -103,11 +103,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         spiroMacAddress = SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER);
         System.out.println("address---->" + spiroMacAddress);
-
-       /* mBinding.btnManual.setOnClickListener(
-                view -> showBottomSheet()
-
-        );*/
 
         mBinding.btnManual.setOnClickListener(view -> {
             showBottomSheet();
@@ -140,11 +135,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             } catch (Exception ex) {
 
             }
-
             //--------------------------------
-
             showInstruction();
-
             mBinding.layoutMeasuringHeight.setVisibility(View.INVISIBLE);
             mBinding.layoutMeasuringHeight.setVisibility(View.INVISIBLE);
         });
@@ -156,9 +148,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 */
 
         mBinding.btnRetry.setOnClickListener(view -> {
-
             // to disconnect device-----
-
             stopRssiListener();
 
             try {
@@ -166,7 +156,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             } catch (Exception ex) {
 
             }
-
             mBinding.etCmt.setText("");
             mBinding.tillCmt.setError(null);
 
@@ -191,7 +180,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             }
         });
 
-
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Dashboard");
@@ -208,7 +196,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         spiroTestPresenter = new SpiroTestPresenterImpl(this);
 
         setContentView(mBinding.getRoot());
-
     }
 
 
@@ -245,7 +232,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             } catch (Exception ex) {
 
             }
-
         }
     }
 
@@ -286,7 +272,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
 
     void submitTest() {
-
         // to disconnect device----
         stopRssiListener();
 
@@ -298,10 +283,9 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         //-----------------------
 
-
         spiroTestParams = new SpiroTestParams();
         spiroTestParams.setSpiro_fef(Objects.requireNonNull(String.valueOf(fef)));
-        spiroTestParams.setSpiro_pef(Objects.requireNonNull(String.valueOf(fev6)));
+        spiroTestParams.setSpiro_pef(Objects.requireNonNull(pef));//--------------Need to change
         spiroTestParams.setSpiro_fev1(Objects.requireNonNull(String.valueOf(fev1)));
         spiroTestParams.setSpiro_fev6(Objects.requireNonNull(String.valueOf(fev6)));
         spiroTestParams.setComment(Objects.requireNonNull(mBinding.etCmt.getText().toString()));
@@ -311,7 +295,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         System.out.println("medicalTest--->" + medicalTypeId);
 
         spiroTestPresenter.spirometer(spiroTestParams);
-
 
        /* Intent i;
         i = new Intent(getApplicationContext(), TokenActivity.class);
@@ -334,7 +317,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         Log.d(TAG, "onConnectButtonPressed");
 
         try {
-
             mConnection = mPeripheral.connect(this);
             showConnectionMessage();
         } catch (Exception ex) {
@@ -410,7 +392,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         dialog.setContentView(view);
 
-
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
 
@@ -431,7 +412,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         commentValue = dialog.findViewById(R.id.et_comment);
         commentError = dialog.findViewById(R.id.til_comment);
-
 
         assert submit != null;
         submit.setOnClickListener(view12 -> {
@@ -456,7 +436,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         dialog.show();
     }
 
-
     private boolean commentFiled() {
 
         if (mBinding.etCmt.getText().toString().isEmpty()) {
@@ -469,7 +448,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         return true;
     }
-
 
     private boolean credentials() {
 
@@ -507,7 +485,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         } else {
             commentError.setError(null);
         }
-
         return true;
     }
 
@@ -530,7 +507,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             // save if connected for the first time
             mPeripheral.setShallBeSaved(true);
             TIOManager.getInstance().savePeripherals();
-
         }
 
     }
@@ -552,7 +528,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             }
         };
         runOnUiThread(runnable);
-
     }
 
     @Override
@@ -563,7 +538,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         if ((mConnectingDialog != null) && mConnectingDialog.isShowing()) {
             mConnectingDialog.dismiss();
         }
-
         // stopRssiListener();
         mErrorMessage = errorMessage;
         Runnable runnable = () -> {
@@ -579,11 +553,18 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
     @Override
     public void onDataReceived(TIOConnection tioConnection, byte[] data) {
 
+
         if (checkStr.length() == 0) {
 
             Log.d(TAG, "onDataReceived len " + data.length);
 
             String str = new String(data, StandardCharsets.ISO_8859_1);
+
+            if (str.contains("GTD")) {
+                System.out.println("pefData--> " + str);
+                pef = str.substring(14, 17);
+                System.out.println("pefAns--" + pef);
+            }
             System.out.println("devtest---->" + str);
 
             fev1 = Float.parseFloat(str.substring(0, 3)) / 100;
@@ -600,6 +581,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             mBinding.tvFev6.setText(MessageFormat.format("FEV6 : {0}", (double) fev6));
             mBinding.tvRatio.setText(MessageFormat.format("FEV1/FEV6 : {0}", (double) ratio));
             mBinding.tvFef.setText(MessageFormat.format("FEF : {0}", (double) fef));
+            mBinding.tvPef.setText(MessageFormat.format("PEF : {0}", pef));
 
             try {
                 mText += new String(data);
@@ -620,7 +602,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
                     mBinding.tvReading.setText(text);
                 }
             };
-
             // view and hide case
 
             mBinding.layoutBtnHeight.setVisibility(View.INVISIBLE);
@@ -630,7 +611,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             mBinding.layoutReadingHeight.setVisibility(View.VISIBLE);
 
             runOnUiThread(runnable);
-
 
         }
 
@@ -669,15 +649,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         menu.findItem(R.id.deviceSetting).setVisible(false);
         menu.findItem(R.id.logout).setVisible(false);
 
-
-        /*menu.findItem(R.id.deviceSetting).setOnMenuItemClickListener(menuItem -> {
-
-            Intent i;
-            i = new Intent(getApplicationContext(), ScanDeviceActivity.class);
-            startActivity(i);
-            return false;
-        });*/
-
         menu.findItem(R.id.token_home).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
@@ -690,44 +661,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             }
         });
 
-        /*menu.findItem(R.id.updateApp).setOnMenuItemClickListener(menuItem -> {
-            Uri uri = Uri.parse("https://blossom-live-django-assets.s3.ap-south-1.amazonaws.com/app_apk/app-spirometer.apk"); // missing 'http://' will cause crashed
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
-            return false;
-        });*/
-
-        /*menu.findItem(R.id.logout).setOnMenuItemClickListener(menuItem -> {
-
-            logoutAlert(MainActivity.this);
-            return false;
-        });*/
         return true;
     }
-
-   /* private void logoutAlert(MainActivity mainActivity) {
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(mainActivity);
-        builder.setTitle(R.string.logout);
-        builder.setMessage(R.string.sureLogout);
-        builder.setPositiveButton(R.string.log, (dialog, which) -> {
-            // clear SharedPref
-            SharedPrefUtils.setLoggedIn(LungMonitorApp.getAppContext(), false);
-            SharedPrefUtils.setToken(LungMonitorApp.getAppContext(), null);
-            SharedPrefUtils.setKioksId(LungMonitorApp.getAppContext(), -1);
-            SharedPrefUtils.setProfileId(LungMonitorApp.getAppContext(), null);
-            //  SharedPrefUtils.setUserId(LungMonitorApp.getAppContext(), -1);
-
-
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            Toast.makeText(MainActivity.this, "Logout Successfully",
-                    Toast.LENGTH_LONG).show();
-            startActivity(intent);
-            finish();
-
-        }).setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
-        builder.show();
-    }*/
 
 
     @Override
@@ -833,7 +768,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             new android.os.Handler().postDelayed(() -> doubleBackPressed = false, 2000);
         }
     }
-
 
     @Override
     protected void onResume() {
