@@ -2,19 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="62dp"
-    android:background="#E0E0E0"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#E0E0E0">
 
     <TextView
         android:id="@+id/mainTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="6dp"
         android:layout_marginRight="8dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/main_title_placeholder"
-        />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android:id="@+id/subTitle"
@@ -29,6 +28,17 @@
         android:text="@string/sub_title_placeholder"
         />
 
+    <ImageView
+        android:id="@+id/pared_img"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_check"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="8dp"
+        app:tint="@color/md_green_400"
+        android:visibility="gone"/>
+
     <Button
         android:id="@+id/removeButton"
         android:layout_width="wrap_content"
@@ -39,6 +49,7 @@
         android:background="#E00000"
         android:textColor="#FFFFFFFF"
         android:text="@string/remove_button_title"
+        android:visibility="gone"
         />
 
     <!--

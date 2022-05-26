@@ -25,6 +25,7 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +63,8 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
     private static final String TAG = "TioSample";
     private static final int PERMITIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
     private static final int SERVICE_REQUEST_LOCATION = 2;
+
+    ImageView connectImg;
 
 
     ActivityScanDeviceBinding mBinding;
@@ -241,6 +244,11 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         mTio.removeAllPeripherals();
         updatePeripheralsListView();
         updateClearAllButton();
+
+        mBinding.tv.setVisibility(View.GONE);
+        connectImg.setVisibility(View.GONE);
+
+        // SharedPrefUtils.setDeviceAddress(getApplicationContext(), Constants.SPIROMETER,null);
     }
 
     private void onRemoveButtonPressed(TIOPeripheral peripheral) {
@@ -296,6 +304,8 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         peripheral.setShallBeSaved(false);
         mTio.savePeripherals();
         updatePeripheralsListView();
+
+        mBinding.tv.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -319,6 +329,7 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
     }
 
     private void initializePeripheralsListView() {
+
 
         // create data adapter for peripherals list view
         mPeripheralList = new ArrayAdapter<TIOPeripheral>(this, 0) {
@@ -346,6 +357,15 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
 
         TextView mainTitle = (TextView) peripheralCell.findViewById(R.id.mainTitle);
         mainTitle.setText(MessageFormat.format("{0}  {1}", peripheral.getName(), peripheral.getAddress()));
+
+        // show tick img when mac same
+        if (peripheral.getAddress().equals(SharedPrefUtils.getDeviceAddress(getApplicationContext()
+                , Constants.SPIROMETER))) {
+            //ImageView connectImg = (ImageView) peripheralCell.findViewById(R.id.pared_img);
+            connectImg = peripheralCell.findViewById(R.id.pared_img);
+            connectImg.setVisibility(View.VISIBLE);
+        }
+
 
         TextView subTitle = (TextView) peripheralCell.findViewById(R.id.subTitle);
         if (peripheral.getAdvertisement() != null) {

@@ -85,7 +85,7 @@
     <string name="setting_up_device">Setting up device...</string>
     <string name="instruction">Instruction</string>
     <string name="manual">Manual</string>
-    <string name="measuring">Keep blowing....</string>
+    <string name="measuring">Keep blowing for at least 6 seconds....</string>
     <string name="start_test">START TEST</string>
     <string name="submit_manual">SUBMIT</string>
     <string name="scan_button_title">SCAN</string>
@@ -154,6 +154,7 @@
     <string name="action_logout">Logout</string>
     <string name="action_token">Home</string>
     <string name="instruction_manual">Enter all values from Vitalograph Spirometer model 4000 device.</string>
+    <string name="available_devices">Available Devices</string>
 
 
 </resources>
