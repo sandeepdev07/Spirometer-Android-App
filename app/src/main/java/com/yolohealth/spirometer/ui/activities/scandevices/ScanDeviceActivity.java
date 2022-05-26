@@ -131,6 +131,12 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
 
         updatePeripheralsListView();
 
+        // show instruction
+
+        mBinding.noteTv.setVisibility(View.VISIBLE);
+        mBinding.bleInstructions.setVisibility(View.VISIBLE);
+        mBinding.peripheralsListView.setVisibility(View.GONE);
+
         mBinding.clearAllButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -231,11 +237,17 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
     public void onScanButtonPressed(View sender) {
         Log.d(TAG, "onScanButtonPressed");
 
+        //--------------------------------
+        mBinding.peripheralsListView.setVisibility(View.VISIBLE);
+        mBinding.bleInstructions.setVisibility(View.GONE);
+        mBinding.noteTv.setVisibility(View.GONE);
+
         if (!Common_Utils.isBluetoothEnabled()) {
             Toast.makeText(getApplicationContext(), Constants.NO_BLUETOOTH_CONNECTION, Toast.LENGTH_LONG).show();
         } else {
             startTimedScan();
         }
+
     }
 
     public void onClearAllButtonPressed() {
@@ -246,9 +258,14 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         updateClearAllButton();
 
         mBinding.tv.setVisibility(View.GONE);
-        connectImg.setVisibility(View.GONE);
+       // connectImg.setVisibility(View.GONE);
 
-        // SharedPrefUtils.setDeviceAddress(getApplicationContext(), Constants.SPIROMETER,null);
+        //show instruction
+        mBinding.bleInstructions.setVisibility(View.VISIBLE);
+        mBinding.noteTv.setVisibility(View.VISIBLE);
+        mBinding.peripheralsListView.setVisibility(View.INVISIBLE);
+
+        SharedPrefUtils.setDeviceAddress(getApplicationContext(), Constants.SPIROMETER, null);
     }
 
     private void onRemoveButtonPressed(TIOPeripheral peripheral) {
@@ -257,6 +274,7 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         mTio.removePeripheral(peripheral);
         updatePeripheralsListView();
         updateClearAllButton();
+
     }
 
     private void onPeripheralCellPressed(TIOPeripheral peripheral) {
@@ -306,6 +324,11 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         updatePeripheralsListView();
 
         mBinding.tv.setVisibility(View.VISIBLE);
+
+        //show list virew
+        mBinding.bleInstructions.setVisibility(View.GONE);
+        mBinding.noteTv.setVisibility(View.GONE);
+        mBinding.peripheralsListView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -344,11 +367,15 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
             }
         };
 
+        mBinding.peripheralsListView.setVisibility(View.VISIBLE);  // show list
         mBinding.peripheralsListView.setAdapter(mPeripheralList);
 
     }
 
     private View createPeripheralCell(int position) {
+
+        mBinding.peripheralsListView.setVisibility(View.VISIBLE);
+        mBinding.tv.setVisibility(View.VISIBLE);
 
         final TIOPeripheral peripheral = mTio.getPeripherals()[position];
 

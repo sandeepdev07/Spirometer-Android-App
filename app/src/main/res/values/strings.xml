@@ -156,5 +156,12 @@
     <string name="instruction_manual">Enter all values from Vitalograph Spirometer model 4000 device.</string>
     <string name="available_devices">Available Devices</string>
 
+    <string name="ble_scanInstruction">1.Take the Vitalograph spirometer model 4000 device.
+\n2. Press power button on the device.
+\n3. Make sure mobile Bluetooth is turned on.
+\n4. Click on scan button on the app to discover near by spirometer device(s).
+
+</string>
+
 
 </resources>

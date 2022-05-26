@@ -91,6 +91,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
     boolean isDialogBoxOpen = false;
     String spiroMacAddress;
 
+    boolean isScan = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +119,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             if (SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER) != null
                     && SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER).equals("")) {
                 openSetKioskDialog(false);
+
+                isScan = true;
             }
 
             if (!Common_Utils.isBluetoothEnabled()) {
@@ -270,12 +274,14 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
                     mSubTitleView.setText(mPeripheral.getAdvertisement().toString());
                 }*/
             } catch (Exception ex) {
-                mBinding.btnStart.setOnClickListener(new View.OnClickListener() {
+
+                Toast.makeText(getApplicationContext(), "Failed to connect", Toast.LENGTH_SHORT).show();
+               /* mBinding.btnStart.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         openSetKioskDialog(false);
                     }
-                });
+                });*/
 
              /*   Intent i ;
                 i = new Intent(getApplicationContext(),ScanDeviceActivity.class);
@@ -336,7 +342,10 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             showConnectionMessage();
         } catch (Exception ex) {
 
-            dialogShow();
+            if (!isScan) {
+                dialogShow();
+            }
+            // dialogShow();
 
             /*// if mac address not found then scan the device
                 mBinding.btnStart.setOnClickListener(new View.OnClickListener() {
