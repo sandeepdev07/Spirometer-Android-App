@@ -36,6 +36,7 @@ import androidx.core.content.ContextCompat;
 import com.telit.terminalio.TIOManager;
 import com.telit.terminalio.TIOManagerCallback;
 import com.telit.terminalio.TIOPeripheral;
+import com.yolohealth.spirometer.LungMonitorApp;
 import com.yolohealth.spirometer.R;
 import com.yolohealth.spirometer.databinding.ActivityScanDeviceBinding;
 import com.yolohealth.spirometer.spirometer.STSwipeTapDetector;
@@ -263,7 +264,7 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
 
         } else {
             Intent intent = new Intent(ScanDeviceActivity.this, MainActivity.class);
-            // intent.putExtra(LungMonitorApp.PERIPHERAL_ID_NAME, peripheral.getAddress());
+            intent.putExtra(LungMonitorApp.PERIPHERAL_ID_NAME, peripheral.getAddress());
             startActivity(intent);
         }
         finish();

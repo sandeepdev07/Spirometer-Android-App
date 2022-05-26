@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class SplashActivity extends AppCompatActivity {
     ActivitySplashBinding mBinding;
-    private static final int Splash_timeout = 5000;
+    private static final int Splash_timeout = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

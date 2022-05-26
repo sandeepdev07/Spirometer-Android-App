@@ -31,6 +31,7 @@ import com.telit.terminalio.TIOConnection;
 import com.telit.terminalio.TIOConnectionCallback;
 import com.telit.terminalio.TIOManager;
 import com.telit.terminalio.TIOPeripheral;
+import com.yolohealth.spirometer.LungMonitorApp;
 import com.yolohealth.spirometer.R;
 import com.yolohealth.spirometer.databinding.ActivityMainBinding;
 import com.yolohealth.spirometer.model.medicalservicesresponse.MedicalServicesResponse;
@@ -104,12 +105,14 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         spiroMacAddress = SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER);
         System.out.println("address---->" + spiroMacAddress);
 
+
         mBinding.btnManual.setOnClickListener(view -> {
             showBottomSheet();
             isDialogBoxOpen = true;
         });
 
         mBinding.btnStart.setOnClickListener(view -> {
+
 
             if (SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER) != null
                     && SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER).equals("")) {
@@ -242,12 +245,14 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         System.out.println("address---->" + spiroMacAddress);
 
         // coming from scan device activity
-     /*   Intent intent = getIntent();
+        Intent intent = getIntent();
         String address = intent.getStringExtra(LungMonitorApp.PERIPHERAL_ID_NAME);
-        System.out.println("address---" + address);*/
+        System.out.println("address---" + address);
+
+        address = spiroMacAddress;
 
         // retrieve peripheral instance from TIOManager
-        mPeripheral = TIOManager.getInstance().findPeripheral(spiroMacAddress);
+        mPeripheral = TIOManager.getInstance().findPeripheral(address);
         System.out.println("testing--" + mPeripheral);
 
         if (mPeripheral != null) {
@@ -265,6 +270,16 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
                     mSubTitleView.setText(mPeripheral.getAdvertisement().toString());
                 }*/
             } catch (Exception ex) {
+                mBinding.btnStart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        openSetKioskDialog(false);
+                    }
+                });
+
+             /*   Intent i ;
+                i = new Intent(getApplicationContext(),ScanDeviceActivity.class);
+                startActivity(i);*/
                 Log.e(TAG, "! Connect to peripheral failed, " + ex.toString());
             }
         }
@@ -321,8 +336,42 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             showConnectionMessage();
         } catch (Exception ex) {
 
+            dialogShow();
+
+            /*// if mac address not found then scan the device
+                mBinding.btnStart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(getApplicationContext(),"Please Scan the device to begin",Toast.LENGTH_LONG).show();
+                    }
+                });*/
+
+
             System.out.println("exception--->" + ex);
         }
+    }
+
+    private void dialogShow() {
+
+        androidx.appcompat.app.AlertDialog.Builder builder1 = new androidx.appcompat.app.AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+        String msg = "Please Scan the device to begin";
+        String title = "Scan Spirometer Device";
+
+        builder1.setMessage(msg).setTitle(title)
+                .setCancelable(false)
+                .setPositiveButton("SCAN", (dialog, id) -> {
+                    Intent i = new Intent(MainActivity.this, ScanDeviceActivity.class);
+                    i.putExtra(AppConstant.FROM, AppConstant.NEW_USER);
+                    startActivity(i);
+                })
+                .setNegativeButton("CANCEL", (dialog, id) -> {
+                    Toast.makeText(MainActivity.this,
+                            "Scan the device to start the test", Toast.LENGTH_SHORT).show();
+                    dialog.cancel();
+                });
+        //Creating dialog box
+        androidx.appcompat.app.AlertDialog alert1 = builder1.create();
+        alert1.show();
     }
 
     void startTest() {
@@ -773,11 +822,17 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
     protected void onResume() {
         Log.d(TAG, "onResume");
 
+        getMac();
         if (mConnection != null) {
             mConnection.setListener(this);
             //  startRssiListener();
         }
         super.onResume();
+    }
+
+    private void getMac() {
+        spiroMacAddress = SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER);
+        connectPeripheral();
     }
 
     @Override
