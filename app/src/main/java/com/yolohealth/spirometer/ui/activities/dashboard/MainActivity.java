@@ -33,6 +33,7 @@ import com.telit.terminalio.TIOConnectionCallback;
 import com.telit.terminalio.TIOManager;
 import com.telit.terminalio.TIOPeripheral;
 import com.yolohealth.spirometer.R;
+
 import com.yolohealth.spirometer.databinding.ActivityMainBinding;
 import com.yolohealth.spirometer.model.medicalservicesresponse.MedicalServicesResponse;
 import com.yolohealth.spirometer.model.medicalservicesresponse.Service;
@@ -464,8 +465,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         labourId.setText(MessageFormat.format("Labour Id : {0}", SharedPrefUtils.getLabourId(getApplicationContext())));
         barcodeNo.setText(MessageFormat.format("Barcode : {0}", SharedPrefUtils.getBarcodeNo(getApplicationContext())));
 
-        String test = SharedPrefUtils.getBarcodeNo(getApplicationContext());
-        System.out.println("sndyy" + test);
+
         fefValue = dialog.findViewById(R.id.et_fef);
         fefError = dialog.findViewById(R.id.til_fef);
 
@@ -645,11 +645,16 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             System.out.println("FEV1/FEV6------> " + ratio);
             System.out.println("FEF------> " + fef);
 
-            mBinding.tvFev1.setText(MessageFormat.format("FEV1 : {0}", (double) fev1));
-            mBinding.tvFev6.setText(MessageFormat.format("FEV6 : {0}", (double) fev6));
-            mBinding.tvRatio.setText(MessageFormat.format("FEV1/FEV6 : {0}", (double) ratio));
-            mBinding.tvFef.setText(MessageFormat.format("FEF : {0}", (double) fef));
-            mBinding.tvPef.setText(MessageFormat.format("PEF : {0}", pef));
+
+            mBinding.patientName.setText(MessageFormat.format("Name : {0}", SharedPrefUtils.getUsername(getApplicationContext())));
+            mBinding.labourId.setText(MessageFormat.format("Labour Id : {0}", SharedPrefUtils.getLabourId(getApplicationContext())));
+            mBinding.barcodeNo.setText(MessageFormat.format("Barcode : {0}", SharedPrefUtils.getBarcodeNo(getApplicationContext())));
+
+            mBinding.tvFev1.setText(MessageFormat.format("  {0}", (double) fev1));
+            mBinding.tvFev6.setText(MessageFormat.format("  {0}", (double) fev6));
+            mBinding.tvRatio.setText(MessageFormat.format("  {0}", (double) ratio));
+            mBinding.tvFef.setText(MessageFormat.format("  {0}", (double) fef));
+            mBinding.tvPef.setText(MessageFormat.format("  {0}", pef));
 
             try {
                 mText += new String(data);
@@ -774,10 +779,9 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
 
         //clear sp after success
-        SharedPrefUtils.setUsername(getApplicationContext(),"");
-        SharedPrefUtils.setLabourId(getApplicationContext(),"");
-        SharedPrefUtils.setBarcodeNo(getApplicationContext(),"");
-
+        SharedPrefUtils.setUsername(getApplicationContext(), "");
+        SharedPrefUtils.setLabourId(getApplicationContext(), "");
+        SharedPrefUtils.setBarcodeNo(getApplicationContext(), "");
 
     }
 
@@ -866,6 +870,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         Log.d(TAG, "onPause");
 
         stopRssiListener();
+
 
         super.onPause();
     }

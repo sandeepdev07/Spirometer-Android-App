@@ -127,7 +127,7 @@
     <string name="remove_button_title">Remove</string>
     <string name="connect_spirometer">CONNECT</string>
     <string name="cancel_test">Cancel</string>
-    <string name="your_reading_is">YOUR RESULTS:</string>
+    <string name="your_reading_is">TEST RESULTS:</string>
     <string name="submit_param">SUBMIT</string>
     <string name="retry_test">Retry</string>
     <string name="clear">CLEAR</string>
@@ -170,6 +170,18 @@
     <string name="serial_no_title">Serial No :</string>
     <string name="labour">Labour Id</string>
     <string name="patient_details_tag">Patient Details</string>
+    <string name="ratio">FEV1/FEV6</string>
+
+    <style name="CustomCardCorners" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance_custom_corners</item>
+    </style>
+
+    <style name="ShapeAppearance_custom_corners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">40dp</item>
+        <item name="cornerSizeTopRight">40dp</item>
+    </style>
+
 
 
 </resources>
