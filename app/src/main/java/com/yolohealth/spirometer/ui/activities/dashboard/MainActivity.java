@@ -519,13 +519,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
     private boolean credentials() {
 
-        if (TextUtils.isEmpty(Objects.requireNonNull(fefValue.getText()).toString())) {
-            fefError.setError("Required filed");
-            return false;
-        } else {
-            fefError.setError(null);
-        }
-
         if (TextUtils.isEmpty(Objects.requireNonNull(pefValue.getText()).toString())) {
             pefError.setError("Required filed");
             return false;
@@ -545,6 +538,13 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             return false;
         } else {
             fev6Error.setError(null);
+        }
+
+        if (TextUtils.isEmpty(Objects.requireNonNull(fefValue.getText()).toString())) {
+            fefError.setError("Required filed");
+            return false;
+        } else {
+            fefError.setError(null);
         }
 
         if (TextUtils.isEmpty(Objects.requireNonNull(commentValue.getText()).toString())) {
@@ -780,6 +780,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         Intent i;
         i = new Intent(getApplicationContext(), TokenActivity.class);
         startActivity(i);
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
         finish();
 
         if (isDialogBoxOpen) {
@@ -789,12 +790,10 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         progressDialog.dismiss();
         checkStr = "";
 
-
         //clear sp after success
         SharedPrefUtils.setUsername(getApplicationContext(), "");
         SharedPrefUtils.setLabourId(getApplicationContext(), "");
         SharedPrefUtils.setBarcodeNo(getApplicationContext(), "");
-
     }
 
     @Override
@@ -840,7 +839,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         Common_Utils.showToast(getApplicationContext(), errMsg);
     }
 
-
     Boolean doubleBackPressed = false;
 
     @Override
@@ -883,7 +881,6 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         Log.d(TAG, "onPause");
 
         stopRssiListener();
-
 
         super.onPause();
     }

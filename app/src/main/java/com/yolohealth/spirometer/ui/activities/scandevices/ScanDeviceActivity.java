@@ -49,6 +49,7 @@ import com.yolohealth.spirometer.utils.Common_Utils;
 import com.yolohealth.spirometer.utils.Constants;
 import com.yolohealth.spirometer.utils.PermissionDialogView;
 import com.yolohealth.spirometer.utils.SharedPrefUtils;
+import com.yolohealth.spirometer.widget.ProgressDialog;
 
 import java.text.MessageFormat;
 import java.util.Objects;
@@ -66,6 +67,7 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
     private static final int SERVICE_REQUEST_LOCATION = 2;
 
     ImageView connectImg;
+    ProgressDialog progressDialog;
 
 
     ActivityScanDeviceBinding mBinding;
@@ -99,6 +101,8 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
 
         mBinding = ActivityScanDeviceBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
+
+        progressDialog = ProgressDialog.getInstance();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (!EasyPermissions.hasPermissions(this, BLUETOOTH_PERMISSIONS_S)) {
@@ -143,7 +147,7 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
 
 
         //if list contain items then instruction remove
-        if (mTio.getPeripherals().length>0){
+        if (mTio.getPeripherals().length > 0) {
 
             mBinding.bleInstructions.setVisibility(View.GONE);
             mBinding.noteTv.setVisibility(View.GONE);
@@ -301,8 +305,6 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         SharedPrefUtils.setDeviceSerialNo(getApplicationContext(), Constants.SPIROMETER_SERIAL_NO, peripheral.getName());
 
 
-
-
        /* Log.d(TAG, "onPeripheralCellPressed " + peripheral.toString());
 
         SharedPrefUtils.setDeviceAddress(getApplicationContext(), Constants.SPIROMETER, peripheral.getAddress());
@@ -370,6 +372,7 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
             @Override
             public void onClick(View view) {
                 alertDialog.dismiss();
+
             }
         });
 
@@ -505,7 +508,8 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
 
         mBinding.scanButton.setEnabled(false);
         mBinding.clearAllButton.setEnabled(false);
-        mBinding.scanIndicator.setVisibility(View.VISIBLE);
+        //mBinding.scanIndicator.setVisibility(View.VISIBLE);
+        progressDialog.show(ScanDeviceActivity.this);
 
         mScanHandler.postDelayed(() -> {
 
@@ -515,7 +519,8 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
 
             }
 
-            mBinding.scanIndicator.setVisibility(View.INVISIBLE);
+            progressDialog.dismiss();
+            // mBinding.scanIndicator.setVisibility(View.INVISIBLE);
             mBinding.scanButton.setEnabled(true);
             updateClearAllButton();
         }, ScanDeviceActivity.SCAN_INTERVAL);

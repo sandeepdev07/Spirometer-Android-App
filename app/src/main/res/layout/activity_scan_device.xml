@@ -52,13 +52,13 @@
         android:textSize="18sp"
         android:visibility="gone" />
 
-    <ProgressBar
+   <!-- <ProgressBar
         android:id="@+id/scanIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/scanButton"
         android:layout_centerHorizontal="true"
-        android:visibility="invisible" />
+        android:visibility="invisible" />-->
 
     <TextView
         android:id="@+id/note_tv"
@@ -72,7 +72,7 @@
         android:textColor="@color/md_orange_500"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/ble_instructions"
@@ -88,7 +88,7 @@
         android:padding="8dp"
         android:text="@string/ble_scanInstruction"
         android:textSize="16sp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 
     <ListView
@@ -103,7 +103,7 @@
         android:background="#FFFFFF"
         android:dividerHeight="4.0dp"
         android:padding="8dp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <!--
     -->
