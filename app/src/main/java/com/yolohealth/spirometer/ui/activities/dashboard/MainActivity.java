@@ -20,6 +20,7 @@ import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -31,7 +32,6 @@ import com.telit.terminalio.TIOConnection;
 import com.telit.terminalio.TIOConnectionCallback;
 import com.telit.terminalio.TIOManager;
 import com.telit.terminalio.TIOPeripheral;
-import com.yolohealth.spirometer.LungMonitorApp;
 import com.yolohealth.spirometer.R;
 import com.yolohealth.spirometer.databinding.ActivityMainBinding;
 import com.yolohealth.spirometer.model.medicalservicesresponse.MedicalServicesResponse;
@@ -253,7 +253,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         String address = intent.getStringExtra(LungMonitorApp.PERIPHERAL_ID_NAME);
         System.out.println("address---" + address);*/
 
-       // address = spiroMacAddress;
+        // address = spiroMacAddress;
 
         // retrieve peripheral instance from TIOManager
         mPeripheral = TIOManager.getInstance().findPeripheral(spiroMacAddress);
@@ -453,9 +453,19 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
 
-        ImageView cancel = dialog.findViewById(R.id.btn_cancel);
+        ImageView cancel = dialog.findViewById(R.id.btn_cancelDialog);
         Button submit = dialog.findViewById(R.id.btn_submit);
+        TextView patientName = dialog.findViewById(R.id.patient_name);
+        TextView labourId = dialog.findViewById(R.id.labour_id);
+        TextView barcodeNo = dialog.findViewById(R.id.barcode_no);
 
+        //set patient details
+        patientName.setText(MessageFormat.format("Name : {0}", SharedPrefUtils.getUsername(getApplicationContext())));
+        labourId.setText(MessageFormat.format("Labour Id : {0}", SharedPrefUtils.getLabourId(getApplicationContext())));
+        barcodeNo.setText(MessageFormat.format("Barcode : {0}", SharedPrefUtils.getBarcodeNo(getApplicationContext())));
+
+        String test = SharedPrefUtils.getBarcodeNo(getApplicationContext());
+        System.out.println("sndyy" + test);
         fefValue = dialog.findViewById(R.id.et_fef);
         fefError = dialog.findViewById(R.id.til_fef);
 
@@ -761,6 +771,13 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         progressDialog.dismiss();
         checkStr = "";
+
+
+        //clear sp after success
+        SharedPrefUtils.setUsername(getApplicationContext(),"");
+        SharedPrefUtils.setLabourId(getApplicationContext(),"");
+        SharedPrefUtils.setBarcodeNo(getApplicationContext(),"");
+
 
     }
 

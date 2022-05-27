@@ -50,6 +50,7 @@
             android:name="com.yolohealth.spirometer.ui.activities.token.TokenActivity"
             android:exported="true"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

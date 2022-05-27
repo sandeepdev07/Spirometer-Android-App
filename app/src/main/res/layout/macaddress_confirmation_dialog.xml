@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:fontFamily="sans-serif-medium"
-            android:text="Vitalograph Spirometer"
+            android:text="@string/pop_title"
             android:textAlignment="center"
             android:textColor="@color/md_orange_500"
             android:textSize="21sp" />
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="2dp"
-                android:text="Mac Address :"
+                android:text="@string/mac_address_title"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="2dp"
-                android:text="Serial No :"
+                android:text="@string/serial_no_title"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -103,7 +103,6 @@
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:gravity="bottom">
 
             <com.google.android.material.button.MaterialButton
@@ -116,7 +115,7 @@
                 android:layout_weight="2"
                 android:backgroundTint="#8BC34A"
                 android:shadowColor="@color/colorPrimaryLight"
-                android:text="Pair"
+                android:text="@string/pair_device"
                 android:textColor="@color/white"
                 android:visibility="visible"
                 app:drawableTint="@color/white"
@@ -133,7 +132,7 @@
                 android:layout_weight="2"
                 android:backgroundTintMode="@color/white"
                 android:shadowColor="@color/colorPrimaryLight"
-                android:text="Cancel"
+                android:text="@string/cancel_popup"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 android:visibility="visible"

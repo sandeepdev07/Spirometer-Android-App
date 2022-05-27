@@ -162,6 +162,14 @@
 \n4. Click on scan button on the app to discover near by spirometer device(s).
 
 </string>
+    <string name="instructions">Instructions</string>
+    <string name="pop_title">Vitalograph Spirometer</string>
+    <string name="cancel_popup">Cancel</string>
+    <string name="pair_device">Pair</string>
+    <string name="mac_address_title">Mac Address :</string>
+    <string name="serial_no_title">Serial No :</string>
+    <string name="labour">Labour Id</string>
+    <string name="patient_details_tag">Patient Details</string>
 
 
 </resources>

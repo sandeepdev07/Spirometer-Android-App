@@ -23,16 +23,16 @@ public class SharedPrefUtils {
         editor.apply();
     }
 
-    public static String getPhone(Context ctx) {
+    public static String getLabourId(Context ctx) {
         SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.PERSONAL_PREF, Context.MODE_PRIVATE);
-        return prefs.getString(AppConstant.PHONE, "");
+        return prefs.getString(AppConstant.LABOUR, "");
     }
 
 
-    public static void setPhone(Context ctx, String phone) {
+    public static void setLabourId(Context ctx, String labour) {
         SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.PERSONAL_PREF, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(AppConstant.PHONE, phone);
+        editor.putString(AppConstant.LABOUR, labour);
         editor.apply();
     }
 
@@ -48,6 +48,20 @@ public class SharedPrefUtils {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(AppConstant.USERNAME, username);
         editor.apply();
+    }
+
+
+    public static void setBarcodeNo(Context ctx, String barcode) {
+        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.PERSONAL_PREF, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(AppConstant.BARCODE, barcode);
+        editor.apply();
+    }
+
+
+    public static String getBarcodeNo(Context ctx) {
+        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.PERSONAL_PREF, Context.MODE_PRIVATE);
+        return prefs.getString(AppConstant.BARCODE, "");
     }
 
 

@@ -162,6 +162,54 @@
                         </LinearLayout>
 
 
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/til_labour"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:hint="@string/labour">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/et_labour"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="text"
+                                android:clickable="false"
+                                android:cursorVisible="false"
+                                android:focusable="false"
+                                android:textStyle="bold"
+                                android:focusableInTouchMode="true"
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/til_barcode"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:hint="@string/barcode">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/et_barcode"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionDone"
+                                android:inputType="text"
+                                android:clickable="false"
+                                android:cursorVisible="false"
+                                android:focusable="false"
+                                android:textStyle="bold"
+                                android:focusableInTouchMode="true"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/til_state"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -208,28 +256,6 @@
 
                         </com.google.android.material.textfield.TextInputLayout>
 
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/til_barcode"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="20dp"
-                            android:hint="@string/barcode">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/et_barcode"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:imeOptions="actionDone"
-                                android:inputType="text"
-                                android:clickable="false"
-                                android:cursorVisible="false"
-                                android:focusable="false"
-                                android:textStyle="bold"
-                                android:focusableInTouchMode="true"/>
-
-                        </com.google.android.material.textfield.TextInputLayout>
 
 
                         <LinearLayout

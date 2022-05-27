@@ -287,7 +287,7 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         Log.d(TAG, "onPeripheralCellPressed " + peripheral.toString());
 
         SharedPrefUtils.setDeviceAddress(getApplicationContext(), Constants.SPIROMETER, peripheral.getAddress());
-        SharedPrefUtils.setDeviceAddress(getApplicationContext(), Constants.SPIROMETER_SERIAL_NO, peripheral.getName());
+        SharedPrefUtils.setDeviceSerialNo(getApplicationContext(), Constants.SPIROMETER_SERIAL_NO, peripheral.getName());
 
 
 

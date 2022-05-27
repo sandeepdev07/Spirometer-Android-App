@@ -16,6 +16,8 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.yolohealth.spirometer.LungMonitorApp;
 import com.yolohealth.spirometer.R;
+
+
 import com.yolohealth.spirometer.databinding.ActivityTokenBinding;
 import com.yolohealth.spirometer.model.tokenresponse.TokenParams;
 import com.yolohealth.spirometer.model.tokenresponse.TokenResponse;
@@ -139,6 +141,11 @@ public class TokenActivity extends BaseActivity implements Validator.ValidationL
         String patientBarcode = tokenResponse.getData().getPatients().getBarcode();
         String patientType = tokenResponse.getData().getPatients().getBeneficiaryType().getTitle();
         String patientTestDate = tokenResponse.getData().getPatients().getRegisteredOn();
+        String labourId = tokenResponse.getData().getPatients().getLabouridNo().toString();
+
+        SharedPrefUtils.setUsername(getApplicationContext(),patientName);
+        SharedPrefUtils.setLabourId(getApplicationContext(),labourId);
+        SharedPrefUtils.setBarcodeNo(getApplicationContext(),patientBarcode);
 
         Intent i = new Intent(this, ProfileActivity.class);
         i.putExtra("name", patientName);
@@ -150,6 +157,7 @@ public class TokenActivity extends BaseActivity implements Validator.ValidationL
         i.putExtra("barcode", patientBarcode);
         i.putExtra("type", patientType);
         i.putExtra("testDate", patientTestDate);
+        i.putExtra("labourId", labourId);
         startActivity(i);
         finish();
 

@@ -34,6 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
         String barcode = getIntent().getStringExtra("barcode");
         String type = getIntent().getStringExtra("type");
         String testDate = getIntent().getStringExtra("testDate");
+        String labourId = getIntent().getStringExtra("labourId");
         System.out.println("PatientName---->" + type);
 
         mBinding.etPatientName.setText(name);
@@ -45,6 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
         mBinding.etBarcode.setText(barcode);
         mBinding.etType.setText(type);
         mBinding.etDate.setText(testDate);
+        mBinding.etLabour.setText(labourId);
 
         mBinding.btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
