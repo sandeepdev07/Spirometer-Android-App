@@ -33,7 +33,6 @@ import com.telit.terminalio.TIOConnectionCallback;
 import com.telit.terminalio.TIOManager;
 import com.telit.terminalio.TIOPeripheral;
 import com.yolohealth.spirometer.R;
-
 import com.yolohealth.spirometer.databinding.ActivityMainBinding;
 import com.yolohealth.spirometer.model.medicalservicesresponse.MedicalServicesResponse;
 import com.yolohealth.spirometer.model.medicalservicesresponse.Service;
@@ -104,6 +103,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         connectPeripheral();
 
         progressDialog = ProgressDialog.getInstance();
+
 
         spiroMacAddress = SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER);
         System.out.println("address---->" + spiroMacAddress);
@@ -635,6 +635,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             }
             System.out.println("devtest---->" + str);
 
+
             fev1 = Float.parseFloat(str.substring(0, 3)) / 100;
             fev6 = Float.parseFloat(str.substring(3, 6)) / 100;
             ratio = Float.parseFloat(str.substring(6, 9)) / 100;
@@ -683,6 +684,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
             mBinding.layoutMeasuringHeight.setVisibility(View.INVISIBLE);
             mBinding.layoutReadingHeight.setVisibility(View.VISIBLE);
 
+
             runOnUiThread(runnable);
 
         }
@@ -730,6 +732,16 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
                 i = new Intent(getApplicationContext(), TokenActivity.class);
                 startActivity(i);
                 finish();
+
+                //to disconnect device----
+                stopRssiListener();
+
+                try {
+                    mConnection.disconnect();
+                } catch (Exception ex) {
+
+                }
+
                 return false;
             }
         });
@@ -853,6 +865,7 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         Log.d(TAG, "onResume");
 
         getMac();
+
         if (mConnection != null) {
             mConnection.setListener(this);
             //  startRssiListener();

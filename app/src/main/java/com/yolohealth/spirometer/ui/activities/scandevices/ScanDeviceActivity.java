@@ -141,6 +141,17 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         mBinding.bleInstructions.setVisibility(View.VISIBLE);
         mBinding.peripheralsListView.setVisibility(View.GONE);
 
+
+        //if list contain items then instruction remove
+        if (mTio.getPeripherals().length>0){
+
+            mBinding.bleInstructions.setVisibility(View.GONE);
+            mBinding.noteTv.setVisibility(View.GONE);
+
+            mBinding.tv.setVisibility(View.VISIBLE);
+            mBinding.peripheralsListView.setVisibility(View.VISIBLE);
+        }
+
         mBinding.clearAllButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

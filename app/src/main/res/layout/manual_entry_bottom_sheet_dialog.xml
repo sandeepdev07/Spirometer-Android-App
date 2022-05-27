@@ -166,24 +166,6 @@
 
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/til_fef"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="20dp"
-                            android:hint="@string/spiro_fef">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/et_fef"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:imeOptions="actionNext"
-                                android:inputType="number|numberDecimal" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-
-                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/til_pef"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
@@ -219,6 +201,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
 
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/til_fev6"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -229,6 +212,24 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/et_fev6"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionNext"
+                                android:inputType="number|numberDecimal" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/til_fef"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:hint="@string/spiro_fef">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/et_fef"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:imeOptions="actionNext"
