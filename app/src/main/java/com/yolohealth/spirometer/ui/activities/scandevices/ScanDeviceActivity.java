@@ -31,13 +31,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.button.MaterialButton;
 import com.telit.terminalio.TIOManager;
 import com.telit.terminalio.TIOManagerCallback;
 import com.telit.terminalio.TIOPeripheral;
-import com.yolohealth.spirometer.LungMonitorApp;
 import com.yolohealth.spirometer.R;
 import com.yolohealth.spirometer.databinding.ActivityScanDeviceBinding;
 import com.yolohealth.spirometer.spirometer.STSwipeTapDetector;
@@ -71,6 +72,9 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
     private ArrayAdapter<TIOPeripheral> mPeripheralList;
     private final Handler mScanHandler = new Handler();
     private TIOManager mTio;
+
+    AlertDialog alertDialog;
+
 
     // for android version above 10
     @SuppressLint("InlinedApi")
@@ -258,7 +262,7 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         updateClearAllButton();
 
         mBinding.tv.setVisibility(View.GONE);
-       // connectImg.setVisibility(View.GONE);
+        // connectImg.setVisibility(View.GONE);
 
         //show instruction
         mBinding.bleInstructions.setVisibility(View.VISIBLE);
@@ -278,7 +282,17 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
     }
 
     private void onPeripheralCellPressed(TIOPeripheral peripheral) {
+        showDialog();
+
         Log.d(TAG, "onPeripheralCellPressed " + peripheral.toString());
+
+        SharedPrefUtils.setDeviceAddress(getApplicationContext(), Constants.SPIROMETER, peripheral.getAddress());
+        SharedPrefUtils.setDeviceAddress(getApplicationContext(), Constants.SPIROMETER_SERIAL_NO, peripheral.getName());
+
+
+
+
+       /* Log.d(TAG, "onPeripheralCellPressed " + peripheral.toString());
 
         SharedPrefUtils.setDeviceAddress(getApplicationContext(), Constants.SPIROMETER, peripheral.getAddress());
 
@@ -293,20 +307,67 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
             intent.putExtra(LungMonitorApp.PERIPHERAL_ID_NAME, peripheral.getAddress());
             startActivity(intent);
         }
-        finish();
+        finish();*/
 
 
-       /* if (activityName.equals("tokenScreen")){
-            Intent i ;
-            i = new Intent(getApplicationContext(), TokenActivity.class);
-            startActivity(i);
-            finish();
-        }else {
-            Intent intent = new Intent(ScanDeviceActivity.this, MainActivity.class);
-            // intent.putExtra(LungMonitorApp.PERIPHERAL_ID_NAME, peripheral.getAddress());
-            startActivity(intent);
-            finish();
-        }*/
+    }
+
+    private void showDialog() {
+
+        String deviceName = SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER);
+        String deviceSerialNo = SharedPrefUtils.getDeviceSerialNo(getApplicationContext(), Constants.SPIROMETER_SERIAL_NO);
+
+        ViewGroup viewGroup = ScanDeviceActivity.this.findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.macaddress_confirmation_dialog, viewGroup, false);
+
+        TextView macAddress = dialogView.findViewById(R.id.macAddress);
+        TextView serialNo = dialogView.findViewById(R.id.device_serialNo);
+        MaterialButton cancel = dialogView.findViewById(R.id.btn_cancel);
+        MaterialButton pair = dialogView.findViewById(R.id.btn_pair);
+
+        // set mac and serial no
+        macAddress.setText(deviceName);
+        serialNo.setText(deviceSerialNo);
+
+
+        //Now we need an AlertDialog.Builder object
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //setting the view of the builder to our custom view that we already inflated
+        builder.setView(dialogView);
+
+        pair.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getIntent() != null && getIntent().getExtras().getBoolean("Is Token Activity")) {
+                    Intent i;
+                    i = new Intent(getApplicationContext(), TokenActivity.class);
+                    startActivity(i);
+
+                } else {
+                    Intent intent = new Intent(ScanDeviceActivity.this, MainActivity.class);
+                    //  intent.putExtra(LungMonitorApp.PERIPHERAL_ID_NAME, peripheral.getAddress());
+                    startActivity(intent);
+                }
+                Toast.makeText(getApplicationContext(), "Device paired successfully", Toast
+                        .LENGTH_SHORT).show();
+                alertDialog.dismiss();
+                finish();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertDialog = builder.create();
+
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
+
+        alertDialog.show();
     }
 
 

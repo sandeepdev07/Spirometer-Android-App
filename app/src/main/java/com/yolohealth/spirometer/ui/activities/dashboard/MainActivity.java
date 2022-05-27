@@ -249,14 +249,14 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         System.out.println("address---->" + spiroMacAddress);
 
         // coming from scan device activity
-        Intent intent = getIntent();
+       /* Intent intent = getIntent();
         String address = intent.getStringExtra(LungMonitorApp.PERIPHERAL_ID_NAME);
-        System.out.println("address---" + address);
+        System.out.println("address---" + address);*/
 
-        address = spiroMacAddress;
+       // address = spiroMacAddress;
 
         // retrieve peripheral instance from TIOManager
-        mPeripheral = TIOManager.getInstance().findPeripheral(address);
+        mPeripheral = TIOManager.getInstance().findPeripheral(spiroMacAddress);
         System.out.println("testing--" + mPeripheral);
 
         if (mPeripheral != null) {

@@ -98,6 +98,18 @@ public class SharedPrefUtils {
         return prefs.getString(device_name, "");
     }
 
+    public static void setDeviceSerialNo(Context ctx, String serial_no,String device_serial_no){
+        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.DEVICE_PREF, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(serial_no, device_serial_no);
+        editor.commit();
+    }
+
+    public static String getDeviceSerialNo(Context ctx,String serial_no){
+        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.DEVICE_PREF, MODE_PRIVATE);
+        return prefs.getString(serial_no, "")  ;
+    }
+
 
 
    /* public static void setUserId(Context ctx, int userId) {
