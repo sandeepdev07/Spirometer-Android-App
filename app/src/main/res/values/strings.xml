@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">YH Spirometer</string>
+    <string name="app_name">Blossom Spirometer</string>
 
     <declare-styleable name="ProgressActivity">
         <attr name="loadingProgressBarWidth" format="dimension" />
@@ -171,6 +171,7 @@
     <string name="labour">Labour Id</string>
     <string name="patient_details_tag">Patient Details</string>
     <string name="ratio">FEV1/FEV6</string>
+    <string name="no_device_found">No device found</string>
 
     <style name="CustomCardCorners" parent="@style/Widget.MaterialComponents.CardView">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance_custom_corners</item>

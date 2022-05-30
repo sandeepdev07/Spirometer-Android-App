@@ -6,6 +6,32 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin">
 
+
+    <ImageView
+        android:id="@+id/spiro_img"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_spirometry"
+        android:visibility="gone" />
+
+
+    <TextView
+        android:id="@+id/no_device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spiro_img"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:letterSpacing="0.01"
+        android:text="@string/no_device_found"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        android:visibility="gone" />
+
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/scanButton"
         android:layout_width="104dp"
@@ -52,13 +78,13 @@
         android:textSize="18sp"
         android:visibility="gone" />
 
-   <!-- <ProgressBar
-        android:id="@+id/scanIndicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/scanButton"
-        android:layout_centerHorizontal="true"
-        android:visibility="invisible" />-->
+    <!-- <ProgressBar
+         android:id="@+id/scanIndicator"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignBottom="@+id/scanButton"
+         android:layout_centerHorizontal="true"
+         android:visibility="invisible" />-->
 
     <TextView
         android:id="@+id/note_tv"
@@ -90,7 +116,6 @@
         android:textSize="16sp"
         android:visibility="gone" />
 
-
     <ListView
         android:id="@+id/peripheralsListView"
         android:layout_width="match_parent"
@@ -104,6 +129,7 @@
         android:dividerHeight="4.0dp"
         android:padding="8dp"
         android:visibility="gone" />
+
 
     <!--
     -->

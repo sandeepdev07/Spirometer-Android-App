@@ -3,7 +3,7 @@ package com.yolohealth.spirometer.widget;
 public class AppConstant {
     /* public static final String base_url = "http://35.154.145.111/api/";*/
     public static final String base_url = "https://stgapiblossom.healthatm.in/api/";
-   // public static final String base_url = "https://apiblossom.healthatm.in/api/";
+  //  public static final String base_url = "https://apiblossom.healthatm.in/api/";
     public static final String PERSONAL_PREF = "com.ehealthkiosk.patient.personal";
     public static final String TOKEN = "TOKEN";
     public static final String LABOUR = "LABOUR";
