@@ -65,10 +65,9 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
     private static final String TAG = "TioSample";
     private static final int PERMITIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
     private static final int SERVICE_REQUEST_LOCATION = 2;
-
     ImageView connectImg;
+    TextView connectText;
     ProgressDialog progressDialog;
-
 
     ActivityScanDeviceBinding mBinding;
     private ArrayAdapter<TIOPeripheral> mPeripheralList;
@@ -76,7 +75,6 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
     private TIOManager mTio;
 
     AlertDialog alertDialog;
-
 
     // for android version above 10
     @SuppressLint("InlinedApi")
@@ -312,8 +310,6 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         Log.d(TAG, "onPeripheralCellPressed " + peripheral.toString());
 
 
-
-
        /* Log.d(TAG, "onPeripheralCellPressed " + peripheral.toString());
 
         SharedPrefUtils.setDeviceAddress(getApplicationContext(), Constants.SPIROMETER, peripheral.getAddress());
@@ -371,7 +367,7 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
                     startActivity(intent);
                 }
 
-                SharedPrefUtils.setSpiroMac(getApplicationContext(),Constants.SPIROMETER,deviceName);
+                SharedPrefUtils.setSpiroMac(getApplicationContext(), Constants.SPIROMETER, deviceName);
                 Toast.makeText(getApplicationContext(), "Device paired successfully", Toast
                         .LENGTH_SHORT).show();
                 alertDialog.dismiss();
@@ -383,7 +379,7 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
             @Override
             public void onClick(View view) {
                 alertDialog.dismiss();
-                SharedPrefUtils.setSpiroMac(getApplicationContext(),Constants.SPIROMETER,"");
+              //  SharedPrefUtils.setSpiroMac(getApplicationContext(), Constants.SPIROMETER, "");
 
             }
         });
@@ -471,14 +467,16 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
         View peripheralCell = inflater.inflate(R.layout.peripheral_cell, mBinding.peripheralsListView, false);
 
         TextView mainTitle = (TextView) peripheralCell.findViewById(R.id.mainTitle);
+        connectText = peripheralCell.findViewById(R.id.tv_cnt);
         mainTitle.setText(MessageFormat.format("{0}  {1}", peripheral.getName(), peripheral.getAddress()));
 
         // show tick img when mac same
-        if (peripheral.getAddress().equals(SharedPrefUtils.getDeviceAddress(getApplicationContext()
+        if (peripheral.getAddress().equals(SharedPrefUtils.getSpiroMac(getApplicationContext()
                 , Constants.SPIROMETER))) {
-            //ImageView connectImg = (ImageView) peripheralCell.findViewById(R.id.pared_img);
+
             connectImg = peripheralCell.findViewById(R.id.pared_img);
             connectImg.setVisibility(View.VISIBLE);
+            connectText.setVisibility(View.GONE);
         }
 
 

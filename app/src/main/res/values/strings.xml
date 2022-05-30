@@ -172,6 +172,7 @@
     <string name="patient_details_tag">Patient Details</string>
     <string name="ratio">FEV1/FEV6</string>
     <string name="no_device_found">No device found</string>
+    <string name="connect">CONNECT</string>
 
     <style name="CustomCardCorners" parent="@style/Widget.MaterialComponents.CardView">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance_custom_corners</item>
