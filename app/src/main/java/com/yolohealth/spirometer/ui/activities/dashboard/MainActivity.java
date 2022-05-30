@@ -105,7 +105,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
         progressDialog = ProgressDialog.getInstance();
 
 
-        spiroMacAddress = SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER);
+        // spiroMacAddress = SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER);
+        spiroMacAddress = SharedPrefUtils.getSpiroMac(getApplicationContext(), Constants.SPIROMETER);
         System.out.println("address---->" + spiroMacAddress);
 
 
@@ -116,9 +117,11 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
 
         mBinding.btnStart.setOnClickListener(view -> {
 
+            System.out.println("SpiroM--->" + SharedPrefUtils.getSpiroMac(getApplicationContext(), Constants.SPIROMETER));
 
-            if (SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER) != null
-                    && SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER).equals("")) {
+
+            if (SharedPrefUtils.getSpiroMac(getApplicationContext(), Constants.SPIROMETER) != null
+                    && SharedPrefUtils.getSpiroMac(getApplicationContext(), Constants.SPIROMETER).equals("")) {
                 openSetKioskDialog(false);
 
                 isScan = true;
@@ -246,7 +249,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
     private void connectPeripheral() {
         // extract peripheral id (address) from intent
 
-        spiroMacAddress = SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER);
+        // spiroMacAddress = SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER);
+        spiroMacAddress = SharedPrefUtils.getSpiroMac(getApplicationContext(), Constants.SPIROMETER);
         System.out.println("address---->" + spiroMacAddress);
 
         // coming from scan device activity
@@ -872,7 +876,8 @@ public class MainActivity extends BaseActivity implements TIOConnectionCallback,
     }
 
     private void getMac() {
-        spiroMacAddress = SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER);
+        // spiroMacAddress = SharedPrefUtils.getDeviceAddress(getApplicationContext(), Constants.SPIROMETER);
+        spiroMacAddress = SharedPrefUtils.getSpiroMac(getApplicationContext(), Constants.SPIROMETER);
         connectPeripheral();
     }
 

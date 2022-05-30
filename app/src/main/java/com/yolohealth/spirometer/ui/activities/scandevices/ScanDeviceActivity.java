@@ -370,6 +370,8 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
                     //  intent.putExtra(LungMonitorApp.PERIPHERAL_ID_NAME, peripheral.getAddress());
                     startActivity(intent);
                 }
+
+                SharedPrefUtils.setSpiroMac(getApplicationContext(),Constants.SPIROMETER,deviceName);
                 Toast.makeText(getApplicationContext(), "Device paired successfully", Toast
                         .LENGTH_SHORT).show();
                 alertDialog.dismiss();
@@ -381,6 +383,7 @@ public class ScanDeviceActivity extends BaseActivity implements TIOManagerCallba
             @Override
             public void onClick(View view) {
                 alertDialog.dismiss();
+                SharedPrefUtils.setSpiroMac(getApplicationContext(),Constants.SPIROMETER,"");
 
             }
         });

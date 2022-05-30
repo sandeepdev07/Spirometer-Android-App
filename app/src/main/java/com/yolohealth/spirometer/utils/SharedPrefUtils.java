@@ -99,6 +99,18 @@ public class SharedPrefUtils {
         editor.apply();
     }
 
+    public static void setSpiroMac(Context ctx, String device_name, String device_address) {
+        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.DEVICE_PREF, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(device_name, device_address);
+        editor.commit();
+    }
+
+    public static String getSpiroMac(Context ctx, String device_name) {
+        SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.DEVICE_PREF, MODE_PRIVATE);
+        return prefs.getString(device_name, "");
+    }
+
 
     public static void setDeviceAddress(Context ctx, String device_name, String device_address) {
         SharedPreferences prefs = ctx.getSharedPreferences(AppConstant.DEVICE_PREF, MODE_PRIVATE);
